@@ -1,0 +1,20 @@
+<section class="admin__page-section" id="gst-number-content">
+    <div class="admin__page-section-title">
+        <span class="title"><?= $block->escapeHtml(__('GST Information')) ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        
+        <div id="gst-number">
+            <strong><?= __('GST Number') ?>:</strong>
+            <?= $block->getGstNumber() ?>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    require(
+        ['jquery'],
+        function($) {
+            $('#gst-number-content').insertAfter($('.order-view-billing-shipping'));
+        }
+    );
+</script>

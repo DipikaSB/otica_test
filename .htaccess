@@ -1,0 +1,65 @@
+RewriteEngine on
+
+
+
+# If request is exactly /index.php (or /index.php/), redirect to root
+RewriteCond %{THE_REQUEST} /index\.php [NC]
+RewriteRule ^index\.php/?$ https://oticamart.com/ [R=301,L]
+
+
+
+<IfModule mod_maxminddb.c>
+  MaxMindDBEnable On
+  MaxMindDBFile COUNTRY_DB /usr/share/GeoIP/GeoLite2-Country.mmdb
+  MaxMindDBEnv MM_COUNTRY_CODE COUNTRY_DB/country/iso_code
+
+  RewriteEngine On
+  # Block JP, CN, SG, FR, RU, UA
+  # RewriteCond %{ENV:MM_COUNTRY_CODE} ^(JP|CN|SG|FR|RU|UA)$
+  # RewriteRule .* - [F]
+</IfModule>
+
+
+RewriteEngine on
+RewriteCond %{REQUEST_URI} !^/pub/
+RewriteCond %{REQUEST_URI} !^/setup/
+RewriteCond %{REQUEST_URI} !^/update/
+RewriteCond %{REQUEST_URI} !^/dev/
+RewriteRule .* /pub/$0 [L]
+DirectoryIndex index.php
+
+Order Allow,Deny
+Allow from all
+Deny from 116.72.48.194
+#Deny from 2409:40c1:6023:9247:9d2c:dba0:a0d8:2451
+Deny from 216.244.66.230
+Deny from 59.184.136.204
+Deny from 34.138.2.212
+Deny from 34.74.64.254
+Deny from 35.196.108.216
+Deny from 35.237.69.86
+Deny from 34.73.190.70
+
+Header set Cache-Control "public, max-age=86400"
+
+<IfModule mod_headers.c>
+    # 1️⃣ Make HTML pages eligible for bfcache
+    <FilesMatch "\.(html|htm)$">
+        Header set Cache-Control "private, max-age=0, must-revalidate"
+        Header unset Pragma
+        Header unset Expires
+    </FilesMatch>
+
+    # 2️⃣ Cache static assets for a long time
+    <FilesMatch "\.(ico|jpg|jpeg|png|gif|webp|svg|css|js|woff|woff2|ttf|eot)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+
+    # 3️⃣ CORS for fonts & JS
+    <FilesMatch "\.(ttf|js|ttc|otf|eot|woff|woff2|font.css|css|ico|js|json|html|vue)$">
+        Header set Access-Control-Allow-Origin "*"
+        Header set Access-Control-Allow-Headers "x-requested-with"
+    </FilesMatch>
+</IfModule>
+ 
+

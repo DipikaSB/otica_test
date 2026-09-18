@@ -1,0 +1,57 @@
+# Magento generated/cache files
+/var/*
+!/var/.htaccess
+
+/generated/*
+!/generated/.htaccess
+
+# Magento static files
+/pub/static/*
+!/pub/static/.htaccess
+
+# User uploaded media
+/pub/media/*
+!/pub/media/.htaccess
+
+# Composer dependencies
+/vendor/
+
+# Magento environment configuration
+/app/etc/env.php
+
+# Composer authentication credentials
+/auth.json
+/auth.json.bak
+/auth.json-bkp-*
+
+# Logs
+*.log
+*.log.gz
+
+# IDE
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node dependencies
+node_modules/
+
+# Temporary/backup files
+*.tmp
+*.temp
+*.bak
+*~
+
+# Local development files
+.env
+.env.local
+
+auth.json
+auth.json-bkp-16-04-2026
+database.sql
+database/otica_live.sql
+database.sql
+database/otica_live.sql

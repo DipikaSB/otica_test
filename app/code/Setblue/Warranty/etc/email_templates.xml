@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/Warranty_general_email_templates.xsd">
+    <template id="Warranty_general_cls_email_template" label="Customer Warranty Email"
+              file="CustomerWarranty.html" type="html" module="Setblue_Warranty" area="frontend"/>
+    <template id="Warranty_general_cls_email_template_to_admin" label="Customer Warranty Email To Admin"
+              file="CustomerWarrantyToAdmin.html" type="html" module="Setblue_Warranty" area="frontend"/>
+     <template id="reply_template" label="Warranty Information Admin" file="admin.html" type="html" module="Setblue_Warranty" area="adminhtml" />
+</config>

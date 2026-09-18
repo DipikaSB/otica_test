@@ -1,0 +1,10 @@
+# ==========================================
+# Security Policy for Otica Mart (Otica Healthcare)
+# Reference: https://rfc-editor.org/rfc/rfc9116
+# ==========================================
+
+Contact: mailto:support@oticagroup.com
+Contact: https://oticamart.com/contact/
+Expires: 2027-07-01T00:00:00.000Z
+Preferred-Languages: en, hi, gu
+Canonical: https://oticamart.com/security.txt

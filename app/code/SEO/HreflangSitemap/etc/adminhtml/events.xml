@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * SetBlue
+ * Copyright (C) 2019 SetBlue <info@setblue.com>
+ *
+ * @category SetBlue
+ * @package SEO_HreflangSitemap
+ * @copyright Copyright (c) 2019 SetBlue (https://setblue.com/)
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author SetBlue <info@setblue.com>
+ */ 
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="admin_system_config_changed_section_sitemap">
+        <observer name="custom_admin_system_config_changed_section_sitemap" instance="SEO\HreflangSitemap\Observer\ConfigChange"/>
+    </event>
+</config>

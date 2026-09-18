@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Setblue
+ * Copyright(C) 04/2023 Setblue <ideveloper1990@gmail.com>
+ * @package Setblue_CustomerWholesaleInquiry
+ * @copyright Copyright(C) 2015 Setblue (ideveloper1990@gmail.com)
+ * @author Setblue <ideveloper1990@gmail.com>
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+	<!-- Sns_CustomerWholesaleInquiry table starts. -->
+	<table name="Sns_CustomerWholesaleInquiry" resource="default" engine="innodb" comment="Primary table of Sns_CustomerWholesaleInquiry that stores information Sns_CustomerWholesaleInquiry, contact number and website details.">
+		<column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true" comment="id" />
+		<column xsi:type="varchar" name="fname" length="1024" nullable="false" comment="First Name" />
+		<column xsi:type="varchar" name="lname" length="1024" nullable="false" comment="Last Name" />
+		<column xsi:type="varchar" name="phone_no" length="1024" nullable="false" comment="Phone No" />
+		<column xsi:type="varchar" name="email" length="1024" nullable="false" comment="Email Id" />
+		<column xsi:type="varchar" name="country" length="1024" nullable="false" comment="Country" />
+		<column xsi:type="varchar" name="product_sku" length="1024" nullable="false" comment="Product Sku" />
+		<column xsi:type="varchar" name="comment" length="1024" nullable="false" comment="Comment" />
+		<column xsi:type="varchar" name="admin_reply" length="1024" nullable="false" comment="admin_reply" />
+		<column xsi:type="varchar" name="otp_id" length="1024" nullable="false" comment="Is Verified" />
+		<column xsi:type="varchar" name="created_date" length="1024" nullable="false" comment="Created Date" />
+    	<constraint xsi:type="primary" referenceId="PRIMARY">
+			<column name="id" />
+		</constraint>
+	</table>
+	<!-- Sns_CustomerWholesaleInquiry table ends. -->
+	<!-- Sns_Otp_Verfication table starts. -->
+	<table name="Sns_Otp_Verfication" resource="default" engine="innodb" comment="Primary table of Sns_Otp_Verfication that stores information Sns_Otp_Verfication, contact number and website details.">
+		<column xsi:type="int" name="otp_id" unsigned="true" nullable="false" identity="true" comment="id" />
+		<column xsi:type="varchar" name="email" length="1024" nullable="false" comment="Email Id" />
+		<column xsi:type="varchar" name="otp" length="1024" nullable="false" comment="otp" />
+		<column xsi:type="varchar" name="is_verified" length="1024" nullable="false" comment="Is Verified" />
+		<column xsi:type="varchar" name="created_date" length="1024" nullable="false" comment="Created Date" />
+    	<constraint xsi:type="primary" referenceId="PRIMARY">
+			<column name="otp_id" />
+		</constraint>
+	</table>
+	<!-- Sns_Otp_Verfication table ends. -->
+</schema>

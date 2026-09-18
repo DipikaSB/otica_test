@@ -1,0 +1,38 @@
+<!--@subject {{trans "New Warranty Request Submitted "}} @-->
+
+<!--@vars
+{"var fname":"Customer First Name",
+"var lname":"Customer Last Name",
+"var email":"Customer Email",
+"var phone_no":"Customer Phone Number",
+"var product_name":"Product Name",
+"var serial_no":"Product Serial Number",
+"var purchase_date":"Purchase Date",
+"var purchase_receipt":"Receipt File Name"}
+@-->
+
+{{template config_path="design/email/header_template"}}
+
+<p>Hello Admin,</p>
+
+<p>A new warranty submission has been received on the website. Please review the details below:</p>
+
+<ul>
+    <li><strong>Name:</strong> {{var fname}} {{var lname}}</li>
+    <li><strong>Email:</strong> {{var email}}</li>
+    <li><strong>Phone:</strong> {{var phone_no}}</li>
+    <li><strong>Product Name:</strong> {{var product_name}}</li>
+    <li><strong>Serial No:</strong> {{var serial_no}}</li>
+    <li><strong>Purchase Date:</strong> {{var purchase_date}}</li>
+    <li><strong>Receipt File:</strong> 
+        <a style="color: #1155cc;text-decoration: underline;" href="{{var purchase_receipt}}" target="_blank">View File</a>
+    </li>
+</ul>
+
+<p>Please log in to the admin panel to review.</p>
+
+
+{{template config_path="design/email/footer_template"}}
+
+
+

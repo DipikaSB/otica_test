@@ -1,0 +1,65 @@
+<div class="sb-submenu-tab"></div>
+
+<script>
+require(['jquery'], function($) {
+    $(document).ready(function() {
+
+        // On menu click
+        $(document).on('click', '.ox-megamenu-navigation > li > .ox-mm-a-wrap > a', function(e) {
+            var $li = $(this).closest('li');
+            var menuName = $(this).find('.name').text().trim();
+
+            // Save to localStorage
+            localStorage.setItem('activeMenuName', menuName);
+
+            // Clear submenu active on new main menu selection
+            localStorage.removeItem('activeSubmenuHref');
+
+            // Update active class
+            $('.ox-megamenu-navigation > li').removeClass('active');
+            $li.addClass('active');
+
+            // Render submenu
+            renderSubMenu($li, menuName);
+        });
+
+        // On page load, restore active menu and submenu
+        var activeMenuName = localStorage.getItem('activeMenuName');
+        var activeSubmenuHref = localStorage.getItem('activeSubmenuHref');
+
+        if (activeMenuName) {
+            $('.ox-megamenu-navigation > li').each(function() {
+                var $li = $(this);
+                var currentName = $li.find('> .ox-mm-a-wrap .name').text().trim();
+                if (currentName === activeMenuName) {
+                    $li.addClass('active');
+                    renderSubMenu($li, currentName, activeSubmenuHref);
+                }
+            });
+        }
+
+        // Render submenu function
+        function renderSubMenu($parentLi, menuName, activeSubHref) {
+            var $submenu = $parentLi.find('.ox-megamenu__dropdown .ox-megamenu-list');
+            var $submenuItems = $submenu.find('.level1.category-item > .ox-mm-a-wrap');
+
+            var $ul = $('<ul class="sb-submenu-ul"></ul>');
+            $submenuItems.each(function() {
+                var $a = $(this).find('> a');
+                var href = $a.attr('href');
+                var text = $a.find('.name').text().trim();
+                var activeClass = (href === activeSubHref) ? ' active' : '';
+                $ul.append('<li class="sb-submenu-li' + activeClass + '"><a class="sb-link" href="' + href + '">' + text + '</a></li>');
+            });
+
+            $('.sb-submenu-tab').empty().append($ul);
+        }
+
+        // Handle submenu item click and store selection
+        $(document).on('click', '.sb-submenu-li a', function(e) {
+            var href = $(this).attr('href');
+            localStorage.setItem('activeSubmenuHref', href);
+        });
+    });
+});
+</script>

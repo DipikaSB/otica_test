@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Setblue
+ * Copyright(C) 04/2023 Setblue <ideveloper1990@gmail.com>
+ * @package Setblue_WholesaleInquiry
+ * @copyright Copyright(C) 2015 Setblue (ideveloper1990@gmail.com)
+ * @author Setblue <ideveloper1990@gmail.com>
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <uiComponent name="wholesaleinquiry_index_index"/>
+        </referenceContainer>
+    </body>
+</page>

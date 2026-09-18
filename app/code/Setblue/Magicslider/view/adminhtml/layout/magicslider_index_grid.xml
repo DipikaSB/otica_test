@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- /**
+ * Setblue 
+ * @category    Setblue 
+ * @copyright   Copyright (c) 2025 Setblue (http://www.setblue.com/) 
+ * @Author: setblue.com
+ * @Create Date: 2025-03-25 05:50:55
+ */ -->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    <update handle="formkey"/>
+    <container name="root">
+        <block class="Setblue\Magicslider\Block\Adminhtml\Magicslider\Grid" name="admin.block.magicslider.grid"/>
+    </container>
+</layout>

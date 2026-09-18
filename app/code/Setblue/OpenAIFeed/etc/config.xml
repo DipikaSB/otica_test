@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+
+    <default>
+        <openai_feed>
+            <settings>
+                <enable>1</enable>
+                <feed_path>var/export/openai_product_feed.json</feed_path>
+                 <cron_schedule>*/30 * * * *</cron_schedule>
+            </settings>
+
+            <seller>
+                <seller_name>Default Seller</seller_name>
+                <seller_url>https://www.example.com</seller_url>
+                <seller_privacy_policy>https://www.example.com/privacy</seller_privacy_policy>
+                <seller_tos>https://www.example.com/terms</seller_tos>
+                <return_policy>https://www.example.com/returns</return_policy>
+                <return_window>30</return_window>
+                <shipping>US:CA:Standard:9.99 USD</shipping>
+            </seller>
+        </openai_feed>
+    </default>
+
+</config>

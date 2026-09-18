@@ -1,0 +1,337 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="magedelight_ga4" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>md_section_ga4</class>
+            <label>GA4 with GTM</label>
+            <tab>magedelight</tab>
+            <resource>Magedelight_Ga4::Ga4Settings</resource>
+            <group id="important_note" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Important Note</label>
+                <field id="note" translate="label" type="note" sortOrder="1" showInDefault="1" showInWebsite="1"
+                    showInStore="1">
+                    <label></label>
+                    <frontend_model>Magedelight\Ga4\Block\Adminhtml\System\Config\ModuleInfo</frontend_model>
+                </field>
+            </group>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="version" type="label" translate="label" sortOrder="0" showInDefault="1" showInStore="0" showInWebsite="0">
+                    <label>Version</label>
+                    <backend_model>Magedelight\Ga4\Model\Config\Backend\Version</backend_model>
+                </field>
+                <field id="enable" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="associated_google_email" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Associated Google Account</label>
+                    <comment><![CDATA[Enter your Google Email to know account associated with GA4. This field is provided for informational purposes only; we have not used it in the development of extension functionality.<br/>Visit <a href="https://tagmanager.google.com/" target="_blank">Google Tag Manager</a> || <a href="https://analytics.google.com/analytics/web/provision/#/provision" target="_blank" >Google Analytics Dashboard]]></comment>
+                    <validate>validate-email</validate>
+                </field>
+                <field id="ga4_api_key" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>GA4 API Keys</label>
+                    <validate>required-entry</validate>
+                    <comment><![CDATA[Please find API Key in the Google Analytics 4 Panel >> Admin Settings >>Data Stream >> Choose the required data stream >> Measurement Protocol API secrets >> Generate a new API secret key and copy the value into this field.]]></comment>
+                </field>
+                <field id="gdpr_enable" translate="label" type="select" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Cookie Consent Based Tracking</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <frontend_model>Magedelight\Ga4\Block\System\Config\Form\Field\Disable</frontend_model>
+                    <comment><![CDATA[Note: If set to "Yes", GA4 tracking will not start until customer accepts cookie consent.]]></comment>
+                </field>
+                <field id="link" translate="label" type="label" sortOrder="13" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <frontend_model>Magedelight\Ga4\Block\System\Config\Form\Field\Link</frontend_model>
+                </field>
+                <!-- <field id="ga4_datalayer_persistent_expiry" translate="label comment" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Persistent data layer expiry time (Minutes)</label>
+                    <validate>required number</validate>
+                    <comment>The specified value represents minutes.</comment>
+                </field>
+                <field id="secure_cookies_setting" translate="label comment" type="select" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Use Secure Cookies</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field> -->
+                <!-- <field id="is_allow_not_logged_in_customer" translate="label" type="select" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Is Allow Not Logged In customer</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="secure_cookies_setting">1</field>
+                    </depends>
+                </field> -->
+                <field id="strict_tracking" translate="label" type="select" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Strict Domain Tracking</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[When Strict Tracking is enabled, multiple domains and subdomains can be added. GA4 tracking will only occur if the incoming traffic matches any of the specified domains or subdomains. If there is no match, tracking will not be performed.]]></comment>
+                </field>
+                <field id="domain" translate="label" sortOrder="14" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Domain</label>
+                    <frontend_model>Magedelight\Ga4\Block\Adminhtml\Form\Field\Domain</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                    <depends>
+                        <field id="strict_tracking">1</field>
+                    </depends>
+                </field>
+
+            </group>
+
+            <group id="gtm_code" translate="label" type="text" sortOrder="20" showInDefault="1" showInStore="1" showInWebsite="1">
+                <label>Google Tag Manager Code</label>
+                <field id="ga4_top_js" translate="label" type="textarea" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>GTM JavaScript Head Code</label>
+                    <validate>required</validate>
+                    <comment><![CDATA[Please find GTM Javascript Head Code from Google Tag Manager Console >> Admin >> Install Google Tag Manager and copy GTM Javascript Head Code from this field.]]></comment>
+                </field>
+                <field id="ga4_bottom_js" translate="label" type="textarea" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>GTM Non-JS Body Code</label>
+                    <validate>required</validate>
+                    <comment><![CDATA[Please find GTM  Non-JS Body Code from Google Tag Manager Console >> Admin >> Install Google Tag Manager and copy GTM  Non-JS Body Code from this field.]]></comment>
+                </field>
+            </group>
+
+            <group id="gtag" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>GTM API Configuration</label>
+                <field id="account_id" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Account ID</label>
+                    <validate>required</validate>
+                    <comment><![CDATA[Please find 10 digits of Account ID in the browser URL of Google Tag Manager, which looks like https://tagmanager.google.com/?authuser=1#/container/<b>accounts/12XXXXXX2</b>/containers/15XXXX7]]></comment>
+                </field>
+                <field id="container_id" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Container ID</label>
+                    <validate>required</validate>
+                    <comment><![CDATA[Please find 8 digits of Container ID in the browser URL of Google Tag Manager, which looks like https://tagmanager.google.com/?authuser=1#/container/accounts/12XXXXXX2/<b>containers/15XXXX7</b> ]]></comment>
+                </field>
+                <field id="tracking_id" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Measurement ID</label>
+                    <validate>required</validate>
+                    <comment><![CDATA[Please find Measurement ID in the Google Analytics 4 Panel >> Admin Settings >> Data Stream >> Choose the required data stream >> Measurement ID >> Copy the value from this field.]]></comment>
+                </field>
+                <field id="api_container" translate="label" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Export Triggers and Tags</label>
+                    <frontend_model>Magedelight\Ga4\Block\System\Config\Json\Export</frontend_model>
+                    <comment><![CDATA[Please ensure you have filled Account ID & Measurement ID before you generate JSON file. </br>Please import container using JSON file at below path, </br> Google Tag Manager Panel >> Admin >> Import Container]]></comment>
+                </field>
+            </group>
+
+            <group id="gtm_event" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>GTM Event Configuration</label>
+                <field id="promotion_tracking" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Promotion Tracking</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[&lt;a href="#" class="magedelight-promo-tracking" data-promo-id={{PROMOID}} data-promo-name={{PROMONAME}} data-creative-name={{CREATIVENAME}} data-creative-slot={{CREATIVESLOT}} data-category-id={{CATEGORYID}} data-product-id={{PRODUCTID}} &gt;CONTENT&lt;/a&gt;<br/>Must need to specify either <b>data-category-id</b> or <b>data-product-id</b> for item array.]]></comment>
+                </field>
+                <field id="event_list" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Event List</label>
+                    <source_model>Magedelight\Ga4\Model\Config\Source\Event</source_model>
+                    <comment><![CDATA[GA4 tracking will only occur if the incoming traffic matches any of the specified events enabled by admin. If its not enabled by admin then tracking will not be performed for that event.]]></comment>
+                </field>
+            </group>
+
+            <group id="product_configuration" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Product Configuration</label>
+                <field id="identifier" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Identifier</label>
+                    <source_model>Magedelight\Ga4\Model\Product\Identifier</source_model>
+                </field>
+                <field id="currency" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Currency</label>
+                    <source_model>Magedelight\Ga4\Model\Product\Currency</source_model>
+                    <comment><![CDATA[Please choose your currency from the Google Analytics Panel. If your GA Panel is set to USD, your Magento Store's base currency should be USD as well. Otherwise, Store View with USD currency must be configured from another base currency. ]]></comment>
+                </field>
+                  <field id="brand_status" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Brand</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="brand_attribute_code" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Brand Attribute</label>
+                    <comment>Please enter brand attribute code here.</comment>
+                    <depends>
+                        <field id="brand_status">1</field>
+                    </depends>
+                    <validate>required</validate>
+                </field>
+                <field id="product_variant" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Product Variant</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="configurableitems" translate="label comment" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Child vs Parent</label>
+                    <source_model>Magedelight\Ga4\Model\Config\Source\ProductType</source_model>
+                    <comment>For Configurable/Simple product type on checkout</comment>
+                </field>
+                <field id="checkout_path_hint" translate="label comment" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Checkout Success Page Path</label>
+                    <validate>required</validate>
+                </field>
+                <field id="allowordersummary" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Order Total Calculation</label>
+                    <source_model>Magedelight\Ga4\Model\Config\Source\Summary</source_model>
+                </field>
+                <field id="summary_tax_exclude" translate="label comment" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Exclude Tax From Transaction</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="summary_shipping_exclude" translate="label comment" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Exclude Shipping From Transaction</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="data_exchange" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Data Exchange</label>
+                <field id="custom_attribute_1" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom Attribute 1</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="custom_attribute_1_code" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Attribute 1</label>
+                    <source_model>Magedelight\Ga4\Model\Config\Source\ProductAttribute</source_model>
+                    <depends>
+                        <field id="enable">1</field>
+                        <field id="custom_attribute_1">1</field>
+                    </depends>
+                </field>
+                <field id="custom_attribute_2" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom Attribute 2</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="custom_attribute_2_code" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Attribute 2</label>
+                    <source_model>Magedelight\Ga4\Model\Config\Source\ProductAttribute</source_model>
+                    <depends>
+                        <field id="enable">1</field>
+                        <field id="custom_attribute_2">1</field>
+                    </depends>
+                </field>
+                <field id="custom_attribute_3" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom Attribute 3</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="custom_attribute_3_code" translate="label comment" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Attribute 3</label>
+                    <source_model>Magedelight\Ga4\Model\Config\Source\ProductAttribute</source_model>
+                    <depends>
+                        <field id="enable">1</field>
+                        <field id="custom_attribute_3">1</field>
+                    </depends>
+                </field>
+                <field id="custom_attribute_4" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom Attribute 4</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="custom_attribute_4_code" translate="label comment" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Attribute 4</label>
+                    <source_model>Magedelight\Ga4\Model\Config\Source\ProductAttribute</source_model>
+                    <depends>
+                        <field id="enable">1</field>
+                        <field id="custom_attribute_4">1</field>
+                    </depends>
+                </field>
+                <field id="custom_attribute_5" translate="label comment" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom Attribute 5</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="custom_attribute_5_code" translate="label comment" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Attribute 5</label>
+                    <source_model>Magedelight\Ga4\Model\Config\Source\ProductAttribute</source_model>
+                    <depends>
+                        <field id="enable">1</field>
+                        <field id="custom_attribute_5">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="gad_code" translate="label" type="text" sortOrder="70" showInDefault="1" showInStore="1" showInWebsite="1">
+                <label>Google AdWords Code</label>
+                <field id="enable_ga" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable AdWords</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="gad_top_js" translate="label" type="textarea" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Google Ads Code GA4</label>
+                    <comment><![CDATA[Please find the script in the Google AdWords >> Tools & Setting >> Conversion >> Order >> Install the tag yourself ]]></comment>
+                </field>
+                <field id="gad_remarketing" translate="label" type="textarea" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Google Adword Remarketing </label>
+                    <comment><![CDATA[Please find the script in the Google Adwords >> Tools & Setting >> Audience Manager >> Your Data Source >> Edit Source ]]></comment>
+                </field>
+                <field id="gad_container_id" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Container ID</label>
+                    <comment><![CDATA[Please go to Google AdWords >> Tools & Setting >> Conversion >> Summary >> Order >> Details >> Tag Setup >> Install the tag yourself >> See Code For, HTML will have your code starts with AW-XXXX]]></comment>
+                </field>
+                <field id="gad_label_id" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Label ID</label>
+                    <comment><![CDATA[Please go to Google AdWords >> Tools & Setting >> Conversion >> Summary >> Order >> Details >> Tag Setup >> Install the tag yourself >> Event Snippet >> See Code For, HTML will have your code starts with AW-XXXX / Label ID]]></comment>
+                </field>
+            </group>
+
+            <group id="realtime_tracking" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Real-time tracking (Admin Panel)</label>
+                <field id="enable_realtime_tracking" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Real-time Tracking</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="show_user_email" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show User Email</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enable_realtime_tracking">1</field>
+                    </depends>
+                    <comment><![CDATA[If set to Yes, the user's email address will be stored in the database. We do not send user email to Google Analytics and it is only for admin use; therefore it cannot support complete page cache.<br/>If set to No, we will not capture the user's email address and store it in the database, therefore it will support Magento full page cache. ]]></comment>
+                </field>
+            </group>
+
+            <group id="cron_setting" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>CRON Setting (Auto Log Cleanup)</label>
+                <field id="db_save" translate="label comment" type="select" sortOrder="10"
+                        showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Data Save On Database</label>
+                    <comment>Enable or disable Data Save On Database</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="enable_cron" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Cron</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[When CRON is enabled, tracking logs will be cleaned periodically. If you wish to keep all logs saved for Admin then please keep it disabled, it will occupy your database storage.]]></comment>
+                </field>
+                <field id="cron_time" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Auto-Delete Logs After Days</label>
+                    <depends>
+                        <field id="enable_cron">1</field>
+                    </depends>
+                    <comment>Set a deadline for keeping logs. For example, if you specify 7, we will delete logs after 7 days.</comment>
+                </field>
+                <field id="cron_frequency" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1"  sortOrder="35">
+                        <label>Frequency</label>
+                        <source_model>Magento\Cron\Model\Config\Source\Frequency</source_model>
+                        <backend_model>Magedelight\Ga4\Model\Config\Cron\Config</backend_model>
+                        <depends>
+                            <field id="enable_cron">1</field>
+                        </depends>
+                    </field>
+                <field id="cron_run_time" translate="label" type="time" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40">
+                    <label>Time</label>
+                    <depends>
+                        <field id="enable_cron">1</field>
+                    </depends>
+                </field>
+            </group>
+            <!-- <group id="json_export" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>JSON Export Tags/Triggers</label>
+                <field id="public_id" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Public ID</label>
+                    <comment><![CDATA[Please find Measurement ID in the Google Analytics 4 Panel >> Admin Settings >> Data Stream >> Choose the required data stream >> Measurement ID >> Copy the value from this field. ]]></comment>
+                </field>
+                <field id="api_container" translate="label" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Magedelight\Ga4\Block\System\Config\Json\Export</frontend_model>
+                </field>
+            </group> -->
+        </section>
+    </system>
+</config>

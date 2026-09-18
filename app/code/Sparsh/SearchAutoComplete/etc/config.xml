@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <sparsh_search_auto_complete>
+            <general>
+                <enable>0</enable>
+                <search_delay>1000</search_delay>
+                <search_no_result>Sorry, no results were found!</search_no_result>
+                <search_minimum_characters>3</search_minimum_characters>
+            </general>
+			<product_settings>
+                <product_search_enable>1</product_search_enable>
+				<product_search_maximum_items>5</product_search_maximum_items>
+				<product_search_display_fields>name,image,reviews_rating,description,price,sku,add_to_cart</product_search_display_fields>
+				<product_search_maximum_words_description>10</product_search_maximum_words_description>
+            </product_settings>
+			<popular_suggestion_settings>
+                <popular_suggestion_enable>1</popular_suggestion_enable>
+            </popular_suggestion_settings>
+			<category_search_settings>
+                <category_search_enable>1</category_search_enable>
+				<category_search_maximum>3</category_search_maximum>
+            </category_search_settings>
+            <cms_search_settings>
+                <cms_search_enable>1</cms_search_enable>
+                <cms_search_maximum>3</cms_search_maximum>
+            </cms_search_settings>
+        </sparsh_search_auto_complete>
+    </default>
+</config>

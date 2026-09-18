@@ -1,0 +1,28 @@
+<?php
+/** @var \Magento\Catalog\Model\Category $category */
+$category = $block->getCurrentCategory();
+// Dynamic Breadcrumb
+$breadcrumb = [];
+$breadcrumb[] = [
+    "@type" => "ListItem",
+    "position" => 1,
+    "name" => "Home",
+    "item" => $block->getUrl('')
+];
+$position = 2;
+if ($category->getId()) {
+        $breadcrumb[] = [
+            "@type" => "ListItem",
+            "position" => $position++,
+            "name" => $category->getName(),
+            "item" => $category->getUrl()
+        ];
+}
+?>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": <?= json_encode($breadcrumb, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) ?>
+}
+</script>

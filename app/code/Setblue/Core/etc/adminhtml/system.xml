@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="catalog" translate="label" type="text" sortOrder="40"
+                 showInDefault="1" showInWebsite="1" showInStore="1">
+            <resource>Magento_Catalog::config_catalog</resource>
+            <group id="frontend" translate="label" type="text" sortOrder="100"
+                   showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Storefront</label>
+                <field id="customer_fields_mapping"
+                       translate="label comment"
+                       sortOrder="101"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1"
+                       canRestore="1">
+                    <label>[SB] Mapping Country Codes to SEO Text</label>
+                    <frontend_model>Setblue\Core\Block\Adminhtml\System\Config\Mapping</frontend_model>
+                    <backend_model>Setblue\Core\Model\Config\Backend\CountryMapping</backend_model>
+                </field>
+            </group>
+        </section>
+       <section id="amasty_checkout" translate="label" type="text" sortOrder="50"
+                 showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Amasty Checkout</label>
+            <group id="sb_custom_group" translate="label" type="text" sortOrder="10"
+                   showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Shipping and Payment Configuration</label>
+
+                <field id="shipping_sec" translate="label comment" type="select" sortOrder="10"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Shipping Block Disable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="payment_sec" translate="label comment" type="select" sortOrder="20"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Payment Block Disable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,357 @@
+<?php
+/** @var \Setblue\CustomerReview\Block\Review\Images $block */
+
+$product = $block->getCurrentProductId();
+
+$productId =  $product->getId();
+$reviews = [];
+
+if ($productId) {
+    $reviews = $block->getReviewsWithImages($productId);
+}
+
+$imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'tiff', 'svg'];
+$videoExtensions = ['mp4', 'mov', 'avi', 'flv', 'wmv', 'mkv', 'webm', 'm4v', '3gp'];
+$baseUrl = $block->getBaseUrl();
+$loaderPath = $baseUrl . 'media/review/loading.gif';
+$sliderId = 'sb_review_slider_' . uniqid();
+
+?>
+
+<?php if (!empty($reviews)): ?>
+
+    <?php
+        $reviewImageCount = 0;
+
+        
+        foreach ($reviews as $review) {
+            if (!empty($review['review_image'])) {
+                $reviewImageCount++;
+            }
+        }
+    ?>
+    <?php if ($reviewImageCount >=1): ?>
+        <div id="review-photos-popup" class="hidden-popup" style="display:none;">
+            <div id="review-images-container">
+               <div class="loading-review-bg"><img src="<?= $escaper->escapeUrl($block->getBaseUrl() . 'media/review/loading.gif') ?>" class="loading-review" alt="Loading ..." /></div>
+            </div>
+            <div class="single-review-content" style="display:none;">
+                <div class="close-box" style="display:none;">
+                    <div class="close-review-popup" aria-label="Close">
+                        <img class="back-arrow" height="20" width="20" src="<?= $escaper->escapeUrl($block->getBaseUrl() . 'media/review/CMYhpeaIeR9vguf.svg') ?>">
+                        <span class="a-size-base-plus a-text-bold">All photos</span>
+                    </div>
+                </div>
+                <div class="ajax-review-content">
+                    <p>Loading... </p>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <div class="block review-list" id="tab-label-reviews">
+        <div class="row" id="tab-label-reviews-title">
+            <div class="col-review block-title">
+                <strong><?= $escaper->escapeHtml(__('Customer Reviews')) ?></strong>
+            </div>
+
+            
+            
+            <?php if ($reviewImageCount >=7): ?>
+                <div class="col link-see-all-photos">
+                    <a href="#" id="all-review-photos"><?= __('See all photos') ?></a>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+
+
+    <?php if ($reviewImageCount >=1): ?>
+        <div class="sb_review_collection sb_product_review" id="<?= $sliderId ?>">
+            <div class="scroll-wrapper">
+                <?php if ($reviewImageCount >=7): ?>
+                <button class="scroll-arrow left-arrow" aria-label="Scroll Left"></button>
+                <?php endif; ?>
+                <div class="products-scroll-container">
+                    <div class="product-items">
+                     
+                    <?php foreach ($reviews as $review):
+
+
+                    $mediaPath = $review['review_image'] ?? '';
+                if (!$mediaPath) continue;
+
+                
+
+                $extension = strtolower(pathinfo($mediaPath, PATHINFO_EXTENSION));
+                $mediaUrl = $baseUrl . 'media/' . $mediaPath;
+                $escapemediaUrl = $escaper->escapeUrl($mediaUrl);
+                
+                $dataReviewId = $escaper->escapeHtmlAttr($review['review_id']);
+                $dataReviewTitle = $escaper->escapeHtmlAttr($review['title']);
+                $dataReviewNickname = $escaper->escapeHtmlAttr($review['nickname']);
+                $dataReviewDetail = $escaper->escapeHtmlAttr($review['detail']);
+
+                $createdAt = $review['created_at'];
+                $formattedDate = '';
+                if ($createdAt) {
+                    $date = new \DateTime($createdAt);
+                    $formattedDate = $date->format('n/j/y'); // e.g., 7/14/25
+                }
+                $dataReviewcreated = $escaper->escapeHtmlAttr($formattedDate);
+
+               $dataReviewRating = '';
+
+                foreach ($review['votes'] as $vote) {
+                    switch ($vote['rating_id']) {
+                        case 1:
+                            $dataReviewQuality = $escaper->escapeHtmlAttr($vote['percent']);
+                            break;
+                        case 2:
+                            $dataReviewValue = $escaper->escapeHtmlAttr($vote['percent']);
+                            break;
+                        case 3:
+                            $dataReviewPrice = $escaper->escapeHtmlAttr($vote['percent']);
+                            break;
+                        case 5:
+                            $dataReviewRating = $escaper->escapeHtmlAttr($vote['percent']);
+                            break;
+                    }
+                }
+
+               
+            ?>
+            <div class="product-item">
+            <?php if (in_array($extension, $imageExtensions)): ?>
+               <a href="#" class="review-details-trigger" 
+                data-review-id="<?= $dataReviewId ?>"
+                data-review-img="<?= $escapemediaUrl ?>"
+                data-review-title="<?= $dataReviewTitle ?>"
+                data-review-detail="<?= $dataReviewDetail ?>"
+                data-review-nickname="<?= $dataReviewNickname ?>"
+                data-review-date="<?= $dataReviewcreated ?>"
+                data-review-rating="<?= $dataReviewRating ?>"
+                >
+
+                   <img src="<?= $escapemediaUrl ?>" alt="Review Image" />
+                </a>
+                <?php elseif (in_array($extension, $videoExtensions)): ?>
+                <a href="#" class="review-details-trigger" 
+                data-review-id="<?= $dataReviewId ?>"
+                data-review-img="<?= $escapemediaUrl ?>"
+                data-review-title="<?= $dataReviewTitle ?>"
+                data-review-detail="<?= $dataReviewDetail ?>"
+                data-review-nickname="<?= $dataReviewNickname ?>"
+                data-review-date="<?= $dataReviewcreated ?>"
+                data-review-rating="<?= $dataReviewRating ?>"
+                >
+                        <video controls playsinline>
+                            <source src="<?= $escapemediaUrl ?>" type="video/<?= $extension ?>" />
+                        </video>
+                    </a>
+                <?php endif; ?>
+            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <?php if ($reviewImageCount >=7): ?>
+                <button class="scroll-arrow right-arrow" aria-label="Scroll Right"></button>
+                <?php endif; ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
+
+<script>
+require(['jquery'], function($) {
+    $(document).ready(function () {
+        const slider = $('#<?= $sliderId ?>');
+        const scrollContainer = slider.find('.products-scroll-container')[0];
+        const scrollAmount = 320;
+
+        slider.find('.left-arrow').on('click', function () {
+            scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+
+        slider.find('.right-arrow').on('click', function () {
+            scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
+    });
+});
+</script>
+
+
+<script>
+require(['jquery', 'mage/url', 'Magento_Ui/js/modal/modal'], function ($, urlBuilder, modal) {
+    
+    var modalInstance;
+    var modalElement = '#review-photos-popup';
+
+    function nl2br(str) {
+        return str.replace(/\n/g, "<br>");
+    }
+
+    function initModalPopup() {
+
+        const $modalEl = $(modalElement);
+
+        if (!$modalEl.data('mageModal')) {
+            modalInstance = modal({
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: '',
+                modalClass: 'custom-review-modal',
+                buttons: []
+            }, $modalEl);
+        }
+
+    }    
+
+
+    function openReviewModal() {
+        initModalPopup();
+        $(modalElement).modal('openModal');
+    }
+
+    function showGallery(productId) {
+        $('#review-images-container').show();
+        $('.single-review-content').hide();
+        $('#review-images-container').html('<div class="loading-review-bg"><img src="<?= $block->getBaseUrl() ?>media/review/loading.gif" class="loading-review" alt="Loading..."/></div>');
+
+        $.ajax({
+            url: urlBuilder.build('customerreview/ajax/images'),
+            type: 'GET',
+            data: { product_id: productId },
+            success: function (response) {
+                $('#review-images-container').html(response.output);
+                $('.close-box').show();
+            },
+            error: function () {
+                $('#review-images-container').html('<p>Failed to load images.</p>');
+            }
+        });
+    }
+
+    function showSingleReview(reviewId) {
+
+        const img = reviewId.data('review-img');
+        const title = reviewId.data('review-title');
+        const detail = reviewId.data('review-detail');
+        const nickname = reviewId.data('review-nickname');
+
+        const rating = reviewId.data('review-rating');
+        const date = reviewId.data('review-date');
+
+
+
+
+        // Detect image or video from URL extension
+        const extension = img.split('.').pop().toLowerCase();
+        const imageExtensions = ['jpg','jpeg','png','gif','webp','bmp','tiff','svg'];
+        const videoExtensions = ['mp4','mov','avi','flv','wmv','mkv','webm','m4v','3gp'];
+
+        let mediaHtml = '';
+
+        if (imageExtensions.includes(extension)) {
+            mediaHtml = `<div class="review-img-left"><img src="${img}" alt="Review Image" /></div>`;
+        } else if (videoExtensions.includes(extension)) {
+            mediaHtml = `<div class="review-img-left"><video controls playsinline><source src="${img}" type="video/${extension}"></video></div>`;
+        }
+
+        const html = `
+        <div class="single-review">
+            ${mediaHtml}
+
+            <div class="sb_review_details">
+                <div class="review-author">
+                    <div class="a-profile-avatar-wrapper">
+                        <div class="a-profile-avatar">
+                            <img src="https://c73c68a870.nxcli.io/media/review/default_user.jpeg">
+                        </div>
+                    </div>
+                    <div class="a-profile-content">
+                        <strong class="review-details-value" itemprop="author">
+                            ${nickname}                                    
+                        </strong>
+                    </div>
+                </div>
+                <div class="review-ratings01">
+                    <div class="rating-summary item" itemprop="reviewRating" itemscope="" itemtype="http://schema.org/Rating">
+                        <span class="label rating-label">
+                            <!-- <span>Rating</span> -->
+                        </span>
+                        <div class="rating-result" id="review_118_vote_365" title="20%">
+                            <meta itemprop="worstRating" content="1">
+                            <meta itemprop="bestRating" content="100">
+                            <span style="width: ${rating}%;">
+                                <span itemprop="ratingValue" style="width: ${rating}%;">
+                                    ${rating}%
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                        <div class="review-title01" itemprop="name">
+                            ${title}
+                        </div>
+                </div>
+                <div class="review-content-container">
+                    <div class="review-details">
+                        <p class="review-date">
+                            <span class="review-details-label">
+                                Posted on                                    
+                            </span>
+                            <time class="review-details-value" itemprop="datePublished" datetime="${date}">
+                                ${date}            
+                            </time>
+                        </p>
+                    </div>
+                    <div class="review-content" itemprop="description">
+                        ${nl2br(detail)}                            
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+        $('.ajax-review-content').html(html);
+        $('#review-images-container').hide();
+        $('.single-review-content').show();
+    }
+
+    // See All Photos
+    $('#all-review-photos').on('click', function (e) {
+        e.preventDefault();
+        const productId = $('input[name="product"]').val();
+        openReviewModal();
+        showGallery(productId);
+    });
+
+    // Image/Video Thumbnail Click (Gallery mode)
+    $(document).on('click', '.review-details-trigger', function (e) {  
+        e.preventDefault();
+        const productId = $('input[name="product"]').val();
+        openReviewModal();
+        showGallery(productId);
+        showSingleReview($(this));
+    });
+
+    // Slider thumbnails (on product view page)
+    $(document).on('click', '.review-trigger', function (e) {
+        e.preventDefault();
+        // const reviewId = $(this).data('review-id');
+        const productId = $('input[name="product"]').val();
+        openReviewModal();
+        showGallery(productId);
+        showSingleReview($(this));
+    });
+
+    // Close back to gallery
+    $(document).on('click', '.close-review-popup', function () {
+        $('.single-review-content').hide();
+        $('#review-images-container').show();
+        $('.ajax-review-content').html('');
+    });
+});
+</script>
+
+<?php endif; ?>

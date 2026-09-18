@@ -1,0 +1,152 @@
+<div class="cls-msg message-success success message" style="display:none"></div>
+<?php 
+$customer = $block->getCustomerData();
+?>
+    <form data-mage-init='{"validation":{}}' class="cls-warranty-inquiry-form" >
+        <h2>Warranty Form</h2>
+        <div class="row">
+            <div class="field fname required cls-filed col-12 col-md-6  ">
+                <label class="label" for="fname"><span><?php /* @escapeNotVerified */ echo __('First Name') ?></span></label>
+                    <div class="control">
+                        <input type="text" id="fname" name="fname" value="<?= $customer ? $customer['firstname'] : '' ?>" data-validate="{required:true, minlength:3, maxlength:33 ,'no-whitespace':true, 'letters-only':true}" data-msg-required="full name must be between 3 to 33 character" placeholder="First Name">
+                    </div>
+            </div>
+            <div class="field lname required cls-filed col-12 col-md-6">
+                <label class="label" for="lname"><span><?php /* @escapeNotVerified */ echo __('Last Name') ?></span></label>
+                    <div class="control">
+                         <input type="text" id="lname" name="lname" value="<?= $customer ? $customer['lastname'] : '' ?>" data-validate="{required:true, minlength:3, maxlength:33 ,'no-whitespace':true, 'letters-only':true}" data-msg-required="Last Name must be between 3 to 33 character" placeholder="Last Name">
+                    </div>
+            </div>
+            <div class="field email required cls-filed col-12 col-md-6">
+                <label class="label" for="email"><span><?php /* @escapeNotVerified */ echo __('Email') ?></span></label>
+                    <div class="control">
+                          <input type="email" id="cls-email" name="cls-email" value="<?= $customer ? $customer['email'] : '' ?>" data-validate="{required:true,'validate-email':true, 'no-whitespace':true}"data-msg-required="Please enter valid your Email" placeholder="Your Email" required>
+                    </div>
+            </div>
+            <div class="field phone required cls-filed col-12 col-md-6">
+                <label class="label" for="phone"><span><?php /* @escapeNotVerified */ echo __('Mobile/Whatsapp No.') ?></span></label>
+                    <div class="control">
+                         <input type="number" id="phone" name="phone" value="" data-validate="{required:true, minlength:8, maxlength:11,'no-whitespace':true,'validate-number':true }"data-msg-required="mobile/whatsapp No. must be between 8 and 11 digit" placeholder="Mobile/Whatsapp No.">
+                    </div>
+            </div>
+            <div class="field productname required cls-filed col-12 col-md-6">
+                <label class="label" for="productname"><span><?php /* @escapeNotVerified */ echo __('Product Name*') ?></span></label>
+                <div class="control">
+                      <input type="text" id="productname" name="productname" value="" data-validate="{required:true}"data-msg-required="Please Enter Product Name" placeholder="Product Name">
+                </div>
+            </div>
+            <div class="field serial_no required cls-filed col-12 col-md-6">
+                <label class="label" for="serial_no"><span><?php /* @escapeNotVerified */ echo __('Serial No*') ?></span></label>
+                <div class="control">
+                      <input type="text" id="serial_no" name="serial_no" value="" data-validate="{required:true, 'no-whitespace':true}"data-msg-required="Please Enter a Serial No" placeholder="Serial No">
+                </div>
+            </div>
+            <div class="field purchase_date cls-filed col-12 col-md-6">
+                <label class="label" for="purchase_date"><span><?php /* @escapeNotVerified */ echo __('Purchase Date*') ?></span></label>
+                <div class="control">
+                       <input type="date" id="purchase_date" name="purchase_date" class="control" rows="4" cols="50" data-validate="{required:true, 'validate-no-empty':true}" data-msg-required="Please Enter Date" placeholder="Purchase Date" required>
+                </div>
+            </div>
+
+            <div class="field purchase_receipt required cls-filed col-12 col-md-6">
+                <label class="label" for="purchase_receipt"><span><?php /* @escapeNotVerified */ echo __('Purchase Receipt*') ?></span></label>
+                <div class="control">
+                      <input type="file" id="purchase_receipt" name="purchase_receipt" accept=".jpg,.jpeg,.png" data-validate="{required:true}" required>
+                </div>
+            </div>
+            
+            <div class="field required cls-warranty-inquiry col-12">
+                    <div class="control">
+                           <button type="button" name="btn-warranty-inquiry" id="btn-warranty-inquiry" class="btn-warranty-inquiry">Submit Request</button>
+                    </div>
+            </div>
+            <div class="messages">
+                <div class="message">
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </form> 
+
+<script>
+
+require(['jquery', 'mage/validation', 'mage/loader'], function($){
+
+    $(document).on("click", "#btn-warranty-inquiry", function (e) {
+        e.preventDefault();
+
+        var form = $(".cls-warranty-inquiry-form");
+
+        if (!form.validation('isValid')) {
+            return false;
+        }
+
+        var fileInput = $('#purchase_receipt')[0].files[0];
+        if (!fileInput) {
+            alert("Please select a purchase receipt");
+            return false;
+        }
+
+        var allowedExt = ['jpg', 'jpeg', 'png'];
+
+        var fileName = fileInput.name.toLowerCase();
+        var fileExt = fileName.split('.').pop();
+
+        if ($.inArray(fileExt, allowedExt) === -1) {
+            alert("Invalid file type. Allowed: jpg, jpeg, png");
+            $('#purchase_receipt').val(""); 
+            return false;
+        }
+
+        $('body').loader('show');
+
+        var formData = new FormData();
+        formData.append('fname', $('#fname').val());
+        formData.append('lname', $('#lname').val());
+        formData.append('email_id', $('#cls-email').val());
+        formData.append('phone', $('#phone').val());
+        formData.append('product_name', $('#productname').val());
+        formData.append('serial_no', $('#serial_no').val());
+        formData.append('purchase_date', $('#purchase_date').val());
+        formData.append('purchase_receipt', $('#purchase_receipt')[0].files[0]);
+
+        $.ajax({
+            url: '<?= $block->getforendSave(); ?>',
+            type: 'POST',
+            data: formData,
+            contentType: false,     // required
+            processData: false,     // required
+            dataType: 'json',
+
+            success: function (response) {
+
+                $('body').loader('hide');
+
+                if (response.status == 1) {
+
+                    $('#fname').val('');
+                    $('#lname').val('');
+                    $('#cls-email').val('');
+                    $('#phone').val('');
+                    $('#productname').val('');
+                    $('#serial_no').val('');
+                    $('#purchase_date').val('');
+                    $('#purchase_receipt').val('');
+                    $(".cls-msg").show().html(response.message);
+                } else {
+                    $(".cls-msg").show().html(response.message);
+                }
+            },
+
+            error: function () {
+                $('body').loader('hide');
+                $(".cls-msg").show().html("Something went wrong.");
+            }
+        });
+    });
+});
+</script>
+
+
+
+

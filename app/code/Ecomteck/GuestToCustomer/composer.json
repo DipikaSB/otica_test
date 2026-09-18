@@ -1,0 +1,38 @@
+{
+    "name": "ecomteck/module-guest-to-customer",
+    "description": "Quickly and easily convert existing guest checkout customers to registered customers.",
+    "keywords": [
+        "magento 2",
+        "guest order",
+        "convert guest order",
+        "magento2 customer creation",
+        "convert order to customer",
+        "convert order"
+    ],
+    "license": [
+        "proprietary"
+    ],
+    "homepage": "https://www.ecomteck.com/",
+    "support": {
+        "email": "ecomteck@gmail.com",
+        "issues": "https://github.com/ecomteck/module-guest-to-customer/issues/"
+    },
+    "authors": [
+        {
+            "name": "Ecomteck",
+            "email": "ecomteck@gmail.com",
+            "homepage": "https://www.ecomteck.com/",
+            "role": "Extensions Provider"
+        }
+    ],
+    "type": "magento2-module",
+    "version": "1.2.4",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Ecomteck\\GuestToCustomer\\": ""
+        }
+    }
+}

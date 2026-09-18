@@ -1,0 +1,2 @@
+define(['jquery'],function($){'use strict';var mixin={_calculateNewMax:function(){var max=this.options.max,min=this._valueMin(),step=this.options.step,aboveMin=(max-min)/ step*step;max=aboveMin+min;if(max>this.options.max){max-=step;}
+this.max=parseFloat(max.toFixed(this._precision()));}};return function(target){$.widget('ui.slider',target,mixin);return $.ui.slider;};});

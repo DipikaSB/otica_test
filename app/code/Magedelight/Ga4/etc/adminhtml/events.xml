@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="admin_system_config_changed_section_web">
+        <observer name="custom_admin_system_config_changed_section_general" instance="Magedelight\Ga4\Observer\ConfigObserver"/>
+    </event>
+    <event name="core_layout_render_element">
+        <observer name="magedelight_ga4" instance="Magedelight\Ga4\Observer\DefaultLoadingObserver" />
+    </event>
+</config>

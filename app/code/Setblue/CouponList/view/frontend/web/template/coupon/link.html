@@ -1,0 +1,69 @@
+<!-- ko if: applyCouponCode() && applyCouponCode().length -->
+<!-- <div class="applied-coupen-tag ">
+    <div class="coupen-tag">
+        <span class="tag-icon">
+            <span class="tag-icon-iner">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" class="svgicon">
+                    <path stroke-linecap="round" d="M7.284 1.402h4.964a.35.35 0 0 1 .35.35v4.964a.7.7 0 0 1-.205.495L7.49 12.115a.7.7 0 0 1-.99 0L1.885 7.5a.7.7 0 0 1 0-.99L6.79 1.607a.7.7 0 0 1 .495-.205Z"></path><circle cx="9.1" cy="4.9" r="0.7"></circle><path stroke-linecap="round" stroke-linejoin="round" d="M9.102 4.897h-.005v.005h.005z"></path>
+                </svg>
+            </span>
+        </span>
+        <span class="tag-icon">
+            <span class="tag-text-iner">
+                <div class="applyCouponCode" data-bind="text: applyCouponCode"></div>
+            </span>
+        </span>
+    </div>
+</div> -->
+ <!--/ko-->
+
+<div class="payment-option _collapsible opc-payment-additional couponlist _active">
+     <!-- ko if: itemList().length -->
+    <div class="payment-option-title field choice" data-role="title">
+        <span class="action action-toggle" id="block-discount-heading" role="heading" aria-level="2">
+            <!-- ko i18n: 'All coupons'--><!-- /ko -->
+        </span>
+    </div>
+    <!-- /ko -->
+
+<div class="payment-option-content" data-role="content" style="display:block">
+    <div id="coupon-list" class="coupon-list">
+        <div class="messages">
+            <!-- ko foreach: getRegion('messages') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+        <!-- ko if: itemList().length -->
+            <div class="list" data-bind="foreach: itemList">
+            <button class="action action-apply coopen-box" type="button" data-bind="value: $t('Apply'), click: $parent.applycoupon">
+                
+                    <div class="coupon-description">
+                        <h4 class="m-0"><!-- ko text: $data.coupon --><!-- /ko --></h4>
+                        <div class="description" data-bind="css: {'read-more-description white-patch': $parent.readMoreElement() != $data.coupon && $data.description.length > 150 }">
+                            <p class="mb-0"><!-- ko text: $data.description --><!-- /ko --></p>
+                        </div>
+                        <!-- ko if: $data.description.length > 150 -->
+                            <a href="javascript:void(0);" class="read-more" data-bind="click: $parent.readMoreElement() != $data.coupon ? $parent.readMoreToggle : $parent.readLessToggle">
+                                <span data-bind="text: $parent.readMoreElement() != $data.coupon ? $t('Read More') : $t('Read Less')" />
+                            </a>
+                        <!-- /ko -->
+                    </div>
+                    <div class="coupon-status">
+                        <!-- ko ifnot: ($parent.couponCode() != null ? $parent.couponCode().toLowerCase() : $parent.couponCode()) == ($data.coupon).toLowerCase() -->
+                            
+                                <span class="apply-text"><!-- ko i18n: 'Apply'--><!-- /ko --></span>
+                            
+                        <!-- /ko -->
+                        <!-- ko if: ($parent.couponCode() != null ? $parent.couponCode().toLowerCase() : $parent.couponCode()) == ($data.coupon).toLowerCase() -->
+                        
+                                <span style="color: #1e594f;"><!-- ko i18n: 'Applied'--><!-- /ko --></span>
+                        
+                        <!-- /ko -->
+                    </div>
+                
+                </button>
+            </div>
+        <!-- /ko -->
+    </div>
+</div>
+</div>

@@ -1,0 +1,26 @@
+<?php
+/** @var Olegnax\Athlete2\ViewModel\CategoryConfigViewModel $viewModel */
+$viewModel = $block->getData('CategoryConfigViewModel');
+if($viewModel && method_exists($viewModel, 'getCategory')){
+	$category = $viewModel->getCategory();
+}
+if(!$category){
+	return;
+}
+$categoryBlock = $category->getOxBelowToolbar();
+
+/** Prefer SEO title if set */
+$categoryTitle = trim((string)$category->getSeoCategoryName());
+$categoryValue = $categoryTitle !== '' ? $categoryTitle : $category->getName();
+
+?>
+<div class="below-toolbar-content">
+	<?php if($categoryBlock){ ?>
+		 <?php echo $block->getBlockTemplateProcessor( $categoryBlock  ); ?>
+	<?php }else{?>
+		<h1 class="page-title sb-category-title" id="page-title-heading" aria-labelledby="page-title-heading toolbar-amount">
+		    <span class="base" data-ui-id="page-title-wrapper"> <?= $block->escapeHtml($categoryValue); ?></span>
+		</h1>
+	<?php }?>
+</div>	
+

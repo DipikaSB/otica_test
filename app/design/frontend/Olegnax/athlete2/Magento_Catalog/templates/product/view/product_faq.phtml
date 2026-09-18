@@ -1,0 +1,17 @@
+<?php
+/** @var \Magento\Catalog\Model\Product $_product */
+$_product = $block->getProduct();
+
+$faqContent = $_product->getData('product_faq_s');
+
+if ($faqContent): ?>
+    <div class="otica-product-faq">
+        <?php if ($faqContent): ?>
+            <div class="faq">
+                <h4>Product FAQ</h4>
+                <?= /* @noEscape */ $faqContent ?>
+            </div>
+        <?php endif; ?>
+
+    </div>
+<?php endif; ?>

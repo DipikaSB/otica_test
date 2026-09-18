@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Setblue
+ * Copyright(C) 04/2023 Setblue <ideveloper1990@gmail.com>
+ * @package Setblue_CustomerWholesaleInquiry
+ * @copyright Copyright(C) 2015 Setblue (ideveloper1990@gmail.com)
+ * @author Setblue <ideveloper1990@gmail.com>
+ */
+-->
+<page layout="3columns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="default_head_blocks"/>
+    <body>
+        <referenceBlock name="footer_links">
+            <block class="Setblue\CustomerWholesaleInquiry\Block\FooterLink" ifconfig="CustomerWholesaleInquiry/general/enable" name="team-footer-link" after="privacy-policy-link">
+                <arguments>
+                    <argument name="label" xsi:type="string" translate="true">Wholesale Inquiry</argument>
+                    <argument name="path" xsi:type="string" translate="true">wholesale</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

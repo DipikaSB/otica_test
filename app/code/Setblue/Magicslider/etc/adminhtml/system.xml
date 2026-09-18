@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<!-- /**
+ * Setblue 
+ * @category    Setblue 
+ * @copyright   Copyright (c) 2025 Setblue (http://www.setblue.com/) 
+ * @Author: setblue.com
+ * @Create Date: 2025-03-25 05:50:55
+ */ -->
+ 
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="setblue" translate="label" sortOrder="89">
+             <label><![CDATA[Setblue.com]]></label>
+        </tab>
+        <section id="magicslider" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Magicslider</label>
+            <tab>setblue</tab>
+            <resource>Setblue_Magicslider::config_magicslider</resource>
+            <group id="general" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enabled</label>
+                    <comment>Enabled frontend</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

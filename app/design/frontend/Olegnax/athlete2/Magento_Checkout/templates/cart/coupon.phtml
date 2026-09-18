@@ -1,0 +1,104 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// phpcs:disable Generic.Files.LineLength.TooLong
+
+/**
+ * @var \Magento\Framework\View\Element\AbstractBlock $block
+ */
+
+// We should use strlen function because coupon code could be "0", converted to bool will lead to false
+$hasCouponCode = $block->getCouponCode() !== null && strlen($block->getCouponCode()) > 0;
+?>
+<div class="block discount"
+     id="block-discount"
+     data-mage-init='{"collapsible":{"active": <?= $hasCouponCode ? 'true' : 'false' ?>, "openedState": "active", "saveState": false}}'>
+    <div class="title" data-role="title">
+        <strong id="block-discount-heading" role="heading" aria-level="2">
+        	<?= $block->escapeHtml(__('Apply Coupon')) ?>
+        </strong>
+    </div>
+    <div class="content" data-role="content" aria-labelledby="block-discount-heading">
+        <form id="discount-coupon-form"
+              action="<?= $block->escapeUrl($block->getUrl('checkout/cart/couponPost')) ?>"
+              method="post"
+              data-mage-init='{"discountCode":{"couponCodeSelector": "#coupon_code",
+                                               "removeCouponSelector": "#remove-coupon",
+                                               "applyButton": "button.action.apply",
+                                               "cancelButton": "button.action.cancel"}}'>
+            <div class="fieldset coupon<?= $hasCouponCode ? ' applied' : '' ?>">
+                <input type="hidden" name="remove" id="remove-coupon" value="0" />
+                <div class="field">
+                    <!-- <label for="coupon_code" class="label">
+                        <span><--?= $block->escapeHtml(__('coupon_code')) ?></span>
+                    </label> -->
+                    <div class="control">
+                        <input type="text"
+                               class="input-text"
+                               id="coupon_code"
+                               name="coupon_code"
+                               value="<?= $block->escapeHtmlAttr($block->getCouponCode()) ?>"
+                               placeholder="<?= $block->escapeHtmlAttr(__('Coupon Code')) ?>"
+                                <?php if ($hasCouponCode): ?>
+                                   disabled="disabled"
+                                <?php endif; ?>
+                        />
+                    </div>
+                </div>
+                <div class="actions-toolbar">
+                    <?php if (!$hasCouponCode): ?>
+                    <div class="primary">
+                        <button class="action apply primary" type="button"
+                                value="<?= $block->escapeHtmlAttr(__('Apply Discount')) ?>">
+                            <span><?= $block->escapeHtml(__('Apply Discount')) ?></span>
+                        </button>
+                    </div>
+                    <?php else: ?>
+                        <div class="primary">
+                            <button  type="button" class="action cancel primary"
+                                     value="<?= $block->escapeHtmlAttr(__('Cancel Coupon')) ?>">
+                                <span><?= $block->escapeHtml(__('Cancel Coupon')) ?></span>
+                            </button>
+                        </div>
+                    <?php endif; ?>
+                    <?php if (!$hasCouponCode): ?>
+                    <div class="coupon_summary_block">
+					    <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('checkout-coupon-apply-banner')->toHtml(); ?>
+					</div>
+                    <?php else: ?>
+                        <div class="sb-coupon-applied">
+				            <div class="coupon-applied-msg">
+				                <div class="applied-icon">
+				                	<svg width="26" height="25" viewBox="0 0 26 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+				                	<circle cx="12.6992" cy="12.4985" r="12.5" fill="#869C43"/>
+				                	<path d="M10.8067 15.9827L5.80286 10.374L4.46484 11.8738L10.8162 18.9929L20.9336 7.4933L19.5861 6.00415L10.8067 15.9827Z" fill="white"/>
+				                	</svg>
+				                </div>
+				                <p>Coupon Applied — Enjoy free shipping!</p>
+				            </div>
+			        	</div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php if (!$hasCouponCode): ?>
+                <?= /* @noEscape */ $block->getChildHtml('captcha') ?>
+            <?php endif; ?>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+require(['jquery'], function ($) {
+    'use strict';
+    $(document).on("click", ".promo-code", function () {
+        var code_value = $(this).attr("val");
+        if (code_value) {
+            $("#coupon_code").val(code_value).trigger("change");
+            $("button.action.apply").trigger("click");
+        }
+    });
+});
+</script>

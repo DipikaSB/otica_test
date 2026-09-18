@@ -1,0 +1,22 @@
+<!--@subject Share Your Experience with {{trans "%storename" storename=$storename}} @-->
+
+<!--@vars {
+"layout handle=\"review_reminder_template\" reminder=$reminder":"Review Reminder",
+"var reminder.increment_id":"Order Id"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+<br>
+Hi {{trans "%customer" customer=$customer}},
+
+<p>We hope you’re enjoying your recent purchase from Oticamart. We’d love to hear what you think!</p>
+
+<h1>{{trans 'Order <span class="no-link">#%incrementId</span>' incrementId=$incrementId |raw}}</h1>
+<p>{{trans 'Placed on <span class="no-link">%created_at</span>' created_at=$date |raw}}</p>
+
+{{layout handle="review_reminder_template" reminder=$reminder area="frontend"}}
+
+<br>
+<p>We hope you’re enjoying your recent purchase from Oticamart. We’d love to hear what you think!</p>
+
+{{template config_path="design/email/footer_template"}}

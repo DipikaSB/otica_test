@@ -1,0 +1,7 @@
+<?php
+/** @var \YourVendor\YourModule\Block\Checkout\ShippingPrice $block */
+$shippingPrice = $block->getShippingPrice();
+?>
+<div class="sb-flatrate-shipping-price" style="display: none;">
+    <?php echo $this->escapeHtml($shippingPrice); ?>
+</div>

@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <Warranty>
+            <general>
+                <enable>1</enable>
+                 <email_sender>general</email_sender>
+                <cls_email_template>Warranty_general_cls_email_template</cls_email_template>
+            </general>
+        </Warranty>
+    </default>
+</config>

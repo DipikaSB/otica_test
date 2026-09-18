@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+
+    <system>
+
+        <!-- Shipping Tracker Settings -->
+        <section id="shippingtracker_section" translate="label" type="text"
+                 sortOrder="800" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Shipping Tracker Settings</label>
+            <tab>sales</tab>
+            <resource>Setblue_Shippingtracker::config</resource>
+
+            <group id="custom_shippingtracker_1" translate="label" sortOrder="10"
+                   showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Custom Shipping Tracker 1</label>
+
+                <field id="custom_shippingtracker_enable_1" translate="label" type="select"
+                       sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="custom_shippingtracker_title_1" translate="label" type="text"
+                       sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Method Title</label>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="shippingtracker_section/custom_shippingtracker_1/custom_shippingtracker_enable_1">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+
+        <!-- Courier Tracking Settings -->
+        <section id="courier_tracking" translate="label" sortOrder="900"
+                 showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Courier Tracking Settings</label>
+            <tab>sales</tab>
+            <resource>Setblue_Shippingtracker::config</resource>
+
+            <group id="urls" translate="label" sortOrder="10"
+                   showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Courier Tracking URLs</label>
+
+                <field id="dhl" translate="label" type="text" sortOrder="10"
+                       showInDefault="1" showInWebsite="1">
+                    <label>DHL Tracking URL</label>
+                </field>
+
+                <field id="fedex" translate="label" type="text" sortOrder="20"
+                       showInDefault="1" showInWebsite="1">
+                    <label>FedEx Tracking URL</label>
+                </field>
+
+                <field id="ups" translate="label" type="text" sortOrder="30"
+                       showInDefault="1" showInWebsite="1">
+                    <label>UPS Tracking URL</label>
+                </field>
+
+                <field id="usps" translate="label" type="text" sortOrder="40"
+                       showInDefault="1" showInWebsite="1">
+                    <label>USPS Tracking URL</label>
+                </field>
+
+                <field id="customcarrier1" translate="label" type="text" sortOrder="50"
+                       showInDefault="1" showInWebsite="1">
+                    <label>Indian Courier Tracking URL</label>
+                </field>
+            </group>
+        </section>
+
+    </system>
+</config>

@@ -1,0 +1,52 @@
+form.cls-warranty-inquiry-form {
+    max-width: 840px;
+    margin: auto;
+    padding: 30px;
+    box-shadow: 1px 2px 13px #ccc;
+    width: 100%;
+}
+
+form.cls-warranty-inquiry-form h2 {
+    text-align: center;
+    font: revert;
+    font-family: revert;
+    font-size: 25px;
+}
+.cls-filed {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+form.cls-warranty-inquiry-form .cls-filed label span {
+    font-size: 12px;
+    padding-bottom: 5px;
+    display: block;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+button#btn-warranty-inquiry {
+    background-color: #413781;
+    color: #fff;
+    font-weight: 600;
+    padding: 18px;
+    margin-top: 20px;
+}
+.message.success:before {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 24px;
+    line-height: 24px;
+    color: #006400;
+    content: '\e60e';
+    font-family: 'luma-icons';
+    margin: -12px 0 0;
+    vertical-align: middle;
+    display: inline-block;
+    font-weight: normal;
+    overflow: hidden;
+    speak: none;
+    left: 0;
+    top: 22px;
+    width: 45px;
+    position: absolute;
+    text-align: center;
+}

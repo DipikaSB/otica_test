@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+
+    <system>
+        <!-- Main Tab -->
+        <tab id="chatgpt" translate="label" sortOrder="100">
+            <label>ChatGPT</label>
+        </tab>
+
+        <!-- Section -->
+        <section id="openai_feed" translate="label" sortOrder="101" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>OpenAI Product Feed</label>
+            <tab>chatgpt</tab>
+            <resource>Setblue_OpenAIFeed::config_setblue_feed</resource>
+
+            <!-- Feed Settings Group -->
+            <group id="settings" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Feed Settings</label>
+
+                <field id="enable" translate="label comment" type="select" sortOrder="10"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enabled</label>
+                    <comment>Enable or disable the OpenAI product feed</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="feed_path" translate="label comment" type="text" sortOrder="20"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Feed File Path</label>
+                    <comment>Example: var/export/openai_product_feed.json</comment>
+                </field>
+                <field id="cron_schedule" translate="label comment" type="text" sortOrder="30"
+                     showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                  <label>Cron Schedule Expression</label>
+                  <comment>Enter cron expression (e.g. */30 * * * *) for feed generation</comment>
+              </field>
+            </group>
+
+            <!-- Seller Information Group -->
+            <group id="seller" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Seller Information</label>
+
+                <field id="seller_name" translate="label" type="text" sortOrder="10"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Seller Name</label>
+                </field>
+
+                <field id="seller_url" translate="label" type="text" sortOrder="20"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Seller Website URL</label>
+                </field>
+
+                <field id="seller_privacy_policy" translate="label" type="text" sortOrder="30"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Privacy Policy URL</label>
+                </field>
+
+                <field id="seller_tos" translate="label" type="text" sortOrder="40"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Terms of Service URL</label>
+                </field>
+
+                <field id="return_policy" translate="label" type="text" sortOrder="50"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Return Policy URL</label>
+                </field>
+
+                <field id="return_window" translate="label" type="text" sortOrder="60"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Return Window (Days)</label>
+                </field>
+
+                <field id="shipping" translate="label comment" type="text" sortOrder="70"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Shipping Details</label>
+                    <comment>Example: US:CA:Standard:9.99 USD</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

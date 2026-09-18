@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::marketing">
+                    <resource id="Setblue_ContactUsGrid::menu" title="Setblue" sortOrder="10" >
+                        <resource id="Setblue_ContactUsGrid::submenu_contcactform" title="Contact Form" sortOrder="20">
+                            <resource id="Setblue_ContactUsGrid::view_contactform" title="View ContactForm" sortOrder="10"/>
+                            <resource id="Setblue_ContactUsGrid::save_contactform" title="Save ContactForm" sortOrder="20"/>
+                            <resource id="Setblue_ContactUsGrid::massdelete_contactform" title="MassDelete ContactForm" sortOrder="30"/>
+                            <resource id="Setblue_ContactUsGrid::delete_contactform" title="Delete ContactForm" sortOrder="40"/>
+                            <resource id="Setblue_ContactUsGrid::add_contactform" title="Add ContactForm" sortOrder="50"/>
+                        </resource>
+                    </resource>
+                </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Setblue_ContactUsGrid::config_contactform" title="Contact Us Grid Configuration"/>
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

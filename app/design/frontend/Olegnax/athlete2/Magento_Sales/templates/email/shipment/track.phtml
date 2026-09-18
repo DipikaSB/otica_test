@@ -1,0 +1,39 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php /* @var \Magento\Framework\View\Element\Template $block */ ?>
+<?php $_shipment = $block->getShipment(); ?>
+<?php $_order = $block->getOrder(); ?>
+<?php if ($_shipment && $_order): ?>
+    <?php $trackCollection = $_shipment->getTracksCollection(); ?>
+    <?php if ($trackCollection && $trackCollection->getSize()): ?>
+        <table style="width:100%; border-collapse:collapse; text-align:center; background:#f9f9f9; border-radius:6px;">
+            <thead>
+                <tr style="background:#f2f2f2;">
+                    <th style="padding:8px; border:1px solid #ddd; font-size:14px;">Shipped By</th>
+                    <th style="padding:8px; border:1px solid #ddd; font-size:14px;">Tracking Number</th>
+                    <th style="padding:8px; border:1px solid #ddd; font-size:14px;">Tracking</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($trackCollection as $_item): ?>
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ddd;"><?= $block->escapeHtml($_item->getTitle()) ?></td>
+                        <td style="padding:8px; border:1px solid #ddd;"><?= $block->escapeHtml($_item->getNumber()) ?></td>
+                        <td style="padding:8px; border:1px solid #ddd;">
+                            <?php if ($block->getTrackingUrl() && $block->getTrackingUrl()->getUrl($_item) != ''): ?>
+                                <a href="<?= $block->escapeUrl($block->getTrackingUrl()->getUrl($_item)) ?>" 
+                                   style="color:#94ae2f; text-decoration:none; font-size:13px; pointer-events:none;">
+                                    <?= __('Track here') ?>
+                                </a>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
+<?php endif; ?>

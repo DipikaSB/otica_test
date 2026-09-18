@@ -1,0 +1,16 @@
+<?php
+/** @var $block \Magento\Catalog\Block\Product\View */
+$product = $block->getProduct();
+$brand = '';
+
+if ($product) {
+    // Replace 'brand' with your actual attribute code
+    $brand = $product->getAttributeText('brand');
+}
+
+if ($brand):
+?>
+    <div class="product-brand">
+        <strong>Brand:</strong> <?= $block->escapeHtml($brand) ?>
+    </div>
+<?php endif; ?>

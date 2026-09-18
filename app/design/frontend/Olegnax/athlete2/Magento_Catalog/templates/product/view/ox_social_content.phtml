@@ -1,0 +1,164 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+use Olegnax\Athlete2\Helper\Icons;
+use Magento\Catalog\Block\Product\View;
+
+/** @var $block \Magento\Catalog\Block\Product\View */
+
+$theme_helper = $this->helper(Olegnax\Athlete2\Helper\Icons::class);
+$at_settings = $theme_helper->getConfig('athlete2_settings/product');
+
+if (!$at_settings['product_social_block']) {
+    return;
+}
+
+$_helperImage = $this->helper('\Magento\Catalog\Helper\Image');
+$product = $block->getProduct();
+$productUrl = $product->getProductUrl();
+
+$icon = '';
+$iconfont = $theme_helper->getConfig('athlete2_design/appearance_icons_product/product_icon_share_fallback')
+    ? 'athlete2-icon-share'
+    : '';
+if (!$iconfont) {
+    $icon_option = 'athlete2_design/appearance_icons_product/product_icon_';
+    $icon = $theme_helper->getIconHTML('share', $icon_option);
+}
+$iconText = __('Share');
+?>
+
+<div class="product__social-share">
+    <div class="social-share__action ">
+        <span class="icon <?= $iconfont ?>"><?= $icon ?></span>
+        <span class="label"><?= $block->escapeHtml($iconText) ?></span>
+    </div>
+
+    <div class="social-share__content">
+
+        <!-- Copy Link -->
+        <a class="copy-link-btn" role="button">
+		    <i class="athlete2-icon-check"></i>
+		    <span class="copy-label"><?= $block->escapeHtml(__('Copy Link')) ?></span>
+		</a>
+
+        <!-- WhatsApp -->
+        <a target="_blank" class="ox-social-button"
+           href="https://api.whatsapp.com/send?<?= http_build_query([
+               'text' => $block->escapeUrl($productUrl)
+           ]) ?>">
+            <i class="athlete2-icon-whatsapp"></i>
+            <span><?= $block->escapeHtml(__('WhatsApp')) ?></span>
+        </a>
+
+        <!-- Facebook -->
+        <a target="_blank" class="ox-social-button"
+           href="https://www.facebook.com/sharer/sharer.php?<?= http_build_query([
+               'u' => $block->escapeUrl($productUrl)
+           ]) ?>">
+            <i class="athlete2-icon-facebook"></i>
+            <span><?= $block->escapeHtml(__('Facebook')) ?></span>
+        </a>
+
+        <!-- Instagram -->
+		<a target="_blank" class="ox-social-button"
+		   href="https://www.instagram.com/oticameditronixco/">
+		    <i class="athlete2-icon-instagram"></i>
+		    <span><?= $block->escapeHtml(__('Instagram')) ?></span>
+		</a>
+
+        <!-- Twitter / X -->
+        <a target="_blank" class="ox-social-button"
+           href="https://twitter.com/intent/tweet?<?= http_build_query([
+               'text' => $block->escapeHtmlAttr($product->getName()),
+               'url' => $block->escapeUrl($productUrl),
+           ]) ?>">
+            <i class="athlete2-icon-twitter"></i>
+            <span><?= $block->escapeHtml(__('Twitter')) ?></span>
+        </a>
+
+        <!-- Pinterest -->
+        <a target="_blank" class="ox-social-button"
+           href="http://pinterest.com/pin/create/button/?<?= http_build_query([
+               'url' => $block->escapeUrl($productUrl),
+               'media' => $block->escapeUrl($_helperImage->init($product, 'category_page_grid')->getUrl()),
+           ]) ?>">
+            <i class="athlete2-icon-pinterest"></i>
+            <span><?= $block->escapeHtml(__('Pinterest')) ?></span>
+        </a>
+
+        <?php if ($block->canEmailToFriend() && $at_settings['product_mailtosocial']): ?>
+            <a href="<?= $block->escapeUrl(
+                $this->helper('Magento\Catalog\Helper\Product')->getEmailToFriendUrl($product)
+            ) ?>"
+               class="ox-social-button action mailto friend">
+                <span><?= $block->escapeHtml(__('Email')) ?></span>
+            </a>
+        <?php endif; ?>
+
+    </div>
+</div>
+
+<!-- Copy to clipboard script -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const btn = document.querySelector('.copy-link-btn');
+    const icon = document.querySelector('.copy-link-btn .copy-icon');
+    const label = document.querySelector('.copy-link-btn .copy-label');
+
+    if (btn) {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault(); // stops any default behavior
+
+            navigator.clipboard.writeText("<?= $block->escapeUrl($productUrl) ?>")
+                .then(() => {
+
+                    // Change to success state
+                    label.textContent = "Copied";
+
+                    // Reset after 2 minutes
+                    setTimeout(function () {
+                        label.textContent = "Copy Link";
+                    }, 120000);
+
+                })
+                .catch(err => console.error(err));
+        });
+    }
+});
+</script>
+<style>
+a.copy-link-btn {
+    transition-delay: 60ms;
+    transform: translateY(0);
+    opacity: 1;
+    display: flex;
+    align-items: center;
+    line-height: 36px;
+    text-align: left;
+    height: 36px;
+    padding: 0 !important;
+    margin: 0 !important;
+    position: relative;
+    border: none;
+    color: currentColor !important;
+    transition: all .35sease;
+    will-change: transform;
+}
+
+.copy-link-btn .athlete2-icon-check {
+    font-size: 20px;
+    line-height: 1;
+    margin-right: 10px;
+}
+.copy-link-btn .copy-label {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0;
+}
+</style>
+

@@ -1,0 +1,59 @@
+<?php
+/** @var $block \Magento\Weee\Block\Item\Price\Renderer */
+
+$item = $block->getItem();
+$originalZone = $block->getZone();
+$block->setZone(\Magento\Framework\Pricing\Render::ZONE_CART);
+
+$product = $item->getProduct();
+
+/** Helpers */
+$priceHelper = $this->helper(\Magento\Framework\Pricing\Helper\Data::class);
+$coreHelper  = $this->helper(\Setblue\Core\Helper\Data::class);
+
+/** Prices */
+$regularPrice = (float) $product->getPrice();
+$finalPrice   = (float) $product->getFinalPrice();
+$percent      = $coreHelper->getCartItemDiscount($regularPrice, $finalPrice);
+?>
+
+<?php if ($percent > 0): ?>
+    <!-- CUSTOM DISCOUNT PRICE BLOCK -->
+    <div class="otica-price-main">
+        <span class="special-price">
+            <span class="price">
+                <?= $priceHelper->currency($finalPrice, true, false) ?>
+            </span>
+        </span>
+
+        <span class="old-price" style="text-decoration:line-through;color:#999;margin-left:8px;">
+            <?= $priceHelper->currency($regularPrice, true, false) ?>
+        </span>
+
+        <div class="discount-badge">
+            <?= $percent ?>% OFF
+        </div>
+    </div>
+
+<?php else: ?>
+
+    <!-- ONLY SHOW DEFAULT MAGENTO PRICE WHEN NO DISCOUNT -->
+    <?php if ($block->displayPriceInclTax() || $block->displayBothPrices()) : ?>
+        <span class="price-including-tax" data-label="<?= $block->escapeHtmlAttr(__('Incl. Tax')) ?>">
+            <span class="minicart-price">
+                <?= /* @noEscape */ $block->formatPrice($block->getUnitDisplayPriceInclTax()) ?>
+            </span>
+        </span>
+    <?php endif; ?>
+
+    <?php if ($block->displayPriceExclTax() || $block->displayBothPrices()) : ?>
+        <span class="price-excluding-tax" data-label="<?= $block->escapeHtmlAttr(__('Excl. Tax')) ?>">
+            <span class="minicart-price">
+                <?= /* @noEscape */ $block->formatPrice($block->getUnitDisplayPriceExclTax()) ?>
+            </span>
+        </span>
+    <?php endif; ?>
+
+<?php endif; ?>
+
+<?php $block->setZone($originalZone); ?>

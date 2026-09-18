@@ -1,0 +1,99 @@
+<?php /** @var $block \Setblue\GoogleReview\Block\ReviewList */ ?>
+<div class="google-review-grid">
+
+<?php foreach ($block->getReviews() as $review): ?>
+
+    <?php
+        $rating = floatval($review->getRating());
+        $reviewText = trim($review->getReviewText() ?? '');
+
+        // Condition: Only show 4 & 5 star reviews AND review text must not be empty
+        if ($rating < 4 || empty($reviewText)) {
+            continue;
+        }
+    ?>
+
+    <div class="google-review-card">
+
+        <!-- HEADER -->
+        <div class="review-header">
+            <img src="<?= $review->getAuthorThumbnail(); ?>"
+                 alt="<?= $review->getAuthorName(); ?>"
+                 class="review-avatar" />
+
+            <div class="review-author">
+                <strong><?= $review->getAuthorName(); ?></strong>
+
+                <!-- RATING -->
+                <div class="review-rating">
+                    <?php 
+                        $full   = floor($rating);
+                        $half   = ($rating - $full) >= 0.5 ? 1 : 0;
+                        $empty  = 5 - ($full + $half);
+
+                        echo str_repeat('⭐', $full);
+                        echo $half ? '⯨' : '';
+                        echo str_repeat('☆', $empty);
+                    ?>
+                </div>
+
+                <small>
+                <?php 
+                    $date = $review->getReviewDate();
+                    if ($date) {
+                        echo date('d M Y', strtotime($date));
+                    }
+                ?>
+                </small>
+            </div>
+        </div>
+
+        <!-- REVIEW TEXT -->
+        <div class="review-text short-text">
+            <?= nl2br($reviewText); ?>
+        </div>
+
+        <a class="review-toggle-btn">Read More</a>
+
+    </div>
+
+<?php endforeach; ?>
+
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    document.querySelectorAll(".google-review-card").forEach(function(card) {
+
+        let text = card.querySelector(".review-text");
+        let btn  = card.querySelector(".review-toggle-btn");
+
+        // Check if content exceeds 2 lines
+        let lineHeight = parseFloat(window.getComputedStyle(text).lineHeight);
+        let maxHeight = lineHeight * 2;
+
+        if (text.scrollHeight <= maxHeight) {
+            // Text is short → hide button
+            btn.style.display = "none";
+        }
+
+        // Toggle expand/collapse
+        btn.addEventListener("click", function () {
+            if (text.classList.contains("short-text")) {
+                text.classList.remove("short-text");
+                btn.textContent = "Read Less";   // FIXED
+            } else {
+                text.classList.add("short-text");
+                btn.textContent = "Read More";   // FIXED
+            }
+        });
+
+    });
+
+});
+</script>
+<style>
+.google-review-card .short-text {
+    display: -webkit-box;
+}
+</style>

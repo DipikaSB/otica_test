@@ -1,0 +1,31 @@
+<!--@subject {{trans "Warranty Request Received – Thank You "}} @-->
+{{template config_path="design/email/header_template"}}
+
+<p style="font-size:16px; color:#333;">
+    Dear {{var fname}} {{var lname}},
+</p>
+
+<p style="font-size:15px; color:#555;">
+    Thank you for submitting your warranty request. We have received your details and our quality assurance team is reviewing your submission.
+</p>
+
+<p style="font-size:15px; color:#555;">
+    <strong>Warranty Request Summary:</strong><br>
+    • Product Name: {{var product_name}}<br>
+    • Serial Number: {{var serial_no}}<br>
+    • Purchase Date: {{var purchase_date}}<br>
+</p>
+
+<p style="font-size:15px; color:#555;">
+    You will receive an update from us within 24–48 hours.
+</p>
+
+<p style="font-size:16px; margin-top:25px;">
+    Thank you for choosing us.<br>
+    We truly appreciate your trust in us.
+</p>
+
+{{template config_path="design/email/footer_template"}}
+
+
+

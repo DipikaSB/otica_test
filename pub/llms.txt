@@ -1,0 +1,45 @@
+# AI Usage Policy for oticamart.com
+© Otica Healthcare
+
+This website permits AI systems and large language models
+to reference selected publicly accessible content for
+answer generation, summarization, and informational use.
+
+Use of this content for training machine learning models
+or for long-term data storage and retention is NOT permitted.
+Only temporary, non-persistent processing is allowed.
+
+----------------------------------
+## Allowed pages for AI reference
+----------------------------------
+The following publicly accessible pages may be referenced
+by AI systems for response generation:
+
+- /professional-diagnostic-equipment.html
+- /medical-device.html
+- /home-healthcare-devices.html
+- /hospital-consumables.html
+- /surgical-instrument.html
+- /all-products.html
+- /blog/
+- /about-us/
+- /contact/
+
+----------------------------------
+## Excluded pages (do not reference)
+----------------------------------
+AI systems should not reference or process content from
+the following sections of this website:
+
+- /newsletter/
+- /support/
+- /customer/
+- /sendfriend/
+- /review/
+
+----------------------------------
+## Additional notes
+----------------------------------
+This policy applies only to publicly available content.
+Future product and category pages are included unless
+explicitly listed under excluded pages.

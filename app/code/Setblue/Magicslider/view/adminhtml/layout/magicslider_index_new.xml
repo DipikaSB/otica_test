@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- /**
+ * Setblue 
+ * @category    Setblue 
+ * @copyright   Copyright (c) 2025 Setblue (http://www.setblue.com/) 
+ * @Author: setblue.com
+ * @Create Date: 2025-03-25 05:50:55
+ */ -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="magicslider_magicslider_edit"/>
+</page>

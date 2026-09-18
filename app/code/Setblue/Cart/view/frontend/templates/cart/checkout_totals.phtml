@@ -1,0 +1,30 @@
+<?php
+$quote = $block->getQuote();
+$items = $quote->getAllVisibleItems();
+
+$totalDiscount = 0;
+
+foreach ($items as $item) {
+    $product = $item->getProduct();
+    $qty = (int)$item->getQty();
+
+    // Regular price
+    $regularPrice = (float)$product->getPrice();
+
+    // Special price
+    $specialPrice = (float)$product->getSpecialPrice();
+
+    // Check if special price is valid
+    if ($specialPrice > 0 && $specialPrice < $regularPrice) {
+        $finalPrice = $specialPrice;
+        $discount = ($regularPrice - $specialPrice) * $qty;
+        $totalDiscount += $discount;
+    }
+}
+?>
+
+<?php if ($totalDiscount > 0): ?>
+    <span class="discount-price-checkout" style="display: none;">
+        <?= $block->formatPrice($totalDiscount) ?>
+    </span>
+<?php endif; ?>

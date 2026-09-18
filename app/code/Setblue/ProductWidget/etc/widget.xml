@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="product_info_widget" class="Setblue\ProductWidget\Block\Widget\Productbysku">
+        <label>Product By SKU</label>
+        <description>Show configurable products by comma-separated SKUs</description>
+        <parameters>
+            <parameter name="sku" xsi:type="text" required="true" visible="true">
+                <label>Product SKU(s) (comma separated)</label>
+            </parameter>
+            <parameter name="template" xsi:type="text" visible="false">
+                <label>Template</label>
+                <value>Setblue_ProductWidget::product_by_sku.phtml</value>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

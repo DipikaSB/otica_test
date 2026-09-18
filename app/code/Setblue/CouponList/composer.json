@@ -1,0 +1,33 @@
+{
+ "name": "setblue/module-couponlist",
+ "description": "Coupon Listing extension",
+ "type": "magento2-module",
+ "version": "1.0.0",
+ "license": [
+   "OSL-3.0",
+   "AFL-3.0"
+ ],
+ "keywords": [
+   "magento 2",
+   "setblue",
+   "coupon list",
+   "coupon listing",
+   "coupon listing on cart page"
+ ],
+ "authors": [
+   {
+     "name": "Setblue",
+     "email": "support@setblue.com",
+     "homepage": "https://www.setblue.com",
+     "role": "Technical Support"
+   }
+ ],
+ "autoload": {
+   "files": [
+     "registration.php"
+   ],
+   "psr-4": {
+     "Setblue\\CouponList\\": ""
+   }
+ }
+}

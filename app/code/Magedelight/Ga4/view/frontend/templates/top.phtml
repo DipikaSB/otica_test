@@ -1,0 +1,43 @@
+<?php
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+
+/**
+ * @var $helper Magedelight\Ga4\Helper\Data
+ */
+
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+// phpcs:disable Magento2.Files.LineLength.MaxExceeded
+// phpcs:disable Magento2.Security.LanguageConstruct.DirectOutput
+?>
+
+<?php
+$helper = $block->dataHelper();
+$cookieConcent = $helper->getCookie();
+$accessible = 1;
+if ($helper->getGDPRStatus()) {
+    if (isset($cookieConcent)) {
+        $accessible = 1;
+    } else {
+        $accessible = 0;
+    }
+}
+?>
+<?php if ($helper->isGTMStatus() && $accessible == 1): ?>
+    <!-- Start of MageDelight GA4 Extension -->
+    <?php
+        $code = str_replace('<script>', '', $helper->getGTMJSCode());
+        $code = str_replace('</script>', '', $code);
+        $scriptString = <<<script
+        {$code}
+        script;?>
+    <?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>
+    <?php if ($helper->getGaStatus()): ?>
+        <?= /* @noEscape */ $helper->getGADRemarketing(); ?>
+        <?= /* @noEscape */ $helper->getGADJSCode(); ?>
+    <?php endif; ?>
+    <!-- End of MageDelight GA4 Extension -->
+<?php endif; ?>

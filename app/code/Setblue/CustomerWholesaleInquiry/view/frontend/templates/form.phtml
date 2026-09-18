@@ -1,0 +1,340 @@
+<div class="cls-msg message-success success message" style="display:none"></div>
+<?php $countryList=$block->getCountries();?>
+    <form data-mage-init='{"validation":{}}' class="cls-wholesale-inquiry-form" >
+        <h2>Bulk Enquiry</h2>
+        <div class="field fname required cls-filed">
+            <label class="label" for="fname"><span><?php /* @escapeNotVerified */ echo __('Full Name') ?></span></label>
+                <div class="control">
+                    <input type="text" id="fname" name="fname" value="" data-validate="{required:true, minlength:3, maxlength:33 ,'no-whitespace':true, 'letters-only':true}" data-msg-required="full name must be between 3 to 33 character" placeholder="Full Name">
+                </div>
+        </div>
+        <!-- <div class="field lname required cls-filed">
+            <label class="label" for="lname"><span><?php /* @escapeNotVerified */ //echo __('Last Name') ?></span></label>
+                <div class="control">
+                     <input type="text" id="lname" name="lname" value="" data-validate="{required:true, minlength:3, maxlength:33 ,'no-whitespace':true, 'letters-only':true}" data-msg-required="Last Name must be between 3 to 33 character" placeholder="Last Name">
+                </div>
+        </div> -->
+        <div class="field email required cls-filed">
+            <label class="label" for="email"><span><?php /* @escapeNotVerified */ echo __('Your Email') ?></span></label>
+                <div class="control">
+                      <input type="email" id="cls-email" name="cls-email" value="" data-validate="{required:true,'validate-email':true, 'no-whitespace':true}"data-msg-required="Please enter valid your Email" placeholder="Your Email">
+                </div>
+        </div>
+
+        <div class="field phone required cls-filed">
+            <label class="label" for="phone"><span><?php /* @escapeNotVerified */ echo __('Mobile/Whatsapp No.') ?></span></label>
+                <div class="control">
+                     <input type="number" id="phone" name="phone" value="" data-validate="{required:true, minlength:8, maxlength:11,'no-whitespace':true,'validate-number':true }"data-msg-required="mobile/whatsapp No. must be between 8 and 11 digit" placeholder="Mobile/Whatsapp No.">
+                </div>
+        </div>
+        <div class="field country required cls-filed">
+            <label class="label" for="country"><span><?php /* @escapeNotVerified */ echo __('Country') ?></span></label>
+                <div class="control">
+                    <?php echo $countryList?>
+                </div>
+        </div>
+        <div class="field productsku required cls-filed">
+            <label class="label" for="productsku"><span><?php /* @escapeNotVerified */ echo __('Product SKUs') ?></span></label>
+                <div class="control">
+                      <input type="text" id="productsku" name="productsku" value="" data-validate="{required:true, 'no-whitespace':true}"data-msg-required="Please Enter Product SKUs" placeholder="Product SKUs">
+                </div>
+                <item name="notice" xsi:type="string" translate="true"> (note - You may add multiple products; please ensure that a comma is included after each item.)</item><br><br>
+        </div>
+        <div class="field comment required cls-filed">
+            <label class="label" for="comment"><span><?php /* @escapeNotVerified */ echo __('Comment') ?></span></label>
+                <div class="control">
+                       <textarea id="comment" name="comment" rows="4" cols="50" data-validate="{required:true, 'validate-no-empty':true}" data-msg-required="Please give your valuable feedback" placeholder="Please share any specifics, constraints, or questions—our team will assist you promptly."></textarea>
+                </div>
+        </div>
+         <!-- Otp Sent code start -->
+        <button type="button" class="cod-varification-send-btn" id="but-otp-send-wholes" name="answer">Get Verification Code</button>
+        <div class="showcontrol" hidden>
+            <input type="text" name="verifytestotp" id="verifytestotp" class="enterotp cod-varification-code integer" placeholder="Enter Your 5 Digits OTP" maxlength="5" data-validate="{required:true, 'no-whitespace':true}">
+            <button type="button" id="wholes-verifiy-otp" name="Verifyotp-wholes" class="Verify opt-enter-btn">VERIFY</button>
+            <button type="button" id="but-otp-resend-wholes" name="resendotp" class="resendotp otp-resend-btn">RESEND OTP</button>
+            <span class="clsresendotpspan" style="display: none;"> RESEND OTP <span id="clsresendotptime" class="clsresendotptime">in  <strong>00:00s</strong> </span> </span>
+        </div>
+        <!-- Otp Sent code start -->
+        <div class="field country required cls-wholesale-inquiry" style="display:none;">
+                <div class="control">
+                       <button type="button" name="btn-wholesale-inquiry" id="btn-wholesale-inquiry" class="btn-wholesale-inquiry">Submit Requester</button>
+                </div>
+        </div>
+        <div class="messages">
+            <div class="message cls-otpmessaages">
+                <div></div>
+            </div>
+        </div>
+        <br>
+        <div class="cls-msg message-success success message" style="display:none"></div>
+    </form> 
+<script>
+requirejs(['jquery'], function($) {
+    $(document).ready(function() {
+    $('#field-id').bind('keyup', function(){
+        alert($(this).val());
+    });
+});
+/*contry name get start*/
+$(document).on('change','#country',function() {
+    var param = 'country='+jQuery('#country').val();
+    jQuery.ajax({
+        showLoader: true,
+        url: '<?php /* @escapeNotVerified */ echo $block->getCountryAction(); ?>',
+        data: param,
+        type: "GET",
+        dataType: 'json'
+         }).done(function (data) {
+            $('#state').empty();
+            if(data.value=='')
+            {
+                $('.field.states.required').show();
+                $('.field.region.required').hide();
+            }
+            else
+            {
+                $('#state').append(data.value);
+                $('.field.states.required').hide();
+                $('.field.region.required').show();
+            }
+         });
+    });
+
+function otpverify(){
+    showLoader: true;
+    $(".showcontrol").show();
+    var email_id = $('#cls-email').val();
+    var fname = $('#fname').val();
+    $.ajax({
+    url : '<?php /* @escapeNotVerified */ echo $block->SentOtp(); ?>',
+    type : 'POST',
+    data: {
+        email_id:email_id,
+        fname:fname
+    },
+    dataType:'json',
+    success : function(data) {
+        showLoader: false;
+        jQuery("#but-otp-send-wholes").hide();
+        jQuery("#but-otp-send-wholes").attr('disabled','disabled');
+        $(".cls-otpmessaages").show();
+        $(".cls-otpmessaages div").html('');
+        if(data['status'] == 1)
+        {
+           jQuery(".messages .cls-otpmessaages").removeClass('error');
+           jQuery(".messages .cls-otpmessaages").addClass("success");
+           jQuery(".messages .cls-otpmessaages div").html("OTP is sent to you on "+email_id+".");
+           setTimeout(function() { $(".cls-otpmessaages").hide(); }, 20000);
+        }
+        else
+        {
+            jQuery(".messages .cls-otpmessaages").removeClass('success');
+            jQuery(".messages .cls-otpmessaages").addClass("error");
+            var emailid = origin+'/checkout/#shipping';
+            jQuery(".messages .cls-otpmessaages div").html("Please try another Email Id. <span class='cls-editurl'><a title='Update Your Email Id' href='"+emailid+"'>Update Your Email Id</a></span>");
+            setTimeout(function() { $(".cls-otpmessaages").hide(); }, 60000);
+        }   
+    },
+        error : function(request,error)
+        {
+            alert("Error");
+        }
+    });    
+}
+/*contry name get end*/
+ /*save and sent mobile otp start */
+$("#but-otp-send-wholes").click(function(e){
+    $(".cls-msg").hide();
+    var data = $('.mage-error').text();
+    otpverify();
+});
+/*save and sent mobile otp end*/
+    let timerOn = true;
+    function timerResendOtp(remaining) {
+        console.log("comming in function");
+        var m = Math.floor(remaining / 60);
+        var s = remaining % 60;
+          
+        m = m < 10 ? '0' + m : m;
+        s = s < 10 ? '0' + s : s;
+        document.getElementById('clsresendotptime').innerHTML = 'in <strong>'+ m + ':' + s+'s</strong>';
+        remaining -= 1;  
+        if(remaining >= 0 && timerOn) {
+            setTimeout(function() {
+                timerResendOtp(remaining);
+            }, 1000);
+            return;
+        }
+        if(!timerOn) {
+            // Do validate stuff here
+            return;
+        }
+        // Do timeout stuff here
+        $("#but-otp-resend").show();
+        $(".clsresendotpspan").hide();
+        $("#but-otp-resend").removeAttr('disabled');
+    }
+     /* save and send email and mobile otp start*/
+        $(document).on("click","#but-otp-resend-wholes",function(){
+            showLoader: true;
+            let timerOn = true;
+            $("#but-otp-resend-wholes").html('Sending');
+            $("#but-otp-resend-wholes").attr('disabled','disabled');
+            $(".showcontrol").show();
+            var email_id = $('#cls-email').val();
+            var fname = $('#fname').val();
+            $.ajax({
+                url : '<?php /* @escapeNotVerified */ echo $block->ResentOtp(); ?>',
+                type : 'POST',
+                data: {
+                     email_id:email_id,
+                     fname:fname
+                },
+                dataType:'json',
+                success : function(data) {
+                    showLoader: false;
+                    $("#but-otp-resend-wholes").html('RESEND OTP');
+                    $(".cls-otpmessaages").show();
+                    $(".cls-otpmessaages div").html('');
+                    if(data['status'] == 1)
+                    {
+                        $("#but-otp-resend-wholes").hide();
+                        $(".clsresendotpspan").show();
+                        timerResendOtp(30);
+                       jQuery("#but-otp-resend-wholes").hide();
+                       jQuery(".messages .cls-otpmessaages").removeClass('error');
+                       jQuery(".messages .cls-otpmessaages").addClass("success");
+                       jQuery(".messages .cls-otpmessaages div").html("OTP is sent to you on "+email_id+".");
+                       setTimeout(function() { $(".cls-otpmessaages").hide(); }, 20000);
+                    }
+                    else
+                    {
+                        $("#but-otp-resend-wholes").removeAttr('disabled');
+                        jQuery(".messages .cls-otpmessaages").removeClass('success');
+                        jQuery(".messages .cls-otpmessaages").addClass("error");
+                        var emailid = origin+'/checkout/#shipping';
+                        jQuery(".messages .cls-otpmessaages div").html("Please try another Email Id. <span class='cls-editurl'><a title='Update Your Email Id' href='"+emailid+"'>Update Your Email Id</a></span>");
+                        setTimeout(function() { $(".cls-otpmessaages").hide(); }, 60000);
+                    }   
+                },
+                error : function(request,error)
+                {
+                    alert("Error");
+                }
+            });
+       
+       });
+       /*  save and send email and mobile oto end*/
+          /* COD verification code start*/
+       $(document).on("click","#wholes-verifiy-otp",function(){
+         var email_id = $('#cls-email').val();
+         var postotp = $('#verifytestotp').val();
+       if(postotp!=''){
+           $.ajax({
+                url : '<?php /* @escapeNotVerified */ echo $block->getVerification(); ?>',
+                type : 'POST',
+                data: {
+                    email_id:email_id,
+                    postotp:postotp
+                },
+                    dataType:'json',
+                    success : function(data) {    
+                        $(".cls-otpmessaages").show();
+                        $(".cls-otpmessaages div").html('');          
+                        if(data == 'Yes')
+                        {
+                            jQuery(".cls-wholesale-inquiry").show();
+                            jQuery(".messages .cls-otpmessaages").removeClass('error');
+                            jQuery(".messages .cls-otpmessaages").addClass("success");
+                            jQuery(".messages .cls-otpmessaages div").html("OTP is verified successfully. Kindly confirm your order.");
+                            $("#btn-wholesale-inquiry").prop("disabled",false);
+                            $("#cls-email").prop("disabled",true);
+                            setTimeout(function() { $(".cls-otpmessaages").hide(); }, 20000);
+                            jQuery(".otp-success").show();
+                            jQuery(".showcontrol").hide();
+                            jQuery(".resendotp").hide();
+                        }
+                        else
+                        {
+                            jQuery(".messages .cls-otpmessaages").removeClass('success');
+                            jQuery(".messages .cls-otpmessaages").addClass("error");
+                            jQuery(".messages .cls-otpmessaages div").html("You entered wrong OTP.");
+                            setTimeout(function() { $(".cls-otpmessaages").hide(); }, 20000);
+
+                        }
+                    },
+                    error : function(request,error)
+                    {
+                        $(".cls-otpmessaages").show();
+                        $(".cls-otpmessaages div").html('');
+                        jQuery(".messages .cls-otpmessaages").removeClass('success');
+                        jQuery(".messages .cls-otpmessaages").addClass("error");
+                        jQuery(".messages .cls-otpmessaages div").html("You entered wrong OTP.");
+                        setTimeout(function() { $(".cls-otpmessaages").hide(); }, 20000);
+                    }
+                });
+
+        }else{
+            jQuery(".messages .cls-otpmessaages").removeClass('success');
+            jQuery(".messages .cls-otpmessaages").addClass("error");
+            jQuery(".messages .cls-otpmessaages div").html("Please Enter OTP (5 Digits Only).");
+            setTimeout(function() { $(".cls-otpmessaages").hide(); }, 20000);
+        }
+       
+       });
+       /* COD verification code end*/
+       /*submit form*/
+        $(document).on("click","#btn-wholesale-inquiry",function(){
+         showLoader: true;
+         var fname = $('#fname').val();   
+         var lname = $('#lname').val(); 
+         var email_id = $('#cls-email').val();
+         var phone = $('#phone').val();
+         var country = $('#country').val();
+         var productsku = $('#productsku').val();
+         var comment = $('#comment').val();
+           $.ajax({
+                url : '<?php /* @escapeNotVerified */ echo $block->getforendSave(); ?>',
+                type : 'POST',
+                data: {
+                    fname:fname,
+                    lname:lname,
+                    email_id:email_id,
+                    phone:phone,
+                    country:country,
+                    productsku:productsku,
+                    comment:comment
+                    },
+                    dataType:'json',
+                    success : function(data) {          
+                        if(data.status == 1)
+                        {
+                           showLoader: false;
+                           $('#fname').val('');
+                           $('#lname').val('');
+                           $('#cls-email').val('');
+                           $('#phone').val('');
+                           $('#country').val('');
+                           $('#productsku').val('');
+                           $('#comment').val('');
+                           $('#verifytestotp').val('');
+                           $("#cls-email").prop("disabled",false);
+                           $(".cls-msg").show();
+                           $(".cls-otpmessaages").hide();
+                           $(".cls-msg").html(data.message);
+                           $("#btn-wholesale-inquiry").hide();
+                           $("#but-otp-send-wholes").show();
+                           $(".otp-resend-btn").show();
+                           $("#but-otp-send-wholes").removeAttr('disabled');
+                        }
+                        else
+                        {
+                            $(".cls-msg").val(data.message);
+
+                        }
+                    }
+                });
+       });
+});
+</script>
+

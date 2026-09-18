@@ -1,0 +1,62 @@
+<?php
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+// phpcs:disable Magento2.Files.LineLength.MaxExceeded
+// phpcs:disable Magento2.Security.LanguageConstruct.DirectOutput
+?>
+
+<?php $_helper = $block->dataHelper();
+$cookieConcent = $_helper->getCookie();
+$expiryTime = $_helper->getDataStorageExpiryTime();
+$accessible = 1;
+if ($_helper->getGDPRStatus()) {
+    if (isset($cookieConcent)) {
+        $accessible = 1;
+    } else {
+        $accessible = 0;
+    }
+}
+?>
+<?php if ($_helper->isGTMStatus() && $accessible == 1): ?>
+    <!-- Start of MageDelight GA4 Extension -->
+    <?php $scriptString = <<<script
+        require(['jquery','magedelight_gtagLayer', 'Magento_Customer/js/customer-data'],
+            function ($, mdPersL, customerData) {
+                $(document).ajaxComplete(function( event, xhr, settings ) {
+                    if (settings.url.search('/customer\/section\/load/') > 0) {
+                        var response = xhr.responseJSON;
+                        if (response.ga4) {
+                            var dataLayerData = $.parseJSON(response.ga4.datalayer);
+                            for (index in dataLayerData) {
+                                dataLayer.push({ ecommerce: null });
+                                window.dataLayer.push(dataLayerData[index]);
+                            }
+                        }
+                    }
+                });
+                var mdPersLOptions={'storageDataExpiryTime' : {$expiryTime}};
+                mdPersL.init(mdPersLOptions);
+            });
+    script;?>
+    <?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>
+    <?php if ($_helper->getPromotionTracking()): ?>
+        <?php $url = $this->getUrl('ga4/index/item');?>
+        <script type="text/x-magento-init">
+        {
+            "*": {
+                "Magedelight_Ga4/js/magedelight_ga4" : {
+                    "customurl" : "<?= $block->escapeJs($url); ?>",
+                    "view_promotion" : "<?= $block->escapeJs($_helper->GTMEventConfigured('view_promotion')); ?>",
+                    "select_promotion" : "<?= $block->escapeJs($_helper->GTMEventConfigured('select_promotion')); ?>"
+                }
+            }
+        }
+        </script>
+    <?php endif; ?>
+    <!-- End of MageDelight GA4 Extension -->
+<?php endif; ?>

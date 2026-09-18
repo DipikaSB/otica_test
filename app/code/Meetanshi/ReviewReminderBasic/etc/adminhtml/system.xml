@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="meetanshi" translate="label" class="meetanshi" sortOrder="100">
+            <label></label>
+        </tab>
+        <section id="admin_reviewreminderbasic" translate="label" type="text" sortOrder="23" showInDefault="1"
+                 showInWebsite="1" showInStore="1">
+            <label>Review Reminder</label>
+            <tab>meetanshi</tab>
+            <resource>Meetanshi_ReviewReminderBasic::reviewreminderbasic_configuration</resource>
+            <group id="config" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0"
+                   showInStore="0">
+                <label>Configuration</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0"
+                       showInStore="0">
+                    <label>Review Reminder</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                </field>
+                <field id="days" translate="label comment" type="text" sortOrder="10" showInDefault="1"
+                       showInWebsite="0" showInStore="0">
+                    <label>Send Email After X Days</label>
+                    <validate>validate-digits</validate>
+                    <comment><![CDATA[Enter "0" to send reminder Email as soon as the order is placed.]]></comment>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="sender" translate="label comment" type="select" sortOrder="15" showInDefault="1"
+                       showInWebsite="0" showInStore="0">
+                    <label>Email Sender</label>
+                    <comment><![CDATA[]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="order_status" translate="label comment" type="multiselect" sortOrder="20" showInDefault="1"
+                       showInWebsite="0" showInStore="0">
+                    <label>Order Status</label>
+                    <source_model>Magento\Sales\Model\Config\Source\Order\Status</source_model>
+                    <comment><![CDATA[Select order status(es) that will trigger the review reminder email. Hold Ctrl/Cmd to select multiple.]]></comment>
+                    <can_be_empty>1</can_be_empty>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+
+            </group>
+            <group id="thankyou" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0"
+                   showInStore="0">
+                <label>Thank You Email (After Review Submission)</label>
+                <field id="enable" translate="label comment" type="select" sortOrder="1" showInDefault="1"
+                       showInWebsite="0" showInStore="0">
+                    <label>Enable Thank You Email</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                    <comment><![CDATA[Send a Thank You email with coupon code when a customer submits a review.]]></comment>
+                </field>
+                <field id="coupon_code" translate="label comment" type="text" sortOrder="5" showInDefault="1"
+                       showInWebsite="0" showInStore="0">
+                    <label>Coupon Code</label>
+                    <comment><![CDATA[Enter the coupon code to include in the Thank You email. Create the corresponding Cart Price Rule in <strong>Marketing → Cart Price Rules</strong>.]]></comment>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="thankyou_sender" translate="label" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="0" showInStore="0">
+                    <label>Email Sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="thankyou_email_template" translate="label" type="select" sortOrder="15" showInDefault="1"
+                       showInWebsite="0" showInStore="0">
+                    <label>Email Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <comment><![CDATA[Default: "Review Thank You Email Template"]]></comment>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

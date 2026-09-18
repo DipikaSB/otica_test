@@ -1,0 +1,79 @@
+<?php
+
+$actionName = $block->getRequest()->getFullActionName();
+
+if ($actionName == 'cms_index_index') : ?>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MedicalBusiness",
+  "name": "Otica Healthcare Private Limited",
+  "image": "https://oticamart.com/media/logo/stores/7/otica-mart-logo_1.png",
+  "@id": "",
+  "url": "https://oticamart.com/",
+  "telephone": "+91 7575086880",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "B-16, Satyanarayan Industrial Estate, Behind Gorwa Water Tank, Gorwa",
+    "addressLocality": "Vadodara",
+    "postalCode": "390016",
+    "addressCountry": "IN"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 22.335598801884064,
+    "longitude": 73.16257563558237
+  },
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ],
+    "opens": "09:00",
+    "closes": "18:00"
+  },{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": "Sunday",
+    "opens": "10:00",
+    "closes": "14:00"
+  }],
+  "sameAs": [
+    "https://www.facebook.com/oticameditronics",
+    "https://x.com/oticameditronix",
+    "https://www.instagram.com/oticameditronixco/",
+    "https://www.youtube.com/channel/UCvt5DULxW6ArQ6phCaZVj1g",
+    "https://in.linkedin.com/company/otica-meditronix",
+    "https://in.pinterest.com/omeditronix/",
+    "https://oticamart.com/"
+  ]
+}
+</script>
+<?php endif; ?>
+<?php if ($actionName == 'contact_index_index') : ?>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "@id": "https://oticamart.com/contact/#contactpage",
+  "url": "https://oticamart.com/contact/",
+  "name": "Otica Meditronix"
+}
+</script>
+<?php endif; ?>
+<?php if ($actionName == 'cms_index_index' || $actionName == 'catalog_category_view' || ($actionName == 'cms_page_view')) : ?>
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Medical & Healthcare Products Supplier | Otica Healthcare" />
+<meta property="og:description" content="Otica Healthcare supplies medical, surgical, and hospital products for hospitals, clinics, and home care across India, USA, UK, Canada, Australia, and UAE." />
+<meta property="og:url" content="https://oticamart.com/" />
+<meta property="og:site_name" content="Otica Healthcare" />
+<meta property="og:image:alt" content="Otica Healthcare medical and hospital equipment supplier" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Medical & Healthcare Products Supplier | Otica Healthcare" />
+<meta name="twitter:description" content="Shop medical, surgical, and hospital supplies for hospitals, clinics, and home care. Trusted healthcare supplier across multiple countries." />
+<meta name="twitter:image" content="https://oticamart.com/media/logo/stores/7/otica-mart-logo_1.png" />
+<?php endif; ?>

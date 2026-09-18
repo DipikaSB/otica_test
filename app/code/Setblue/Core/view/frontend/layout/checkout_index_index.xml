@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Element/Layout/di.xsd">
+    <body>
+        <!-- Add the block to the checkout page -->
+        <referenceContainer name="content">
+            <block class="Setblue\Core\Block\Checkout\ShippingPrice" 
+                   name="shipping_price" 
+                   template="Setblue_Core::checkout/shipping-price.phtml"/>
+        </referenceContainer>
+    </body>
+</layout>

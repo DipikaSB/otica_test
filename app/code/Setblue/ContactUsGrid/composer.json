@@ -1,0 +1,21 @@
+{
+    "name": "setblue/module-contact-us-grid",
+    "description": "Admin Can Manage Contact Us details from backend.",
+    "type": "magento2-module",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "version": "1.0.2",
+    "require": {
+        "php": "~7.4.0|~8.1.0|~8.2.0|~8.3.0|~8.4.0"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Setblue\\ContactUsGrid\\": ""
+        }
+    }
+}

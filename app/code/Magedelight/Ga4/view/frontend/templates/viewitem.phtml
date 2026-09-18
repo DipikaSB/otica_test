@@ -1,0 +1,134 @@
+<?php
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+// phpcs:disable Magento2.Files.LineLength.MaxExceeded
+// phpcs:disable Magento2.Security.LanguageConstruct.DirectOutput
+?>
+
+<?php
+
+$helper = $block->dataHelper();
+$cookieConcent = $helper->getCookie();
+$accessible = 1;
+
+if ($helper->getGDPRStatus()) {
+    if (isset($cookieConcent)) {
+        $accessible = 1;
+    } else {
+        $accessible = 0;
+    }
+}
+if ($block->isGTMStatus() && $accessible == 1 && $helper->GTMEventConfigured('view_item')) {
+    $product = $block->getCurrentProduct();
+    if (isset($product)) {
+        $itemDetails = [];
+        $itemDetails['item_id'] = $helper->getProductIdentifier($product);
+        $itemDetails['item_name'] = $product->getName();
+        $itemDetails['affiliation'] = $helper->getNameOfAffilation();
+
+        if ($helper->isBrandEnabled()) {
+            $itemDetails['item_brand'] = $helper->getBrandData($product);
+        }
+        $catgeoryId = $helper->getCatIds($product->getCategoryIds());
+
+        if (!empty($catgeoryId)) {
+            $j = 1;
+            $countCategoryId = count($catgeoryId);
+            for ($i = 0; $i < $countCategoryId; $i++) {
+                if ($j > 1) {
+                    $itemDetails['item_category'.$i] = $catgeoryId[$i];
+                } else {
+                    $itemDetails['item_category'] = $catgeoryId[$i];
+                }
+                $j++;
+            }
+            $itemDetails['item_list_name'] = implode('/', $catgeoryId);
+            $productCategoryIds = $product->getCategoryIds();
+            $itemDetails['item_list_id'] = count($productCategoryIds) ? $productCategoryIds[0] : null;
+        }
+        
+        $itemDetails['price'] = $helper->getPriceFormat($product);
+        $itemDetails['quantity'] = 1;
+
+        $customAttribute = $helper->getProductCustomAttribute($product);
+        if (!empty($customAttribute)) {
+            foreach ($customAttribute as $key => $value) {
+                $itemDetails[$key] = $value;
+            }
+        }
+
+        $data = [];
+        $data['currency'] =$helper->getStoreCurrencyCode();
+        $data['value'] = $itemDetails['price'];
+        $data['items'][] = $itemDetails;
+        $block->setEventValues('event', 'view_item');
+        $block->setOrderPurchaseData($data);
+
+        $dataevent =[
+            'event' => 'view_item',
+            'ecommerce' => $data
+        ];
+
+        $helper->setTagManagerReportData($dataevent);
+
+        $clickRelatedItemData = $block->getClickRelatedItemData();
+        $clickUpsellItemData = $block->getClickUpsellItemData();
+
+        $finalItemData = [];
+
+        if (count($clickRelatedItemData)) {
+            $i = 1;
+            foreach ($clickRelatedItemData as $_product) {
+                $items = [];
+                $listname = 'Related Products';
+                $listname = $listname . ' ' . $_product->getName();
+                $label = 'related_products';
+                $items['item_name'] = $_product->getName();
+                $items['item_id'] = $product->getId();
+                if ($helper->isBrandEnabled()) {
+                    $items['item_brand'] = $helper->getBrandData($_product);
+                }
+                $items['price'] = $helper->getPriceFormat($_product);
+                $items['item_category'] = $helper->getCatIds($_product->getCategoryIds());
+                $items['list_name'] = $listname;
+                $items['position'] = $i;
+                $items['list_id'] = $label;
+                $items['currency'] = $helper->getCurrencyCode();
+                $finalItemData[] = $items;
+                $i++;
+            }
+        }
+
+        if (count($clickUpsellItemData)) {
+            $i = 1;
+            foreach ($clickUpsellItemData as $_product) {
+                $items = [];
+                $listname = 'Upsell Products';
+                $listName = $listname . ' ' . $_product->getName();
+                $label = 'upsell_products';
+                $items['item_name'] = $_product->getName();
+                $items['item_id'] = $helper->getCatIds($_product);
+                $items['price'] = $helper->getPriceFormat($_product);
+                $items['item_category'] = $helper->getCatIds($_product->getCategoryIds());
+                $items['list_name'] = $listname;
+                $items['position'] = $i;
+                $items['list_id'] = $label;
+                $finalItemData[] = $items;
+                $i++;
+            }
+        }
+
+        if (count($finalItemData)) {
+            $layerData = [];
+            $layerData['event'] = 'view_item_list';
+            $layerData['ecommerce'] = [];
+            $layerData['ecommerce']['items'] = $finalItemData;
+            $block->dataLayerOption('impressions', $layerData);
+        }
+    }
+}
+?>

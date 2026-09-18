@@ -1,0 +1,52 @@
+<?php
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+// phpcs:disable Magento2.Files.LineLength.MaxExceeded
+// phpcs:disable Magento2.Security.LanguageConstruct.DirectOutput
+?>
+
+<?php
+$cookieConcent = $block->dataHelper()->getCookie();
+$accessible = 1;
+if ($block->dataHelper()->getGDPRStatus()) {
+    if (isset($cookieConcent)) {
+        $accessible = 1;
+    } else {
+        $accessible = 0;
+    }
+}
+?>
+<?php if ($block->isGTMStatus() && $accessible == 1): ?>
+    <?php $eventObj = $block->getJsonDataEventLayer(); ?>
+    <!-- Start of MageDelight GA4 Extension -->
+    <?php $scriptString = <<<script
+        window.getStoreCookies = function(name) {
+            match = document.cookie.match(new RegExp(name + '=([^;]+)'));
+            if (match) return decodeURIComponent(match[1].replace(/\+/g, ' ')) ;
+        };
+
+        window.dataLayer = window.dataLayer || [];
+        if ({$eventObj} != '[[]]') {
+        var mdObj = {$eventObj}
+        for (var i in mdObj) {
+            window.dataLayer.push(mdObj[i]);
+        }
+        }
+        var obtainCookie = [{$block->getCookiesForEventJsCode()}];
+        obtainCookie.map(function(cookieName) {
+            var cookieValue = window.getStoreCookies(cookieName);
+            if (cookieValue) {
+                var mdObj = {};
+                mdObj[cookieName.replace('md_', '')] = cookieValue;
+                window.dataLayer.push(mdObj);
+            }
+        });
+    script;?>
+    <?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>
+    <!-- End of MageDelight GA4 Extension -->
+<?php endif; ?>

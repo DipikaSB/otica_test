@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="sparsh" translate="label" sortOrder="500">
+            <label>Sparsh Extensions</label>
+        </tab>
+        <section id="sparsh_search_auto_complete" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Ajax Search Autocomplete</label>
+            <tab>sparsh</tab>
+            <resource>Sparsh_SearchAutoComplete::search_auto_complete_config</resource>
+            <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General Configurations</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Ajax Search</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment>Enable/Disable Ajax Search Autocomplete.</comment>
+                </field>
+                <field id="search_delay" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Search Delay</label>
+                    <validate>validate-zero-or-greater integer</validate>
+                    <comment>Set search delay time.</comment>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="search_no_result" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Custom text when no results</label>
+                    <comment>Add custom text to display when no results are found.</comment>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="search_minimum_characters" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Minimum number of characters to search</label>
+                    <validate>validate-zero-or-greater integer</validate>
+                    <comment>Minimum number of characters which customer should enter to start auto complete.</comment>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+            </group>
+			<group id="product_settings" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Product Search Settings</label>
+                <field id="product_search_enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Product Search</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment>Enable/Disable Product Search.</comment>
+                    <depends>
+                        <field id="sparsh_search_auto_complete/general/enable">1</field>
+                    </depends>
+                </field>
+				<field id="product_search_maximum_items" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Maximum number of items displayed</label>
+                    <validate>validate-zero-or-greater integer</validate>
+                    <comment>Set the maximum number of items to display in autocomplete popup.</comment>
+                    <depends>
+                        <field id="sparsh_search_auto_complete/general/enable">1</field>
+                        <field id="product_search_enable">1</field>
+                    </depends>
+                </field>
+				<field id="product_search_display_fields" translate="label" type="multiselect" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Product Search Result Fields</label>
+                    <source_model>Sparsh\SearchAutoComplete\Helper\ProductFields</source_model>
+					<comment>Select fields to display in autocomplete popup.</comment>
+                    <depends>
+                        <field id="sparsh_search_auto_complete/general/enable">1</field>
+                        <field id="product_search_enable">1</field>
+                    </depends>
+                </field>
+				<field id="product_search_maximum_words_description" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Maximum number of words for product description</label>
+					<validate>validate-zero-or-greater integer</validate>
+                    <comment>Set maximum number of words to display for product description in autocomplete popup.</comment>
+                    <depends>
+                        <field id="sparsh_search_auto_complete/general/enable">1</field>
+                        <field id="product_search_enable">1</field>
+                    </depends>
+                </field>
+                <depends>
+                    <field id="sparsh_search_auto_complete/general/enable">1</field>
+                </depends>
+            </group>
+			<group id="category_search_settings" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Category Search Settings</label>
+                <field id="category_search_enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Category Search</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment>Enable/Disable Category Search.</comment>
+                    <depends>
+                        <field id="sparsh_search_auto_complete/general/enable">1</field>
+                    </depends>
+                </field>
+				<field id="category_search_maximum" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Maximum number of categories displayed</label>
+					<validate>validate-zero-or-greater integer</validate>
+                    <comment>Set maximum number of categories to display in autocomplete popup.</comment>
+                    <depends>
+                        <field id="sparsh_search_auto_complete/general/enable">1</field>
+                        <field id="category_search_enable">1</field>
+                    </depends>
+                </field>
+                <depends>
+                    <field id="sparsh_search_auto_complete/general/enable">1</field>
+                </depends>
+            </group>
+            <group id="cms_search_settings" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>CMS Search Settings</label>
+                <field id="cms_search_enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable CMS Search</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable/Disable CMS Search.</comment>
+                    <depends>
+                        <field id="sparsh_search_auto_complete/general/enable">1</field>
+                    </depends>
+                </field>
+                <field id="cms_search_maximum" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Maximum number of cms pages displayed</label>
+                    <validate>validate-zero-or-greater integer</validate>
+                    <comment>Set maximum number of cms pages to display in autocomplete popup.</comment>
+                    <depends>
+                        <field id="sparsh_search_auto_complete/general/enable">1</field>
+                        <field id="cms_search_enable">1</field>
+                    </depends>
+                </field>
+                <depends>
+                    <field id="sparsh_search_auto_complete/general/enable">1</field>
+                </depends>
+            </group>
+            <group id="popular_suggestion_settings" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Popular Suggestions Settings</label>
+                <field id="popular_suggestion_enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Popular Suggestions</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable/Disable Popular Suggestions.</comment>
+                    <depends>
+                        <field id="sparsh_search_auto_complete/general/enable">1</field>
+                    </depends>
+                </field>
+                <depends>
+                    <field id="sparsh_search_auto_complete/general/enable">1</field>
+                </depends>
+            </group>
+        </section>
+    </system>
+</config>

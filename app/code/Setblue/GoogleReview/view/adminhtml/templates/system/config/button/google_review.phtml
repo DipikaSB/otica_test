@@ -1,0 +1,45 @@
+<button id="<?= $block->getId() ?>" type="button">
+    <?= $block->escapeHtml($block->getButtonLabel()) ?>
+</button>
+
+<div class="sb-<?= $block->getId() ?>" style="display:none; margin-top:10px; padding:10px; background:#dff0d8; border:1px solid #d0e9c6; color:#3c763d; border-radius:4px;"></div>
+
+<script type="text/javascript">
+    require(['jquery'], function ($) {
+        $('#<?= $block->getId() ?>').on('click', function () {
+            var ajaxUrl = '<?= $block->getUrl("fetchbutton/listdata/googlereview") ?>';
+            var $msgBox = $('.sb-<?= $block->getId() ?>');
+
+            $.ajax({
+                url: ajaxUrl,
+                type: 'POST',
+                dataType: 'json',
+                showLoader: true,
+                data: {
+                    form_key: window.FORM_KEY
+                },
+                success: function (response) {
+                    var message = (response.message || 'Sync complete!') +
+                        ' | Inserted: <strong>' + (response.inserted || 0) + '</strong>' +
+                        ', Updated: <strong>' + (response.updated || 0) + '</strong>';
+
+                    $msgBox.html(message).show(); // Show immediately
+
+                    setTimeout(function () {
+                        $msgBox.hide(); // Hide after 3 seconds
+                    }, 10000);
+                },
+                error: function () {
+                    $msgBox
+                        .html('Something went wrong.')
+                        .css({ background: '#f2dede', color: '#a94442', borderColor: '#ebccd1' })
+                        .show();
+
+                    setTimeout(function () {
+                        $msgBox.hide();
+                    }, 5000);
+                }
+            });
+        });
+    });
+</script>

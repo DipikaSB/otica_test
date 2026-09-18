@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Setblue 
+ * @category    Setblue 
+ * @copyright   Copyright (c) 2025 Setblue (http://www.setblue.com/) 
+ * @Author: setblue.com
+ * @Create Date: 2025-03-25 05:50:55
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="admin">
+        <route id="magicslider" frontName="magicslider">
+            <module name="Setblue_Magicslider"/>
+        </route>
+    </router>
+</config>

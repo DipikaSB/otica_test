@@ -1,0 +1,59 @@
+#gtm-progressbar {
+    position: relative;
+    height: 3em;
+    overflow: hidden;
+    width: 50%;
+    max-width: 500px;
+    margin: 0 auto;
+    border: 1px solid #b2b2b2;
+    background: #FFF;
+    top: 57%;
+    .gtm-progress-label {
+        position: absolute;
+        left: 50%;
+        top: 10px;
+        font-weight: bold;
+    }
+    .ui-progressbar-value {
+        height: 100%;
+        background-color: #9dff8d;
+    }
+}
+#download_gtm_json {
+    display: none;
+    margin-left: 20px;
+}
+.admin__menu .item-ga4-root-commonlyvisible > a:before,
+.admin__menu .item-ga4-root.parent.level-0 .submenu > .submenu-title:before {
+  content: '';
+  background-image: url('@{baseDir}Magedelight_Ga4/images/ga4logo.svg');
+  background-repeat: no-repeat;
+  background-size: 22px;
+  background-position-x:left;
+  background-position-y: 0;
+  height: 22px;
+  display: inline-block;
+  padding: 0;
+  width: 22px;
+  margin-right: 8px;
+  float: left;
+}
+.config-nav-block .md_section_ga4 a:before {
+    content: '';
+    background-image: url('@{baseDir}Magedelight_Ga4/images/ga4logomenu.svg');
+    background-repeat: no-repeat;
+    background-size: 22px;
+    background-position-x:left;
+    background-position-y: 0;
+    height: 22px;
+    display: inline-block;
+    padding: 0;
+    width: 22px;
+    margin-right: 8px;
+    float: left;
+  }
+.config-nav-block .md_section_ga4 a{
+    span {
+        vertical-align: middle;
+    }
+}

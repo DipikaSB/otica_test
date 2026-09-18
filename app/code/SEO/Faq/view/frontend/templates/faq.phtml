@@ -1,0 +1,88 @@
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const faqContainers = document.querySelectorAll(".otica_faq");
+  if (!faqContainers.length) return;
+
+  faqContainers.forEach((faqContainer) => {
+    const headings = faqContainer.querySelectorAll('h3[data-content-type="heading"]');
+
+    headings.forEach((heading) => {
+      // Create + / - icon span only if not already added
+      let icon = heading.querySelector(".faq-toggle");
+      if (!icon) {
+        icon = document.createElement("span");
+        icon.classList.add("faq-toggle");
+        icon.textContent = "+";
+        heading.appendChild(icon);
+      }
+
+      heading.style.cursor = "pointer";
+
+      heading.addEventListener("click", () => {
+        const answer = heading.nextElementSibling;
+        const isOpen = answer && answer.style.display === "block";
+
+        // Close all answers in this faqContainer only
+        faqContainer.querySelectorAll('div[data-content-type="text"]').forEach(div => div.style.display = "none");
+        faqContainer.querySelectorAll(".faq-toggle").forEach(t => t.textContent = "+");
+        faqContainer.querySelectorAll('h5[data-content-type="heading"]').forEach(h => h.classList.remove("active"));
+
+        // Toggle current one
+        if (answer && !isOpen) {
+          answer.style.display = "block";
+          icon.textContent = "–";
+          heading.classList.add("active");
+        }
+      });
+    });
+  });
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const faqContainers = document.querySelectorAll(".otica_faq");
+  if (!faqContainers.length) return;
+
+  let faqData = [];
+
+  faqContainers.forEach(faqContainer => {
+    const questions = faqContainer.querySelectorAll('h3[data-content-type="heading"]');
+    questions.forEach(q => {
+      const questionText = q.textContent
+        .replace(/\+/g, '')   // remove "+"
+        .replace(/^\d+\.\s*/, '') // remove number prefix
+        .trim();
+
+      const answerDiv = q.nextElementSibling;
+      if (answerDiv && answerDiv.matches('div[data-content-type="text"]')) {
+        const answerText = answerDiv.textContent.trim();
+        if (questionText && answerText) {
+          faqData.push({
+            "@type": "Question",
+            "name": questionText,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": answerText
+            }
+          });
+        }
+      }
+    });
+  });
+
+  if (faqData.length > 0) {
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqData
+    };
+
+    // Inject schema into the page
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.text = JSON.stringify(faqSchema, null, 2);
+    document.head.appendChild(script);
+  }
+});
+</script>

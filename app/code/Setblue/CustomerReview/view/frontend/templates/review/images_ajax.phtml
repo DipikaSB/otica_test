@@ -1,0 +1,100 @@
+<?php
+/** @var \Setblue\CustomerReview\Block\Review\Images $block */
+
+$productId = $block->getData('product_id');
+$reviews = [];
+
+if ($productId) {
+    $reviews = $block->getReviewsWithImages($productId);
+}
+
+$imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'tiff', 'svg'];
+$videoExtensions = ['mp4', 'mov', 'avi', 'flv', 'wmv', 'mkv', 'webm', 'm4v', '3gp'];
+$baseUrl = $block->getBaseUrl();
+$loaderPath = $baseUrl . 'media/review/loading.gif';
+?>
+
+<?php if (!empty($reviews)): ?>
+    <!-- Gallery View -->
+    <div class="review-image-gallery">
+        <?php foreach ($reviews as $review):
+            $mediaPath = $review['review_image'] ?? '';
+            if (!$mediaPath) continue;
+
+            
+
+            $extension = strtolower(pathinfo($mediaPath, PATHINFO_EXTENSION));
+            $mediaUrl = $baseUrl . 'media/' . $mediaPath;
+            $escapemediaUrl = $escaper->escapeUrl($mediaUrl);
+            
+            $dataReviewId = $escaper->escapeHtmlAttr($review['review_id']);
+            $dataReviewTitle = $escaper->escapeHtmlAttr($review['title']);
+            $dataReviewNickname = $escaper->escapeHtmlAttr($review['nickname']);
+            $dataReviewDetail = $escaper->escapeHtmlAttr($review['detail']);
+
+            $createdAt = $review['created_at'];
+            $formattedDate = '';
+            if ($createdAt) {
+            $date = new \DateTime($createdAt);
+            $formattedDate = $date->format('n/j/y'); // e.g., 7/14/25
+            }
+            $dataReviewcreated = $escaper->escapeHtmlAttr($formattedDate);
+
+           $dataReviewRating = '';
+
+            foreach ($review['votes'] as $vote) {
+                switch ($vote['rating_id']) {
+                    case 1:
+                        $dataReviewQuality = $escaper->escapeHtmlAttr($vote['percent']);
+                        break;
+                    case 2:
+                        $dataReviewValue = $escaper->escapeHtmlAttr($vote['percent']);
+                        break;
+                    case 3:
+                        $dataReviewPrice = $escaper->escapeHtmlAttr($vote['percent']);
+                        break;
+                    case 5:
+                        $dataReviewRating = $escaper->escapeHtmlAttr($vote['percent']);
+                        break;
+                }
+            }
+
+           
+        ?>
+        <div class="review-image">
+            <?php if (in_array($extension, $imageExtensions)): ?>
+                <a href="#" class="review-details-trigger" 
+                data-review-id="<?= $dataReviewId ?>"
+                data-review-img="<?= $escapemediaUrl ?>"
+                data-review-title="<?= $dataReviewTitle ?>"
+                data-review-detail="<?= $dataReviewDetail ?>"
+                data-review-nickname="<?= $dataReviewNickname ?>"
+                data-review-date="<?= $dataReviewcreated ?>"
+                data-review-rating="<?= $dataReviewRating ?>"
+                >
+                    <img src="<?= $escapemediaUrl ?>" alt="Review Image" />
+                </a>
+            <?php elseif (in_array($extension, $videoExtensions)): ?>
+                <a href="#" class="review-details-trigger" 
+                data-review-id="<?= $dataReviewId ?>"
+                data-review-img="<?= $escapemediaUrl ?>"
+                data-review-title="<?= $dataReviewTitle ?>"
+                data-review-detail="<?= $dataReviewDetail ?>"
+                data-review-nickname="<?= $dataReviewNickname ?>"
+                data-review-date="<?= $dataReviewcreated ?>"
+                data-review-rating="<?= $dataReviewRating ?>"
+                >
+                <video controls playsinline>
+                    <source src="<?= $escapemediaUrl ?>" type="video/<?= $extension ?>" />
+                    <?= __('Your browser does not support the video tag.') ?>
+                </video>
+                </a>
+                
+            <?php endif; ?>
+        </div>
+        <?php endforeach; ?>
+    </div>
+
+<?php else: ?>
+    <p><?= __('No reviews with images found.') ?></p>
+<?php endif; ?>

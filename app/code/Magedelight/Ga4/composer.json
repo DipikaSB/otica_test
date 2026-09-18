@@ -1,0 +1,25 @@
+{
+  "name": "mage_delight/ga4",
+  "description": "Track your eCommerce business over Google Analytics with MageDelight's GA4 with GTM",
+  "require": {
+      "php": ">=5.6",
+      "mage_delight/base": "*"
+  },
+  "type": "magento2-module",
+  "license": "GPL-3.0",
+  "version": "1.1.7",
+  "authors": [
+    {
+      "name": "MD",
+      "email": "info@Magedelight.com"
+    }
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Magedelight\\Ga4\\": ""
+    }
+  }
+}

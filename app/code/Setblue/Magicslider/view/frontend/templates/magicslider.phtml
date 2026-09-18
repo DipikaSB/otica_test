@@ -1,0 +1,61 @@
+<?php
+if (!$this->getStatus()) return;
+
+$slider = $this->getSlider();
+if (!count($slider)) return;
+?>
+
+<div class="banner-slider preload <?php echo $this->getData('class') ?>">
+    <?php foreach ($slider as $index => $image): ?>
+        <?php $mobile = $image->getMobile(); ?>
+
+        <div class="item <?php echo $image->getmediaType() ?><?php if ($index > 0): ?> hide-until-slick<?php endif; ?>">
+            <a href="<?php echo isset($image['link']) ? $image['link'] : '#'; ?>">
+                <picture>
+
+                    <?php if ($mobile): ?>
+                        <!-- Desktop image -->
+                        <source
+                            media="(min-width: 768px)"
+                            srcset="<?php echo $image->getUrl(); ?>">
+                    <?php endif; ?>
+
+                    <!-- Mobile image (fallback) -->
+                    <img class="img-responsive"
+                         src="<?php echo $mobile ? $mobile->getUrl() : $image->getUrl(); ?>"
+                         alt="<?php echo __($image->getLabel()); ?>"
+                         title="<?php echo __($image->getLabel()); ?>"
+                         width="<?php echo $image->getWidth(); ?>"
+                         height="<?php echo $image->getHeight(); ?>"
+                         decoding="async" fetchpriority="high" loading="eager"  decoding="async" />
+                </picture>
+            </a>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+<style>
+.banner-slider.preload .hide-until-slick {
+    display: none;
+}
+</style>
+
+<script type="text/javascript">
+require(['jquery', 'slick'], function ($) {
+    $(document).ready(function () {
+        var $slider = $('.banner-slider');
+
+        $slider.on('init', function () {
+            $slider.removeClass('preload');
+        });
+
+        $slider.slick({
+            dots: true,
+            arrows: false,
+            autoplay: true,
+            autoplaySpeed: 3000,
+            infinite: true
+        });
+    });
+});
+</script>

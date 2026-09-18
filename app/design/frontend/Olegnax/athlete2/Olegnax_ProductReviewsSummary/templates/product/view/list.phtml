@@ -1,0 +1,150 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+// @codingStandardsIgnoreFile
+
+/** @var Magento\Review\Block\Product\View\ListView $block */
+$_items	 = $block->getReviewsCollection()->getItems();
+$format	 = $block->getDateFormat() ?: \IntlDateFormatter::SHORT;
+$imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'tiff', 'svg'];
+$videoExtensions = ['mp4', 'mov', 'avi', 'flv', 'wmv', 'mkv', 'webm', 'm4v', '3gp'];
+$mediaCount = 0;
+
+$settings = $this->helper('Olegnax\ProductReviewsSummary\Helper\Helper')->getConfig('olegnax_productreviewssummary/general');
+$summaryBlocksCount = 0;
+$summaryBlocksCount += $settings['rating_bystar_rating'];
+$summaryBlocksCount += $settings['rating_overall'];
+$summaryBlocksCount += $settings['write_btn_after'];
+$summaryBlocksCount += $settings['rating_breakdown'];
+?>
+<?php if ( count( $_items ) ): ?>
+	<div class="block review-list" id="customer-reviews">
+		<div class="block-title">
+			<strong><?= $block->escapeHtml( __( 'Customer Reviews' ) ) ?></strong>
+		</div>
+		<div class="block-content">
+			<div class="extended-review-summary-wrapper columns-<?= $summaryBlocksCount ?>">
+				<?= $block->getChildHtml( 'review_summary' ); ?>
+				<?= $block->getChildHtml( 'review_by_rating' ); ?>
+				<?= $block->getChildHtml( 'review_ratings_breakdown' ); ?>
+				<?= $block->getChildHtml( 'review_review_button' ); ?>
+			</div>
+			<div class="toolbar review-toolbar">
+				<?= $block->getChildHtml( 'toolbar' ) ?>
+			</div>
+			<ol class="items review-items">
+				<?php foreach ( $_items as $_review ): ?>
+					<li class="item review-item" itemscope itemprop="review" itemtype="http://schema.org/Review">
+						<?php
+		                    $mediaPath = $_review->getReviewImage();
+		                    $mediaUrl = $this->getBaseUrl() . 'media/';
+		                    $fullUrl = '';
+
+		                    $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'tiff', 'svg'];
+		                    $videoExtensions = ['mp4', 'mov', 'avi', 'flv', 'wmv', 'mkv', 'webm', 'm4v', '3gp'];
+
+		                    
+		                    if (!empty($mediaPath)) {
+		                        $extension = strtolower(pathinfo($mediaPath, PATHINFO_EXTENSION));
+		                        $fullUrl = $escaper->escapeUrl($mediaUrl . $mediaPath);
+		                    } else {
+		                        $extension = 'jpg'; // default type for placeholder
+		                        $fullUrl = $escaper->escapeUrl($mediaUrl . 'review/review-img.jpg');
+		                    }
+	                    ?>
+	                    <div class="review-image-video">
+	                        <?php if (in_array($extension, $imageExtensions)): ?>
+	                            <img src="<?= $fullUrl ?>" alt="Review Image" />
+	                        <?php elseif (in_array($extension, $videoExtensions)): ?>
+	                            <video controls playsinline>
+	                                <source src="<?= $fullUrl ?>" type="video/<?= $extension ?>">
+	                                Your browser does not support the video tag.
+	                            </video>
+	                        <?php else: ?>
+	                            <p>Unsupported media format.</p>
+	                        <?php endif; ?>
+	                    </div>
+						<div class="review-content-left">
+							<div class="review-details">
+								<p class="review-author">
+									<span class="review-details-label"><?= $block->escapeHtml( __( 'Review by' ) ) ?></span>
+									<strong class="review-details-value" itemprop="author"><?= $block->escapeHtml( $_review->getNickname() ) ?></strong>
+								</p>
+								<p class="review-date">
+									<span class="review-details-label"><?= $block->escapeHtml( __( 'Posted on' ) ) ?></span>
+									<time class="review-details-value" itemprop="datePublished" datetime="<?= $block->escapeHtmlAttr( $block->formatDate( $_review->getCreatedAt(), $format ) ) ?>"><?= $block->escapeHtml( $block->formatDate( $_review->getCreatedAt(), $format ) ) ?></time>
+								</p>
+							</div>
+							<?php if ( count( $_review->getRatingVotes() ) ): ?>
+								<div class="review-ratings">
+									<?php foreach ( $_review->getRatingVotes() as $_vote ): ?>
+										<div class="rating-summary item" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+											<span class="label rating-label"><span><?= $block->escapeHtml( $_vote->getRatingCode() ) ?></span></span>
+											<div class="rating-result" title="<?= $block->escapeHtmlAttr( $_vote->getPercent() ) ?>%">
+												<meta itemprop="worstRating" content = "1"/>
+												<meta itemprop="bestRating" content = "100"/>
+												<span style="width:<?= $block->escapeHtmlAttr( $_vote->getPercent() ) ?>%">
+													<span itemprop="ratingValue"><?= $block->escapeHtml( $_vote->getPercent() ) ?>%</span>
+												</span>
+											</div>
+										</div>
+									<?php endforeach; ?>
+								</div>
+							<?php endif; ?>
+						</div>
+						<div class="review-content-right">
+							<div class="review-title" itemprop="name"><?= $block->escapeHtml( $_review->getTitle() ) ?></div>
+							<div class="review-content" itemprop="description">
+								<?= nl2br( $block->escapeHtml( $_review->getDetail() ) ) ?>
+							</div>
+						</div>
+					</li>
+				<?php endforeach; ?>
+			</ol>
+			<?php if (count($_items) > 3): ?>
+				<div id="review-toggle-wrapper">
+				    <span id="toggle-reviews" class="show-more-btn">Show More</span>
+				</div>
+			<?php endif; ?>
+		</div>
+	</div>
+<?php endif; ?>
+<script type="text/javascript">
+require(['jquery', 'domReady!'], function ($) {
+
+    var maxReviews = 3; // Number of reviews to show first
+    var $reviews = $('.review-items .review-item');
+    var $btn = $('#toggle-reviews');
+
+    // Initially show only first 3
+    $reviews.hide().slice(0, maxReviews).show();
+
+    $btn.on('click', function () {
+
+        if ($btn.data('expanded')) {
+            // Collapse back to first 3
+            $reviews.hide().slice(0, maxReviews).show();
+            $btn.text('Show More');
+            $btn.data('expanded', false);
+        } else {
+            // Expand all
+            $reviews.show();
+            $btn.text('Show Less');
+            $btn.data('expanded', true);
+        }
+    });
+
+});
+</script>
+
+<style>
+.show-more-btn {
+    cursor: pointer;
+    color: #007bff;
+    font-weight: bold;
+    margin-top: 15px;
+    display: inline-block;
+}
+</style>

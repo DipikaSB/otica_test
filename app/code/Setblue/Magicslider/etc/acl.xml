@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--/**
+* Setblue 
+* @category    Setblue 
+* @copyright   Copyright (c) 2023 Setblue (http://www.setblue.com/) 
+* @Author: setblue.com
+* @Create Date: 2023-09-25 05:50:55
+*/
+ */ -->
+ 
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+	<acl>
+	    <resources>
+	        <resource id="Magento_Backend::admin">
+	        	<resource id="Setblue_Magicslider::setblue" title="Setblue" sortOrder="10">
+	        	    <resource id="Setblue_Magicslider::magicslider" title="Magicslider" sortOrder="10">
+	        	        <resource id="Setblue_Magicslider::magicslider_index" title="Setblue Magicslider" sortOrder="10" />
+	        	    </resource>
+	        	</resource>
+	            <resource id="Magento_Backend::stores">
+	                <resource id="Magento_Backend::stores_settings">
+	                    <resource id="Magento_Config::config">
+	                        <resource id="Setblue_Magicslider::config_magicslider" title="Setblue Magicslider" />
+	                    </resource>
+	                </resource>
+	            </resource>
+	        </resource>
+	    </resources>
+	</acl>
+</config>

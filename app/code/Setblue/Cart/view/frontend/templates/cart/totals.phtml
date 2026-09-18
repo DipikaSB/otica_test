@@ -1,0 +1,119 @@
+<?php
+$quote = $block->getQuote();
+$totals = $quote->getTotals();
+$items = $quote->getAllVisibleItems();
+$itemQtys = round($quote->getItemsQty());
+$storeId = $quote->getStoreId();
+$quote_currency_code = $quote->getQuoteCurrencyCode();
+$originalTotal = 0;
+$subtotal = 0;
+$totalDiscount = 0;
+
+foreach ($items as $item) {
+    $product = $item->getProduct();
+    $qty = (int)$item->getQty();
+
+    // Regular price
+    $regularPrice = (float)$product->getPrice();
+
+    // Special price
+    $specialPrice = (float)$product->getSpecialPrice();
+
+    // Check if special price is valid
+    if ($specialPrice > 0 && $specialPrice < $regularPrice) {
+        $finalPrice = $specialPrice;
+        $discount = ($regularPrice - $specialPrice) * $qty;
+        $totalDiscount += $discount;
+    }
+}
+
+$itemCountText = ($itemQtys == 1) ? '1 item' : $itemQtys . ' items';
+?>
+<div class="nc_cart_summary_main">
+    <div class="shopping-cart-totals server-rendered">
+        <div class="data table totals">
+      
+                <?php if (isset($totals['subtotal'])): ?>
+                    <div class="summary-price mybag-summary-price_total">
+                        <span><?= __('Estimated Total') ?></span>
+                        <span class="estimated-price-cart"><?= $block->formatCurrency($totals['subtotal']->getValue(), $quote_currency_code) ?></span>
+                        </div>
+                <?php endif; ?>
+
+                <div class="summary-price">
+                    <span><?= __('Original') ?></span>
+                    <span class="original-price"><?= $block->formatPrice($originalTotal) ?></span>
+                </div>
+
+                <?php if ($totalDiscount > 0): ?>
+                    <div class="summary-price">
+                        <span><?= __('Discount') ?></span>
+                        <span class="discount-price"><?= $block->formatPrice($totalDiscount) ?></span>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (isset($totals['subtotal'])): ?>
+                    <div class="summary-price">
+                        <span><?= __('Subtotal') ?></span>
+                        <span class="subtotal-price"><?= $block->formatCurrency($totals['subtotal']->getValue(), $quote_currency_code) ?></span>
+                    </div>
+                <?php endif; ?>
+
+                <div class="summary-price">
+                    <span><?= __('Delivery Charge') ?></span>
+                    <span class="delivery-price"><?= __('On Checkout') ?></span>
+                </div>
+                
+        </div>
+    </div>
+    <div class="nc-cart-tax-not">Tax & Shipping calculated at checkout.</div>
+    <ul class="checkout methods items checkout-methods-items">
+        <li class="item">
+            <?php if ($block->isPossibleOnepageCheckout()): ?>
+                <button type="button"
+                        class="action primary checkout<?= $block->isDisabled() ? ' disabled' : '' ?>"
+                        data-role="proceed-to-checkout"
+                        title="<?= $escaper->escapeHtmlAttr(__('Proceed to Checkout')) ?>"
+                        data-checkout-url="<?= $escaper->escapeUrl($block->getCheckoutUrl()) ?>"
+                        <?php if ($block->isDisabled()): ?>
+                            disabled="disabled"
+                        <?php endif; ?>>
+                    <span class="checkout-text-btn">
+                        <?= $escaper->escapeHtml(__('Checkout')) ?>
+                    </span>
+                    <span class="cart-items">
+                        <?= $escaper->escapeHtml($itemCountText) ?>
+                    </span>
+                </button>
+
+                <script>
+                    require([
+                        'jquery',
+                        'Magento_Checkout/js/proceed-to-checkout'
+                    ], function ($) {
+                        $(function () {
+                            var $button = $('[data-role="proceed-to-checkout"]');
+
+                            $button.off('click.ncCheckout').on('click.ncCheckout', function (event) {
+                                event.preventDefault();
+
+                                if ($(this).prop('disabled')) {
+                                    return false;
+                                }
+
+                                var checkoutUrl = $(this).data('checkout-url');
+
+                                if (checkoutUrl) {
+                                    window.location.href = checkoutUrl;
+                                }
+
+                                return false;
+                            });
+                        });
+                    });
+                </script>
+            <?php endif; ?>
+
+        </li>
+    </ul>
+</div>

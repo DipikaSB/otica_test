@@ -1,0 +1,96 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+// @codingStandardsIgnoreFile
+
+/**
+ * @var \Magento\Theme\Block\Html\Header\Logo $block
+ */
+/** @var array $at_settings */
+
+use Magento\Theme\ViewModel\Block\Html\Header\LogoSizeResolverInterface;
+use Olegnax\Athlete2\Helper\CssFiles;
+use Olegnax\Athlete2\Helper\Helper;
+use Olegnax\Athlete2\Model\Config\Backend\Image\Logo;
+
+$at_settings = $this->helper( Helper::class)->getModuleConfig('logo');
+/** @var CssFiles $_helper */
+$_helper = $this->helper( CssFiles::class);
+$OxlogoImage = '';
+if (isset($at_settings['logo_upload']) && !empty($at_settings['logo_upload'])) {
+    $OxlogoImage = $_helper->getBaseMediaUrl( Logo::UPLOAD_DIR) . "/" .
+                   $at_settings['logo_upload'];
+} else {
+    $OxlogoImage = $block->getLogoSrc();
+}
+$OxRetinalogoImage = '';
+if (isset($at_settings['logo_upload_retina']) && !empty($at_settings['logo_upload_retina'])) {
+    $OxRetinalogoImage = $_helper->getBaseMediaUrl( Logo::UPLOAD_DIR) . "/" . $at_settings['logo_upload_retina'];
+}
+$OxPrintlogoImage = $OxlogoImage;
+if (isset($at_settings['logo_upload_print']) && !empty($at_settings['logo_upload_print'])) {
+    $OxPrintlogoImage = $_helper->getBaseMediaUrl( Logo::UPLOAD_DIR) . "/" . $at_settings['logo_upload_print'];
+}
+
+/**
+ * @var LogoSizeResolverInterface|null $logoSizeResolver
+ */
+$logoSizeResolver = $block->getLogoSizeResolver();
+$logoWidth = $logoSizeResolver !== null && $logoSizeResolver->getWidth()
+    ? $logoSizeResolver->getWidth()
+    : $block->getLogoWidth();
+$logoHeight = $logoSizeResolver !== null && $logoSizeResolver->getHeight()
+    ? $logoSizeResolver->getHeight()
+    : $block->getLogoHeight();
+
+$logo_width = !empty($at_settings['logo_img_width']) ? $at_settings['logo_img_width'] : $logoWidth;
+$logo_height = !empty($at_settings['logo_img_height']) ? $at_settings['logo_img_height'] : $logoHeight;
+
+$OxLogoStyle = '';
+if ($logo_width || $logo_height) {
+    if ($logo_width) {
+        $OxLogoStyle .= 'max-width: ' . $block->escapeHtmlAttr($logo_width) . 'px;';
+    }
+    if ($logo_height) {
+        $OxLogoStyle .= 'max-height:' . $block->escapeHtmlAttr($logo_height) . 'px;';
+    }
+	if ($OxLogoStyle) {
+		$OxLogoStyle = '.logo__container .logo img{' . $OxLogoStyle . '}';
+		if (isset($secureRenderer)){
+			echo /* @noEscape */ $secureRenderer->renderTag('style', [], $OxLogoStyle, false);
+		} else{
+			echo /* @noEscape */ '<style>' .  $OxLogoStyle . '</style>';
+		}
+	}
+}
+$storeName = $block->getThemeName() ? $block->getThemeName() : $block->getLogoAlt();
+?>
+
+<a
+	class="logo"
+	href="<?= $block->escapeUrl($block->getUrl('')) ?>"
+	title="<?= $block->escapeHtmlAttr($storeName) ?>"
+	aria-label="store logo">
+
+    <picture>
+        <!-- Print Logo (only loads when printing) -->
+		<?php if ($OxPrintlogoImage) { ?>
+		<source srcset="<?= $block->escapeUrl($OxPrintlogoImage) ?>" media="print" />
+		<?php } ?>
+        <!-- Retina image -->
+		<?php if($OxRetinalogoImage): ?>
+		<source srcset="<?= $block->escapeUrl($OxRetinalogoImage) ?> 2x" media="(-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi)">
+		<?php endif; ?>
+
+		<img src="<?= $block->escapeUrl($OxlogoImage) ?>"
+		title="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"
+		alt="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"
+		data-ox-image
+		<?= $logo_width ? 'width="' . $block->escapeHtmlAttr($logo_width) . '"' : '' ?>
+		<?= $logo_height ? 'height="' . $block->escapeHtmlAttr($logo_height) . '"' : '' ?>
+			/>
+	</picture>
+
+</a>

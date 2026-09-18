@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Setblue
+ * Copyright(C) 04/2023 Setblue <ideveloper1990@gmail.com>
+ * @package Setblue_CustomerWholesaleInquiry
+ * @copyright Copyright(C) 2015 Setblue (ideveloper1990@gmail.com)
+ * @author Setblue <ideveloper1990@gmail.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Setblue_CustomerWholesaleInquiry" setup_version="1.0.1">
+    </module>
+</config>

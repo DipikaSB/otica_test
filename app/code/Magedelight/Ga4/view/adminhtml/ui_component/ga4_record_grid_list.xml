@@ -1,0 +1,174 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+-->
+
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">ga4_record_grid_list.ga4_record_grid_list_data_source</item>
+            <item name="deps" xsi:type="string">ga4_record_grid_list.ga4_record_grid_list_data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">ga4_records_columns</item>
+    </argument>
+
+    <dataSource name="ga4_record_grid_list_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider</argument>
+            <argument name="name" xsi:type="string">ga4_record_grid_list_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+             <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+
+     <container name="listing_top">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="template" xsi:type="string">ui/grid/toolbar</item>
+                <item name="stickyTmpl" xsi:type="string">ui/grid/sticky/toolbar</item>
+            </item>
+        </argument>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filterSearch name="fulltext" />
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="columnsProvider" xsi:type="string">ga4_record_grid_list.ga4_record_grid_list.ga4_records_columns</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">ga4_record_grid_list.ga4_record_grid_list.listing_top.bookmarks</item>
+                        <item name="namespace" xsi:type="string">current.filters</item>
+                    </item>
+                    <item name="templates" xsi:type="array">
+                        <item name="filters" xsi:type="array">
+                            <item name="select" xsi:type="array">
+                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</item>
+                                <item name="template" xsi:type="string">ui/grid/filters/elements/ui-select</item>
+                            </item>
+                        </item>
+                    </item>
+                    <item name="childDefaults" xsi:type="array">
+                        <item name="provider" xsi:type="string">ga4_record_grid_list.ga4_record_grid_list.listing_top.listing_filters</item>
+                        <item name="imports" xsi:type="array">
+                            <item name="visible" xsi:type="string">ga4_record_grid_list.ga4_record_grid_list.ga4_records_columns.${ $.index }:visible</item>
+                        </item>
+                    </item>
+                </item>
+                <item name="observers" xsi:type="array">
+                    <item name="column" xsi:type="string">column</item>
+                </item>
+            </argument>
+        </filters>
+        <massaction name="listing_massaction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">ga4_record_grid_list.ga4_record_grid_list.ga4_records_columns.ids</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/tree-massactions</item>
+                    <item name="indexField" xsi:type="string">id</item>
+                </item>
+            </argument>
+            <!-- Mass actions which you want to add in your grid-->
+            <action name="delete">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">delete</item>
+                        <item name="label" xsi:type="string" translate="true">Delete</item>
+                        <item name="url" xsi:type="url" path="ga4/grid/massdelete"/>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Delete</item>
+                            <item name="message" xsi:type="string" translate="true">Do you want to delete selected row record?</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+        </massaction>
+        <paging name="listing_paging">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">ga4_record_grid_list.ga4_record_grid_list.listing_top.bookmarks</item>
+                        <item name="namespace" xsi:type="string">current.paging</item>
+                    </item>
+                    <item name="selectProvider" xsi:type="string">ga4_record_grid_list.ga4_record_grid_list.ga4_records_columns.ids</item>
+                </item>
+            </argument>
+        </paging>
+    </container>
+
+    <columns name="ga4_records_columns">
+        <selectionsColumn name="ids">
+           <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="indexField" xsi:type="string">entity_id</item>
+                    <item name="sorting" xsi:type="string">desc</item>
+                   <item name="sortOrder" xsi:type="number">0</item>
+               </item>
+           </argument>
+       </selectionsColumn>
+
+       <column name="entity_id">
+           <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                  <item name="filter" xsi:type="string">text</item>
+                  <item name="sorting" xsi:type="string">desc</item>
+                  <item name="label" xsi:type="string" translate="true">ID</item>
+                  <item name="sortOrder" xsi:type="number">10</item>
+               </item>
+           </argument>
+       </column>
+       <column name="event_name">
+           <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="filter" xsi:type="string">text</item>
+                   <item name="sortable" xsi:type="boolean">false</item>
+                   <item name="label" xsi:type="string" translate="true">Event Name</item>
+                   <item name="sortOrder" xsi:type="number">20</item>
+               </item>
+           </argument>
+       </column>
+       <column name="user_email">
+           <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="filter" xsi:type="string">text</item>
+                   <item name="sortable" xsi:type="boolean">false</item>
+                   <item name="label" xsi:type="string" translate="true">User Email</item>
+                   <item name="sortOrder" xsi:type="number">20</item>
+               </item>
+           </argument>
+       </column>
+       <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date" >
+           <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="filter" xsi:type="string">dateRange</item>
+                   <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/date</item>
+                   <item name="dataType" xsi:type="string">date</item>
+                   <item name="label" xsi:type="string" translate="true">Created Date</item>
+                   <item name="sortOrder" xsi:type="number">60</item>
+               </item>
+           </argument>
+       </column>
+       <actionsColumn name="view_id" class="Magedelight\Ga4\Ui\Component\Listing\Column\ViewAction">
+         <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+               <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+               <item name="viewUrlPath" xsi:type="string">ga4/grid/view</item>
+               <item name="entity_id" xsi:type="string">id</item>
+            </item>
+         </argument>
+      </actionsColumn>
+    </columns>
+</listing>

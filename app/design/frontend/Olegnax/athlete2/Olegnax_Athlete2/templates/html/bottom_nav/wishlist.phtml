@@ -1,0 +1,10 @@
+<?php
+$helper = $this->helper(Olegnax\Athlete2\Helper\Icons::class);
+if('main' != $helper->getConfig('athlete2_settings/header/wishlist_position')){
+	return;
+}
+$hideText   =  $helper->getConfig( 'athlete2_settings/mobile_bottom_nav/bottom_nav_hide_text' );
+$text = $helper->getConfig( 'athlete2_settings/mobile_bottom_nav/bottom_nav_text_wishlist' ) ?: __('Wishlist');
+$icon_option   =  'athlete2_settings/mobile_bottom_nav/bottom_nav_icon_';
+$icon = $helper->getIconHTML('wishlist', $icon_option); // $name, $icon_option = '', $classes = ''
+?>

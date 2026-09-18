@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="page.actions.toolbar">
+            <block class="Phonepe\PG\Block\Adminhtml\Order\View\PhonePeRefund" name="phonepe_gateway_refund_button"/>
+            <block class="Phonepe\PG\Block\Adminhtml\Order\View\CheckStatusButton" name="phonepe_gateway_check_status_button"/>
+        </referenceContainer>
+    </body>
+</page>
+

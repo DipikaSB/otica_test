@@ -1,0 +1,17 @@
+<?php 
+if(!$block->isEnabled()){
+    return;
+}
+?>
+<div id="sb-freeshipping-val" style="display: none;"><?= $block->getFreeshipping(); ?></div>
+<div id="sb-website-code" style="display: none;"><?= $block->getWebsitecode(); ?></div>
+<div id="ox-shipping-bar" data-bind="scope:'ox-shipping-bar'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <script type="text/x-magento-init">
+        {
+            "#ox-shipping-bar": {
+                "Magento_Ui/js/core/app": <?php /* @escapeNotVerified */ echo $block->getJsLayout();?>
+            }
+        }
+    </script>
+</div>

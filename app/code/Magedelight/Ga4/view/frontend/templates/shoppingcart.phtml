@@ -1,0 +1,49 @@
+<?php
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+// phpcs:disable Magento2.Files.LineLength.MaxExceeded
+// phpcs:disable Magento2.Security.LanguageConstruct.DirectOutput
+?>
+
+<?php
+$helper = $block->dataHelper();
+$cookieConcent = $helper->getCookie();
+$accessible = 1;
+if ($helper->getGDPRStatus()) {
+    if (isset($cookieConcent)) {
+        $accessible = 1;
+    } else {
+        $accessible = 0;
+    }
+}
+if ($block->isGTMStatus() && $accessible == 1 && $helper->GTMEventConfigured('view_cart')) {
+    $code = $helper->getCurrencyCode();
+    $items = $helper->getCheckoutItems($this->getQuote());
+    $productCollection = [];
+    /*$productCollection['contentScope'] =
+    [
+        'step' => '1',
+        'option' => ''
+    ];*/
+    //$productCollection['products'] = $items;
+    //$productCollection['currency'] = $code;
+    $quote = $block->getQuote();
+    $data = [];
+    $data['currency'] = $code;
+    if ($quote->getGrandTotal()) {
+        $data['value'] = $block->getPurchaseAmount();
+    }
+    $data['items'] = $items;
+    $block->setEventValues('event', 'view_cart');
+    $block->setOrderPurchaseData($data);
+
+    if (!empty($items)) {
+        $dataevent =['event' => 'view_cart', 'ecommerce' => $data];
+        $helper->setTagManagerReportData($dataevent);
+    }
+} ?>

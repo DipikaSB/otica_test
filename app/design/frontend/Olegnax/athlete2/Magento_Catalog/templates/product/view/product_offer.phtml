@@ -1,0 +1,15 @@
+<?php
+/** @var \Magento\Catalog\Model\Product $_product */
+$_product = $block->getProduct();
+
+$offerContent = $_product->getData('product_offers');
+
+if ($offerContent): ?>
+    <div class="main_product_offer">
+        <div class="offer">
+            <h4><img src="<?= $block->getViewFileUrl('images/discount.png'); ?>" alt="Offers">Offers</h4>
+            <?= /* @noEscape */ $offerContent ?>
+        </div>
+    </div>
+<?php endif; ?>
+

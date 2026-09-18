@@ -1,0 +1,9 @@
+<?php
+
+use Magento\Framework\Component\ComponentRegistrar;
+
+ComponentRegistrar::register(
+    ComponentRegistrar::MODULE,
+    'Setblue_OrderCancelEmail',
+    __DIR__
+);

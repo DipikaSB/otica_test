@@ -1,0 +1,55 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+?>
+<?php $_shipment = $block->getShipment() ?>
+<?php $_order    = $block->getOrder() ?>
+<?php if ($_shipment && $_order) : ?>
+    <table class="email-items" style="border: none;">
+        <?php foreach ($_shipment->getAllItems() as $_item) : ?>
+            <?php
+                $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                $product = $objectManager->get('\Magento\Catalog\Model\ProductRepository')->get($_item->getSku());
+                $imageUrl = $block->getBaseUrl() . 'media/catalog/product' . $product->getData('small_image');
+                $options = $_item->getProductOptions();
+            ?>
+            <?php if (!$_item->getOrderItem()->getParentItem()) : ?>
+                <?php
+                    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                    $product = $objectManager->get('\Magento\Catalog\Model\ProductRepository')->get($_item->getSku());
+                    $imageUrl = $block->getBaseUrl() . 'media/catalog/product' . $product->getData('small_image');
+                ?>
+                <tr style="border-bottom:1px solid #ddd; padding:10px 0;">
+                    <!-- Image -->
+                    <td style="width:80px; padding:10px; padding-left: 0px;">
+                        <img src="<?= $imageUrl ?>" alt="<?= $block->escapeHtmlAttr($_item->getName()) ?>" width="100" style="border:1px solid #eee; display:block;" />
+                    </td>
+
+                    <!-- Product Info -->
+                    <td style="padding:10px; vertical-align:top;">
+                        <div style="font-weight:bold;"><?= $block->escapeHtml($_item->getName()) ?></div>
+                        <div style="color:#777;"><strong>SKU:</strong> <?= $block->escapeHtml($_item->getSku()) ?></div>
+                        <!-- Configurable Options in Label: Value format -->
+                        <?php if (!empty($options['attributes_info'])): ?>
+                            <div>
+                                <?php foreach ($options['attributes_info'] as $attribute): ?>
+                                    <div><strong><?= $block->escapeHtml($attribute['label']) ?>:</strong> <?= $block->escapeHtml($attribute['value']) ?></div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+                        <div style="color:#777;"><strong>Qty:</strong> <?= (int) $_item->getQty() ?></div>
+                    </td>
+                    <td>
+                </td>
+                    <!-- Price -->
+                    <td style="padding:10px; text-align:right; vertical-align:top; white-space:nowrap;">
+                        <?= $block->getOrder()->getOrderCurrency()->formatPrecision($_item->getPrice(), 2, [], false) ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </table>
+<?php endif; ?>

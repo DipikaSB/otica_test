@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Setblue
+ * Copyright(C) 04/2023 Setblue <ideveloper1990@gmail.com>
+ * @package Setblue_WholesaleInquiry
+ * @copyright Copyright(C) 2015 Setblue (ideveloper1990@gmail.com)
+ * @author Setblue <ideveloper1990@gmail.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/WholesaleInquiry_general_email_templates.xsd">
+    <template id="CustomerWholesaleInquiry_general_cls_email_template" label="verification"
+              file="CustomerWholesaleInquiry.html" type="html" module="Setblue_CustomerWholesaleInquiry" area="frontend"/>
+     <template id="reply_template" label="WholesaleInquiry of Quotation" file="admin.html" type="html" module="Setblue_CustomerWholesaleInquiry" area="adminhtml" />
+</config>

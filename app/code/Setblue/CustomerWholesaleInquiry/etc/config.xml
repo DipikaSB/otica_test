@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Setblue
+ * Copyright(C) 04/2023 Setblue <ideveloper1990@gmail.com>
+ * @package Setblue_CustomerWholesaleInquiry
+ * @copyright Copyright(C) 2015 Setblue (ideveloper1990@gmail.com)
+ * @author Setblue <ideveloper1990@gmail.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <CustomerWholesaleInquiry>
+            <general>
+                <enable>1</enable>
+                 <footerlink>1</footerlink>
+                 <email_sender>general</email_sender>
+                <cls_email_template>CustomerWholesaleInquiry_general_cls_email_template</cls_email_template>
+            </general>
+        </CustomerWholesaleInquiry>
+    </default>
+</config>

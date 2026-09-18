@@ -1,0 +1,4 @@
+###################################################################################################################
+Ashok : added following code to pub/.htaccess file for Store code wise open sitemap
+
+RewriteRule ^([a-z]{2})/(.+_sitemap\.xml|sitemap\.xml)$ /$2 [L,NC]

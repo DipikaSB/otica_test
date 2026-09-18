@@ -1,0 +1,29 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="products wrapper sb_product_by_collection sb_pdp_collection">
+        <h3 role="heading" aria-level="2" data-bind="text: label" class="heading" style="text-align: center;"></h3>
+        <div class="products-scroll-container">
+                <div class="product-items">
+                    <div class="item product product-item" repeat="foreach: filteredRows, item: '$row'">
+                        <div class="product-item-info image_hover_effects--zoom">
+                            <fastForEach args="data: getRegion('general-area'), as: '$col'" >
+                                <render args="$col.getBody()"></render>
+                            </fastForEach>
+
+                            <div class="product-item-details">
+                                <fastForEach args="data: getRegion('details-area'), as: '$col'" >
+                                    <render args="$col.getBody()"></render>
+                                </fastForEach>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>
+<!-- Optional binding -->
+<div data-bind="afterRender: addSlickSlider"></div>

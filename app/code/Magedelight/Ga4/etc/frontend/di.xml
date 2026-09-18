@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Customer\CustomerData\SectionPoolInterface">
+        <arguments>
+            <argument name="sectionSourceMap" xsi:type="array">
+                <item xsi:type="string" name="ga4">Magedelight\Ga4\CustomerData\TagManager\Ga4</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\App\FrontController">
+        <plugin name="ga4-cookie" type="Magedelight\Ga4\Plugin\ManagerCK" />
+    </type>
+    <type name="Magento\Framework\App\ActionInterface">
+        <plugin name="customersessiondata-to-context" type="Magedelight\Ga4\Plugin\CustomerSessionContext" sortOrder="15"/>
+    </type>
+</config>

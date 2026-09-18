@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="setblue_google_reviews" resource="default" engine="innodb" comment="Google Reviews">
+        <column xsi:type="int" name="id" nullable="false" identity="true" unsigned="true" comment="ID"/>
+        <column xsi:type="varchar" name="review_id" nullable="false" length="255" comment="Google Review ID"/>
+        <column xsi:type="varchar" name="author_name" nullable="true" length="255" comment="Reviewer Name"/>
+        <column xsi:type="varchar" name="author_thumbnail" nullable="true" length="500" comment="Thumbnail"/>
+        <column xsi:type="text" name="review_text" nullable="true" comment="Review Text"/>
+        <column xsi:type="decimal" name="rating" scale="1" precision="3" nullable="true" comment="Rating"/>
+        <column xsi:type="datetime" name="review_date" nullable="true" comment="Review Date"/>
+        <column xsi:type="text" name="raw_json" nullable="true" comment="Raw JSON"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+
+        <constraint xsi:type="unique" referenceId="UNQ_REVIEW_ID">
+            <column name="review_id"/>
+        </constraint>
+    </table>
+</schema>

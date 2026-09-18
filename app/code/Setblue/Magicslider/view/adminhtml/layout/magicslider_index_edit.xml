@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- /**
+ * Setblue 
+ * @category    Setblue 
+ * @copyright   Copyright (c) 2025 Setblue (http://www.setblue.com/) 
+ * @Author: setblue.com
+ * @Create Date: 2025-03-25 05:50:55
+ */ -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="styles"/>
+    <update handle="editor"/>
+    <!-- <update handle="magicslider_index_form"/> -->
+    <head>
+        <title>Magicslider</title>
+        <css src="jquery/fileUploader/css/jquery.fileupload-ui.css"/>
+    </head>
+    <body>
+        <referenceBlock name="menu">
+            <action method="setActive">
+                <argument name="itemId" xsi:type="string">Setblue_Magicslider::magicslider</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="page.main.actions">
+            <block class="Magento\Backend\Block\Store\Switcher" name="store_switcher">
+                <action method="setUseConfirm">
+                    <argument name="params" xsi:type="string">1</argument>
+                </action>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="content">
+        <block class="Setblue\Magicslider\Block\Adminhtml\Magicslider\Edit" name="magicslider_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+        <block class="Setblue\Magicslider\Block\Adminhtml\Magicslider\Edit\Tabs" name="magicslider_edit_tabs">
+            <block class="Setblue\Magicslider\Block\Adminhtml\Magicslider\Edit\Tab\Form" name="magicslider_edit_tab_form"/>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">main_section</argument>
+                <argument name="block" xsi:type="string">magicslider_edit_tab_form</argument>
+            </action>
+            <block class="Setblue\Magicslider\Block\Adminhtml\Magicslider\Edit\Tab\Images" name="magicslider_edit_tab_images"/>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">media_gallery</argument>
+                <!-- reqruie name is media_gallery -->
+                <argument name="block" xsi:type="string">magicslider_edit_tab_images</argument>
+            </action>
+
+            <block class="Setblue\Magicslider\Block\Adminhtml\Magicslider\Edit\Tab\Imagemobile" name="magicslider_edit_tab_images_for_mobile"/>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">media_gallery_mobile</argument>
+                <!-- reqruie name is media_gallery -->
+                <argument name="block" xsi:type="string">magicslider_edit_tab_images_for_mobile</argument>
+            </action>
+
+            <block class="Setblue\Magicslider\Block\Adminhtml\Magicslider\Edit\Tab\Responsive" name="magicslider_edit_tab_responsive"/>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">responsive_section</argument>
+                <argument name="block" xsi:type="string">magicslider_edit_tab_responsive</argument>
+            </action>
+            <block class="Setblue\Magicslider\Block\Adminhtml\Magicslider\Edit\Tab\Config" name="magicslider_edit_tab_config"/>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">config_section</argument>
+                <argument name="block" xsi:type="string">magicslider_edit_tab_config</argument>
+            </action>
+        </block>
+        </referenceContainer>
+    </body>
+</page>

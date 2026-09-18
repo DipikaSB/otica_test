@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+
+    <menu>
+
+        <!-- MAIN MENU (TOP LEVEL) -->
+        <add id="Setblue_Warranty::top_warranty"
+             module="Setblue_Warranty"
+             sortOrder="11"
+             title="Warranty"
+             resource="Setblue_Warranty::main"/>
+
+        <!-- WARRANTY LIST -->
+        <add id="Setblue_Warranty::warranty_list"
+             module="Setblue_Warranty"
+             parent="Setblue_Warranty::top_warranty"
+             title="List Of Customer Warranty"
+             action="warranty/index/index"
+             sortOrder="10"
+             resource="Setblue_Warranty::warranty_list"/>
+
+        <!-- CONFIGURATION -->
+        <add id="Setblue_Warranty::config"
+             module="Setblue_Warranty"
+             parent="Setblue_Warranty::top_warranty"
+             title="Configuration"
+             action="adminhtml/system_config/edit/section/Warranty"
+             sortOrder="30"
+             resource="Setblue_Warranty::config"/>
+
+    </menu>
+</config>

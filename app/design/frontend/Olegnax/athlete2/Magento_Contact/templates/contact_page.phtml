@@ -1,0 +1,77 @@
+<?php
+$_helper		 = $this->helper( 'Olegnax\Athlete2\Helper\CssFiles' );
+$theme_helper	 = $this->helper( 'Olegnax\Athlete2\Helper\Helper' );
+$at_settings	 = $theme_helper->getConfig( 'athlete2_settings/contacts_page' );
+$firstBlock		 = $at_settings[ 'first_block_type' ];
+$secondBlock	 = $theme_helper->getBlockTemplateProcessor( $at_settings[ 'second_block_content' ] );
+$contactsLayout	 = $at_settings[ 'contacts_layout' ];
+$secondBlockShow = $at_settings[ 'second_block_show' ];
+$thirdBlockShow	 = $at_settings[ 'third_block_show' ];
+$thirdBlock		 = $theme_helper->getBlockTemplateProcessor( $at_settings[ 'third_block_content' ] );
+switch ( $firstBlock ) {
+	case 'google_map':
+		$firstBlock = $this->getChildHtml( 'google_map' );
+		break;
+	case 'image':
+		if ( $contactsLayout === 'left-right' ) {
+			$firstBlock = '<div style="min-height:500px;">&nbsp;</div>';
+		} else {
+			$firstBlock = '<img src="' . $_helper->getBaseMediaUrl( Olegnax\Athlete2\Model\Config\Backend\Image\Logo::UPLOAD_DIR ) . "/" . $at_settings[ 'contacts_page_image' ] . '" />';
+		}
+		break;
+	case 'content':
+		$firstBlock	 = '<div class="contacts-first-block-inner"><p><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3690.4827076672914!2d73.16000607599435!3d22.335395341621094!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395fc603ee63c74d%3A0x561a0a5bb3f31ac6!2sOtica%20Healthcare%20Pvt.%20Ltd.%20%7C%20OticaMart%20%7C%20Otica%20Surgical%20Mall!5e0!3m2!1sen!2sus!4v1784194607414!5m2!1sen!2sus" height="450" width="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></p></div>';
+		break;
+	default:
+		$firstBlock	 = '';
+}
+
+if ( $contactsLayout === 'left-right' ) {
+	?>
+	<div class="contacts-wrapper">
+		<div class="row contacts-layout-split">
+			<?php if(!empty($firstBlock)) { ?>
+			<div class="col-md-6 contacts-first-block"><?= $firstBlock ?></div>
+			<?php } ?>
+			<div class="col-md-6 contacts-form-block">
+				<?php if ( $secondBlockShow ) {
+					echo '<div class="contacts-second-block">' . $secondBlock . '</div>';
+				} ?>
+				<?php echo $this->getChildHtml( 'contactForm' ) ?>
+			</div>
+
+			<?php if ( $thirdBlockShow ) {
+				echo '<div class="col-12 contacts-third-block">' . $thirdBlock . '</div>';
+			} ?>
+
+		</div>
+	</div>
+<?php } else { ?>
+	<div class="row contacts-layout-default">
+		
+		<div class="container">
+			<div class="row contacts-page-row">
+		<?php if ( $secondBlockShow ) { ?>
+			<div class="col-md-6 contacts-form-block">
+				<?php echo $this->getChildHtml( 'contactForm' ) ?>
+			</div>
+			<div class="col-md-6 contacts-second-block">
+			<?= $secondBlock ?>
+			</div>
+		<?php } else { ?>
+			<div class="col-md-12">
+			<?php echo $this->getChildHtml( 'contactForm' ) ?>
+			</div>
+		<?php } ?>
+				</div>
+		<div class="row">
+		<?php if ( $thirdBlockShow ) {
+			echo '<div class="col-12 contacts-third-block">' . $thirdBlock . '</div>';
+		} ?>
+		</div>
+		</div>
+		<?php if(!empty($firstBlock)) { ?>
+		<div class="col-md-12 contacts-first-block"><?= $firstBlock ?></div>
+		<?php } ?>
+	</div>
+<?php } ?>

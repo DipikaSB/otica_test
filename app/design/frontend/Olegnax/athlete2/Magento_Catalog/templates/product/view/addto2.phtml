@@ -1,0 +1,40 @@
+<?php
+/**
+ * Copyright © Magento, Inc.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Catalog\Block\Product\View */
+
+use Magento\Catalog\Block\Product\View;
+
+$helper = $this->helper('Olegnax\Athlete2\Helper\Helper');
+$actions_position = $helper->getConfig('athlete2_settings/product/actions_position');
+
+if ($actions_position == '2') : ?>
+    <div class="product-addto-links" data-role="add-to-links">
+        <?= $block->getChildHtml(); ?>
+    </div>
+<?php endif; ?>
+
+<?php
+// Get product object safely
+$_product = $block->getProduct();
+
+$productUrl  = $_product->getProductUrl();
+$productName = $_product->getName();
+
+$message = "Hi, I need help regarding this product:\n$productName\n$productUrl";
+$encodedMessage = urlencode($message);
+?>
+
+<div class="ask-me-query-mobile">
+    <a href="https://wa.me/917575086880?text=<?= $encodedMessage ?>"
+       target="_blank"
+       class="whatsapp-button">
+        <div class="whatsapp-button-link">
+            <i class="athlete2-icon-whatsapp"></i> Ask a Question
+        </div>
+    </a>
+</div>

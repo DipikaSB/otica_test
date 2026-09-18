@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+        <type name="Magento\Shipping\Block\Adminhtml\Order\Tracking">
+                <plugin name="carrier_options_backend_shipment"
+                type="Setblue\Shippingtracker\Plugin\Block\Adminhtml\Order\Tracking"
+                sortOrder="5"/>
+        </type>
+        <type name="Magento\Shipping\Controller\Adminhtml\Order\Shipment\Save">
+                <plugin name="setblue_customtracklink_plugin"
+                type="Setblue\Shippingtracker\Plugin\ShipmentSavePlugin" />
+        </type>
+        <preference for="Magento\Shipping\Controller\Adminhtml\Order\Shipment\AddTrack"
+                type="Setblue\Shippingtracker\Controller\Adminhtml\Order\Shipment\AddTrack"/>
+</config>

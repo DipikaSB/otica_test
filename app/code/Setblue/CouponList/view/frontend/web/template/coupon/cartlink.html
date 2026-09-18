@@ -1,0 +1,57 @@
+<div class="payment-option _collapsible opc-payment-additional couponlist"
+     data-bind="mageInit: {'collapsible':{'openedState': '_active', 'active': true}}">
+    <div class="payment-option-title field choice" data-role="title">
+        <span class="action action-toggle" id="block-discount-heading" role="heading" aria-level="2">
+            <!-- ko i18n: 'All coupons'--><!-- /ko -->
+        </span>
+    </div>
+
+<div class="payment-option-content" data-role="content" style="display:block">
+    <div id="coupon-list" class="coupon-list">
+        <div class="messages">
+            <!-- ko foreach: getRegion('messages') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+        <!-- ko if: itemList().length -->
+            <div class="list" data-bind="foreach: itemList">
+                <div class="coopen-box">
+                    <div class="coupon-description">
+                        <h4 class="m-0"><!-- ko text: $data.coupon --><!-- /ko --></h4>
+                        <div class="description" data-bind="css: {'read-more-description white-patch': $parent.readMoreElement() != $data.coupon && $data.description.length > 150 }">
+                            <p class="mb-0"><!-- ko text: $data.description --><!-- /ko --></p>
+                        </div>
+
+                        <!-- ko if: $data.description.length > 150 -->
+                            <a href="javascript:void(0);" class="read-more" data-bind="click: $parent.readMoreElement() != $data.coupon ? $parent.readMoreToggle : $parent.readLessToggle">
+                                <span data-bind="text: $parent.readMoreElement() != $data.coupon ? $t('Read More') : $t('Read Less')" />
+                            </a>
+                        <!-- /ko -->
+                    </div>
+                    <div class="actions primary">
+                    <!-- ko ifnot: ($parent.couponCode() != null ? $parent.couponCode().toLowerCase() : $parent.couponCode()) == ($data.coupon).toLowerCase() -->
+                        <button class="action action-apply" type="button" data-bind="value: $t('Apply'), click: $parent.applycoupon">
+                            <span><!-- ko i18n: 'Apply'--><!-- /ko --></span>
+                        </button>
+                    <!-- /ko -->
+                    <!-- ko if: ($parent.couponCode() != null ? $parent.couponCode().toLowerCase() : $parent.couponCode()) == ($data.coupon).toLowerCase() -->
+                        <button class="action action-cancel" type="button" data-bind="value: $t('Cancel'), click: $parent.cancelcoupon">
+                            <span><!-- ko i18n: 'Remove'--><!-- /ko --></span>
+                        </button>
+                    <!-- /ko -->
+                    </div>
+                </div>
+            </div>
+     
+        <!-- /ko -->
+
+        <!-- ko ifnot: itemList().length -->
+            <div class="no-items">
+                <span class="no-items">
+                    <!-- ko i18n: 'No Coupon codes available!' --><!-- /ko -->
+                </span>
+            </div>
+        <!-- /ko -->
+    </div>
+</div>
+</div>

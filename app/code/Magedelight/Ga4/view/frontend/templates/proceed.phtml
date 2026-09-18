@@ -1,0 +1,40 @@
+<?php
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+// phpcs:disable Magento2.Files.LineLength.MaxExceeded
+// phpcs:disable Magento2.Security.LanguageConstruct.DirectOutput
+
+?>
+
+<?php
+$helper = $block->dataHelper();
+$cookieConcent = $helper->getCookie();
+$accessible = 1;
+if ($helper->getGDPRStatus()) {
+    if (isset($cookieConcent)) {
+        $accessible = 1;
+    } else {
+        $accessible = 0;
+    }
+}
+if ($block->isGTMStatus() && $accessible == 1 && $helper->GTMEventConfigured('begin_checkout')) {
+    $code = $helper->getCurrencyCode();
+    $items = $helper->getCheckoutItems($this->getQuote());
+    $quote = $block->getQuote();
+    $data = [];
+    $data['currency'] = $code;
+    $data['value'] = $block->getPurchaseAmount();
+    $data['coupon'] = $quote->getCouponCode();
+    $data['items'] = $items;
+    $block->setEventValues('event', 'begin_checkout');
+    $block->setCheckoutPurchaseData($data);
+
+    $dataevent =['event' => 'begin_checkout','ecommerce'=> $data];
+    $helper->setTagManagerReportData($dataevent);
+
+} ?>

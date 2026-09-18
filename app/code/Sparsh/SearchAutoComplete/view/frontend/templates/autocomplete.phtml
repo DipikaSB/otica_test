@@ -1,0 +1,363 @@
+<?php /**@var Sparsh\SearchAutoComplete\Block\Autocomplete $block  */?>
+
+<div id="search-auto-complete" class="sparsh-search-auto-complete" style="display:none">
+    <div class="product-data" style="display:none">
+        <div class="sparsh-search-auto-complete-category" style="display:none">
+            <div class="title">
+                <?php echo __('Categories') ?>
+            </div>
+            <ul id="sparsh-search-auto-complete-category" role="listbox">
+
+            </ul>
+        </div>
+        <div class="sparsh-search-auto-complete-product" style="display:none">
+            <div class="title">
+                <?php echo __('Products') ?>
+                <a class="sparsh-search-auto-complete-product-see-all">
+                    <?php echo __('See All') ?>
+                    <span class="sparsh-search-auto-complete-product-see-all-size"></span>
+                </a>
+            </div>
+            <ul id="sparsh-search-auto-complete-product" role="listbox">
+
+            </ul>
+        </div>
+        <div class="sparsh-search-auto-complete-cms-pages" style="display:none">
+            <div class="title">
+                <?php echo __('CMS Pages') ?>
+            </div>
+            <ul id="sparsh-search-auto-complete-cms-pages" role="listbox">
+
+            </ul>
+        </div>
+        <div class="sparsh-search-auto-complete-suggest" style="display:none">
+            <div class="title"><?php echo __('Popular Suggestions') ?></div>
+            <ul id="sparsh-search-auto-complete-suggest" role="listbox">
+
+            </ul>
+        </div>
+    </div>
+    <div class="no-result" style="display: none;"><?php echo $block->escapeHtml($block->getSearchNoResultFoundText()) ?></div>
+</div>
+<script>
+    require(
+        [
+            'jquery',
+            'uiComponent'
+        ],
+        function(
+            $,
+            Component
+        ) {
+
+            if ($(window).width() < 768) {
+                $("#search_mini_form .search .label").click(function(){
+                  $("#search").toggle();
+                });
+            }
+
+            $("#search_mini_form .control").append('<div class="icon-container <?php if ($block->getTheme() == 'Magento/blank') {?>blank-theme-loader<?php } ?>" style="display:none;"><i class="loader"></i></div>');
+
+            var minCharacters = "<?php echo $block->escapeHtml($block->getSearchMinCharactersAutoComplete()) ?>";
+
+            var timeLapse = "<?php echo $block->getSearchDelayAutoComplete() ? $block->escapeHtml($block->getSearchDelayAutoComplete()) : 0 ?>";
+
+            $("#search_mini_form").unbind('input');
+
+            var timer = null;
+            $("#search").keyup(function(){
+                    clearTimeout(timer);
+                    if($("#search").val().length >= minCharacters){
+                        $("#search_mini_form .icon-container").show();
+                    }else{
+                        $("#search_mini_form .icon-container").hide();
+                        $("#search-auto-complete").hide();
+                    }
+                    timer = setTimeout(doneTyping, timeLapse)
+            });
+
+            function doneTyping () {
+                if($("#search").val().length < minCharacters){
+                    $("#search-auto-complete").hide();
+                    return false;
+                }
+
+                if($("#search").val().length >= minCharacters){
+                    $.ajax({
+                        url: "<?php echo $block->escapeUrl($block->getSearchPageUrl()) ?>",
+                        data: {q: $("#search").val()},
+                        dataType: "json",
+                        type: 'GET',
+                        success: function (response) {
+                            if(typeof response.result != 'undefined' && response.result.length > 0){
+                                SparshSearchAutoCompleteParseData(response.result);
+                            }else{
+                                $("#search_mini_form .icon-container").hide();
+                            }
+                        }
+                    });
+                    return false;
+                }else{
+                    $("#search-auto-complete").hide();
+                }
+            }
+
+            $(document).on("focusout","#search",function(){
+                if(!jQuery("#search-auto-complete").is(":hover")){
+                    $("#search-auto-complete").hide();
+                }
+            });
+
+            $(document).on("click",".autocompleteAddToCart",function(){
+                $(this).html('<span>Processing...</span>');
+                $.ajax({
+                    url: $(this).attr('data-form-url'),
+                    data: {product: $(this).attr('data-product-id'), uenc: $(this).attr('data-url-encoded'), form_key: $(this).attr('data-form-key')},
+                    dataType: "json",
+                    type: 'post',
+                    success: function (response) {
+                        $(this).html('<span>Add to Cart</span>');
+                        $("#search-auto-complete").hide();
+                        if(typeof response.backUrl != 'undefined'){
+                            window.location.href = response.backUrl;
+                        }
+                    }
+                });
+                return false;
+            });
+
+            function SparshSearchAutoCompleteParseData(result) {
+                var suggestCount = 0;
+                var productCount = 0;
+                var categoryCount = 0;
+                var cmsCount = 0;
+
+                var htmlSuggest = '';
+                var htmlProduct = '';
+                var htmlCategory = '';
+                var htmlCms = '';
+
+                $("#sparsh-search-auto-complete-suggest").html('');
+                $("#sparsh-search-auto-complete-product").html('');
+                $("#sparsh-search-auto-complete-category").html('');
+                $("#sparsh-search-auto-complete-cms-pages").html('');
+
+                $(".sparsh-search-auto-complete-suggest").hide();
+                $(".sparsh-search-auto-complete-product").hide();
+                $(".sparsh-search-auto-complete-category").hide();
+                $(".sparsh-search-auto-complete-cms-pages").hide();
+
+                result.forEach(function(res){
+                    if(res.code == 'suggest'){
+                        suggestCount = suggestCount + res.data.length;
+                        if(res.data.length > 0){
+                            res.data.forEach(function(suggestRes){
+                                htmlSuggest += '<li>';
+                                htmlSuggest += '<a href="'+suggestRes.url+'" title="'+suggestRes.title+'">';
+                                if(suggestRes.title.toLowerCase().indexOf($("#search").val().toLowerCase()) != -1){
+                                    var res = suggestRes.title.replace(eval("/"+$("#search").val()+"/i"), '<strong>'+$("#search").val()+'</strong>');
+                                    htmlSuggest += res+ '(<span>'+suggestRes.num_results+'</span>)';
+                                }else{
+                                    htmlSuggest += '<span>'+suggestRes.title+'</span> (<span>'+suggestRes.num_results+'</span>)';
+                                }
+
+                                htmlSuggest += '</a>';
+                                htmlSuggest += '</li>';
+                            });
+                            $("#sparsh-search-auto-complete-suggest").append(htmlSuggest);
+                        }else{
+                            htmlSuggest += '<li>';
+                            htmlSuggest += '<span><?php echo $block->escapeHtml($block->getSearchNoResultFoundText()) ?></span>';
+                            htmlSuggest += '</li>';
+                            $("#sparsh-search-auto-complete-suggest").append(htmlSuggest);
+                        }
+                        $(".sparsh-search-auto-complete-suggest").show();
+                    }
+                    if(res.code == 'category'){
+                        categoryCount = categoryCount + res.size;
+                        if(res.size > 0){
+                            Object.values(res.data).forEach(function(categoryRes){
+                                htmlCategory += '<li>';
+                                if(typeof categoryRes.parent_name != 'undefined' && categoryRes.parent_name != ''){
+                                    htmlCategory += '<span class="parent_name">'+categoryRes.parent_name+' > </span>';
+                                }
+                                htmlCategory += '<a href="'+categoryRes.path+'" title="'+categoryRes.name+'">';
+                                if(categoryRes.name.toLowerCase().indexOf($("#search").val().toLowerCase()) != -1){
+                                    var res = categoryRes.name.replace(eval("/"+$("#search").val()+"/i"), '<strong>'+$("#search").val()+'</strong>');
+                                    htmlCategory += res;
+                                }else{
+                                    htmlCategory += '<span>'+categoryRes.name+'</span>';
+                                }
+                                htmlCategory += '</a>';
+                                htmlCategory += '</li>';
+                            });
+                            $("#sparsh-search-auto-complete-category").append(htmlCategory);
+                        }else{
+                            htmlCategory += '<li>';
+                            htmlCategory += '<span><?php echo $block->escapeHtml($block->getSearchNoResultFoundText()) ?></span>';
+                            htmlCategory += '</li>';
+                            $("#sparsh-search-auto-complete-category").append(htmlCategory);
+                        }
+                        $(".sparsh-search-auto-complete-category").show();
+                    }
+                    if(res.code == 'cms'){
+                        cmsCount = cmsCount + res.size;
+                        if(res.size > 0){
+                            Object.values(res.data).forEach(function(cmsRes){
+                                htmlCms += '<li>';
+                                htmlCms += '<a href="'+cmsRes.url+'" title="'+cmsRes.title+'">';
+                                if(cmsRes.title.toLowerCase().indexOf($("#search").val().toLowerCase()) != -1){
+                                    var res = cmsRes.title.replace(eval("/"+$("#search").val()+"/i"), '<strong>'+$("#search").val()+'</strong>');
+                                    htmlCms += res;
+                                }else{
+                                    htmlCms += '<span>'+cmsRes.title+'</span>';
+                                }
+                                htmlCms += '</a>';
+                                htmlCms += '</li>';
+                            });
+                            $("#sparsh-search-auto-complete-cms-pages").append(htmlCms);
+                        }else{
+                            htmlCms += '<li>';
+                            htmlCms += '<span><?php echo $block->escapeHtml($block->getSearchNoResultFoundText()) ?></span>';
+                            htmlCms += '</li>';
+                            $("#sparsh-search-auto-complete-cms-pages").append(htmlCms);
+                        }
+                        $(".sparsh-search-auto-complete-cms-pages").show();
+                    }
+                    if(res.code == 'product'){
+                        productCount = productCount + res.data.length;
+                        if(res.data.length > 0){
+                            $(".sparsh-search-auto-complete-product-see-all").attr("href",res.url);
+                            $(".sparsh-search-auto-complete-product-see-all-size").text(res.size);
+                            $(".sparsh-search-auto-complete-product-see-all").show();
+                            res.data.forEach(function(productRes){
+                                htmlProduct += '<li>';
+                                if(productRes.image){
+                                    htmlProduct += '<div class="qs-option-image">';
+                                    htmlProduct += '<a href="'+productRes.url+'" title="'+productRes.name+'">';
+                                    htmlProduct += '<img src="'+productRes.image+'" title="'+productRes.name+'" />';
+                                    htmlProduct += '</a>';
+                                    htmlProduct += '</div>';
+                                }
+                                htmlProduct += '<div class="qs-option-info">';
+                                if(productRes.name){
+                                    htmlProduct += '<div class="qs-option-title">';
+                                    if(productRes.name.toLowerCase().indexOf($("#search").val().toLowerCase()) != -1){
+                                        var res = productRes.name.replace(eval("/"+$("#search").val()+"/i"), '<strong>'+$("#search").val()+'</strong>');
+                                        htmlProduct += '<a href="'+productRes.url+'" title="'+productRes.name+'">'+res+'</a>';
+                                    }else{
+                                        htmlProduct += '<a href="'+productRes.url+'" title="'+productRes.name+'">'+productRes.name+'</a>';
+                                    }
+                                    htmlProduct += '</div>';
+                                }
+                                if(productRes.reviews_rating){
+                                    htmlProduct += '<div class="qs-option-reviews">'+productRes.reviews_rating+'</div>';
+                                }
+                                if(productRes.sku){
+                                    if(productRes.sku.toLowerCase().indexOf($("#search").val().toLowerCase()) != -1){
+                                        var res = productRes.sku.replace(eval("/"+$("#search").val()+"/i"), '<strong>'+$("#search").val()+'</strong>');
+                                        htmlProduct += '<div class="qs-option-sku">SKU: '+res+'</div>';
+                                    }else{
+                                        htmlProduct += '<div class="qs-option-sku">SKU: <span>'+productRes.sku+'</span></div>';
+                                    }
+                                }
+                                if(productRes.short_description){
+                                    if(productRes.short_description.toLowerCase().indexOf($("#search").val().toLowerCase()) != -1){
+                                        var res = productRes.short_description.replace(eval("/"+$("#search").val()+"/i"), '<strong>'+$("#search").val()+'</strong>');
+                                        htmlProduct += '<div class="qs-option-shortdescription">'+res+'</div>';
+                                    }else{
+                                        htmlProduct += '<div class="qs-option-shortdescription">'+productRes.short_description+'</div>';
+                                    }
+                                }
+                                if(productRes.description){
+                                    if(productRes.description.toLowerCase().indexOf($("#search").val().toLowerCase()) != -1){
+                                        var res = productRes.description.replace(eval("/"+$("#search").val()+"/i"), '<strong>'+$("#search").val()+'</strong>');
+                                        htmlProduct += '<div class="qs-option-description">'+res+'</div>';
+                                    }else{
+                                        htmlProduct += '<div class="qs-option-description">'+productRes.description+'</div>';
+                                    }
+                                }
+                                if(productRes.price){
+                                    htmlProduct += '<div class="qs-option-price">'+productRes.price+'</div>';
+                                }
+
+                                if(productRes.add_to_cart){
+                                    htmlProduct += '<div class="qs-option-addtocart">';
+                                    htmlProduct += '<button type="button" title="Add to Cart" data-product-id="'+productRes.add_to_cart.productId+'" data-url-encoded="'+productRes.add_to_cart.urlEncoded+'" data-form-key="'+productRes.add_to_cart.formKey+'" data-form-url="'+productRes.add_to_cart.formUrl+'" class="action tocart primary autocompleteAddToCart">';
+                                    htmlProduct += '<span>Add to Cart</span>';
+                                    htmlProduct += '</button>';
+                                    htmlProduct += '</div>';
+                                }
+                                htmlProduct += '</div>';
+                                htmlProduct += '</li>';
+                            });
+                            $("#sparsh-search-auto-complete-product").append(htmlProduct);
+                        }else{
+                            $(".sparsh-search-auto-complete-product-see-all").hide();
+                            htmlProduct += '<li>';
+                            htmlProduct += '<span><?php echo $block->escapeHtml($block->getSearchNoResultFoundText()) ?></span>';
+                            htmlProduct += '</li>';
+                            $("#sparsh-search-auto-complete-product").append(htmlProduct);
+                        }
+                        $(".sparsh-search-auto-complete-product").show();
+                    }
+                });
+                var sum = suggestCount + productCount + categoryCount + cmsCount;
+                if (sum > 0)
+                {
+                    $(".product-data").show();
+                    $(".no-result").hide();
+
+                }else{
+                    $(".no-result").show();
+                    $(".product-data").hide();
+                }
+
+                $("#search_mini_form .icon-container").hide();
+                $("#search-auto-complete").show();
+            }
+
+        }
+    );
+
+    function loadFromLocalSorage(queryText) {
+        if (!this.localStorage) {
+            return;
+        }
+
+        var hash = this._hash(queryText);
+        var data = this.localStorage.getItem(hash);
+
+        if (!data) {
+            return false;
+        }
+
+        return JSON.parse(data);
+    }
+
+    function saveToLocalSorage(data, queryText) {
+        if (!this.localStorage) {
+            return;
+        }
+
+        var hash = this._hash(queryText);
+
+        this.localStorage.removeItem(hash);
+        this.localStorage.setItem(hash, JSON.stringify(data));
+    }
+
+    function _hash(object) {
+        var string = JSON.stringify(object) + "";
+
+        var hash = 0, i, chr, len;
+        if (string.length == 0) {
+            return hash;
+        }
+        for (i = 0, len = string.length; i < len; i++) {
+            chr = string.charCodeAt(i);
+            hash = ((hash << 5) - hash) + chr;
+            hash |= 0;
+        }
+        return 'searchautocomplete_h' + hash;
+    }
+</script>

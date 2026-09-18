@@ -1,0 +1,83 @@
+<?php
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+// phpcs:disable Magento2.Files.LineLength.MaxExceeded
+// phpcs:disable Magento2.Security.LanguageConstruct.DirectOutput
+?>
+
+<?php
+$helper = $block->dataHelper();
+$cookieConcent = $helper->getCookie();
+$accessible = 1;
+if ($helper->getGDPRStatus()) {
+    if (isset($cookieConcent)) {
+        $accessible = 1;
+    } else {
+        $accessible = 0;
+    }
+}
+
+if ($block->isGTMStatus() && $accessible == 1 && $helper->GTMEventConfigured('view_item_list')) {
+    $collection = $block->getProductCollection();
+    $category = $helper->getCurrentCategory();
+    $currentCategory = $helper->getCurrentCat($category);
+    if (count($collection)) {
+        $categoryListings = [];
+        $k = 0;
+        $data = [];
+        $data['item_list_id'] =$category->getId();
+        $data['item_list_name'] = implode('/', $currentCategory);
+        foreach ($collection as $product) {
+            $categoryListing = [];
+            $categoryListing['item_id'] = $helper->getProductIdentifier($product);
+            $categoryListing['item_name'] = $product->getName();
+            $categoryListing['affiliation'] = $helper->getNameOfAffilation();
+            $categoryListing['index'] = $k;
+            if ($helper->isBrandEnabled()) {
+                $categoryListing['item_brand'] = $helper->getBrandData($product);
+            }
+
+            $currentCategory = $helper->getCatIds($product->getCategoryIds());
+            if (!empty($currentCategory)) {
+                $j = 1;
+                $countCurrentCategory = count($currentCategory);
+                for ($i = 0; $i < $countCurrentCategory; $i++) {
+                    if ($j > 1) {
+                        $categoryListing['item_category'.$i] = $currentCategory[$i];
+                    } else {
+                        $categoryListing['item_category'] = $currentCategory[$i];
+                    }
+                    $j++;
+                }
+
+                $categoryListing['item_list_id'] = $category->getId();
+                $categoryListing['item_list_name'] = implode('/', $currentCategory);
+
+            }
+
+
+            $categoryListing['price'] = $helper->getPriceFormat($product);
+
+            $customAttribute = $helper->getProductCustomAttribute($product);
+            if (!empty($customAttribute)) {
+                foreach ($customAttribute as $key => $value) {
+                    $categoryListing[$key] = $value;
+                }
+            }
+
+            $categoryListings[] = $categoryListing;
+            $k++ ;
+        }
+        $data['items'] = $categoryListings;
+        $block->setEventValues('event', 'view_item_list');
+        $block->setOrderPurchaseData($data);
+        $dataEvent =['event' => 'view_item_list','ecommerce' => $data];
+        $helper->setTagManagerReportData($dataEvent);
+    }
+}
+?>

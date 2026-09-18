@@ -1,0 +1,14 @@
+<div id="gst-number">
+    <strong><?= __('GST Number') ?>:</strong>
+    <br/>
+    <span class="price"><?= $block->getGstNumber() ?></span>
+</div>
+<script type="text/javascript">
+    require(
+        ['jquery'],
+        function($) {
+            var element = $('#gst-number').detach();
+            $('.box-order-shipping-method').append(element);
+        }
+    );
+</script>

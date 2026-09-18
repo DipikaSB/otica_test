@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Checkout\Model\ShippingInformationManagement">
+        <plugin name="magedelight_ga4_shippingcheckoutinfo"
+                type="Magedelight\Ga4\Plugin\CheckoutShippingData"/>
+    </type>
+    <type name="Magento\Checkout\Model\PaymentInformationManagement">
+        <plugin name="magedelight_ga4_paymentcheckoutinfo"
+                type="Magedelight\Ga4\Plugin\CheckoutPaymentData"/>
+    </type>
+    <type name="Magento\Checkout\Model\GuestPaymentInformationManagement">
+        <plugin name="magedelight_ga4_paymentcheckoutguestinfo"
+                type="Magedelight\Ga4\Plugin\GuestCheckoutPaymentData"/>
+    </type>
+
+    <virtualType name="Magedelight\Ga4\Model\ResourceModel\Gtag\Gtag\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">magedelight_ga4</argument>
+            <argument name="resourceModel" xsi:type="string">Magedelight\Ga4\Model\ResourceModel\Gtag</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="ga4_record_grid_list_data_source" xsi:type="string">Magedelight\Ga4\Model\ResourceModel\Gtag\Gtag\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

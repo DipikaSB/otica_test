@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Ecomteck
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Ecomteck.com license that is
+ * available through the world-wide-web at this URL:
+ * https://ecomteck.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Ecomteck
+ * @package     Ecomteck_GuestToCustomer
+ * @copyright   Copyright (c) 2019 Ecomteck (https://ecomteck.com/)
+ * @license     https://ecomteck.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <ecguesttocustomer>
+            <general>
+                <active>1</active>
+                <customer_dashboard>1</customer_dashboard>
+                <merge_customer_already_exists>1</merge_customer_already_exists>
+                <auto_convert_guest_to_customer>1</auto_convert_guest_to_customer>
+                <assign_order_address_to_customer>1</assign_order_address_to_customer>
+            </general>
+            <merge>
+                <name>1</name>
+            </merge>
+        </ecguesttocustomer>
+    </default>
+</config>

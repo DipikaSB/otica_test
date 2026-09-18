@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Setblue_Cart::css/custom-checkout.css"/>
+    </head>
+    <body>
+        <!-- Remove default block -->
+        <!-- <referenceBlock name="checkout.cart.totals" remove="true"/>
+        <referenceBlock name="msrp.total" remove="true" /> -->
+
+        <referenceBlock name="checkout.cart.methods" remove="true" />
+        <!-- Remove Coupon Section -->
+        <referenceBlock name="checkout.cart.coupon" remove="true"/>
+        <!-- Add your custom block in its place -->
+        <referenceContainer name="cart.summary">
+            <block class="Setblue\Cart\Block\Cart\CustomTotals"
+                   name="checkout.cart.totals"
+                   template="Setblue_Cart::cart/totals.phtml"
+                   before="-" cacheable="false"/>
+        </referenceContainer>
+    </body>
+</page>

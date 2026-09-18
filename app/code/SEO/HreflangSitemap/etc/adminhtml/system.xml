@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * SetBlue
+ * Copyright (C) 2019 SetBlue <info@setblue.com>
+ *
+ * @category SetBlue
+ * @package SEO_HreflangSitemap
+ * @copyright Copyright (c) 2019 SetBlue (https://setblue.com/)
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author SetBlue <info@setblue.com>
+ */ 
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/system_file.xsd">
+    <system>
+        <section id="sitemap" translate="label" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>XML Sitemap</label>
+            <tab>catalog</tab>
+            <resource>Seo_HreflangSitemap::config</resource>
+            <group id="hreflangsitemap" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Setup Hreflang Sitemap</label>
+                <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="default_hreflang" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Hreflang</label>
+                    <comment>Used if store code is not in the mapping.</comment>
+                </field>
+
+                <field id="store_hreflang_mapping" translate="label" type="textarea" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Store Code to Hreflang Mapping</label>
+                    <comment>Enter mapping as storeCode:hreflang, comma-separated or one per line. Example: uk:en-gb,us:en-us</comment>
+                </field>
+
+                <field id="sitemap_file" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sitemap Fill Name With Path</label>
+                    <comment>pub/sitemap.xml</comment>
+                </field>
+
+                <field id="sitemap_xml" translate="label" type="textarea" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Main Sitemap XML Content</label>
+                    <comment>Paste sitemapindex XML here</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

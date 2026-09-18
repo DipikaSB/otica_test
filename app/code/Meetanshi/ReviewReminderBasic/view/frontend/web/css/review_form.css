@@ -1,0 +1,260 @@
+/* ============================================
+   Review Reminder - Dedicated Review Form Page
+   ============================================ */
+
+.reviewreminder-review-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* --- Product Info Section --- */
+.review-product-info {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding: 25px;
+    background: #f9f9f9;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.review-product-info .product-image img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    background: #fff;
+    padding: 5px;
+}
+
+.review-product-info .product-details h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 8px 0;
+}
+
+.review-product-info .product-sku {
+    font-size: 13px;
+    color: #888;
+    margin: 0 0 4px 0;
+}
+
+.review-product-info .order-reference {
+    font-size: 13px;
+    color: #666;
+    margin: 0;
+    font-weight: 500;
+}
+
+/* --- Review Form Section --- */
+.review-form-wrapper {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    padding: 30px;
+}
+
+.review-form-wrapper h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 25px 0;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+/* --- Star Rating --- */
+.review-ratings {
+    margin-bottom: 25px;
+    float: unset;
+}
+
+.review-ratings > .rating-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 12px;
+}
+
+.rating-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    background: #fafafa;
+    border-radius: 6px;
+}
+
+.rating-name {
+    font-size: 14px;
+    color: #555;
+    min-width: 80px;
+    font-weight: 500;
+}
+
+.rating-stars {
+    display: inline-flex;
+    gap: 4px;
+}
+
+.star-input {
+    display: none;
+}
+
+.star-label {
+    font-size: 28px;
+    color: #d4d4d4;
+    cursor: pointer;
+    transition: color 0.15s ease, transform 0.15s ease;
+    line-height: 1;
+    user-select: none;
+}
+
+.star-label:hover {
+    transform: scale(1.15);
+}
+
+.star-label.hovered,
+.star-label.selected {
+    color: #f5a623;
+}
+
+/* --- Form Fields --- */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.form-group .required {
+    color: #e02b27;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #fff;
+    color: #333;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #1979c3;
+    box-shadow: 0 0 0 2px rgba(25, 121, 195, 0.15);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-group input[type="text"]::placeholder,
+.form-group textarea::placeholder {
+    color: #aaa;
+}
+
+/* --- Submit Button --- */
+.form-actions {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.form-actions .action.submit.primary {
+    display: inline-block;
+    padding: 12px 40px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    background: #1979c3;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+    text-transform: none;
+    letter-spacing: 0.3px;
+}
+
+.form-actions .action.submit.primary:hover {
+    background: #006bb4;
+}
+
+.form-actions .action.submit.primary:active {
+    transform: scale(0.98);
+}
+
+/* --- Not Found State --- */
+.review-not-found {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.review-not-found p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.review-not-found .action.primary {
+    display: inline-block;
+    padding: 10px 30px;
+    font-size: 14px;
+    color: #fff;
+    background: #1979c3;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.review-not-found .action.primary:hover {
+    background: #006bb4;
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+    .review-product-info {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .rating-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .rating-name {
+        min-width: auto;
+    }
+
+    .review-form-wrapper {
+        padding: 20px 15px;
+    }
+
+    .form-actions .action.submit.primary {
+        width: 100%;
+        text-align: center;
+    }
+}

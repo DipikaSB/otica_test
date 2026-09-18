@@ -1,0 +1,18 @@
+<?php
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+
+if ($block->getRefundData() != null) {
+    $data = json_encode($block->getRefundData());?>
+    <script>
+     require(['jquery'],function ($) {
+        var finalData = <?= /* @noEscape */ $data;?>;
+        dataLayer.push({ ecommerce: null });
+        window.dataLayer.push(finalData);
+     });
+  </script>
+    <?php $block->setRefundData(); ?>
+<?php } ?>

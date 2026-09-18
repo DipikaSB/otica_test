@@ -1,0 +1,48 @@
+<?php
+
+use Olegnax\Athlete2\Helper\CssFiles;
+
+$_helper   = $this->helper(CssFiles::class);
+$themeFont = $block->getViewFileUrl('fonts/athlete2/athlete2.woff');
+
+?>
+
+<?php if ($themeFont): ?>
+    <link
+        href="<?= $themeFont ?>"
+        as="font"
+        type="font/woff2">
+<?php endif; ?>
+
+
+<?php if ($this->getConfig('athlete2_design/appearance_general/google_font_enable')): ?>
+
+    <!-- Improve Google Fonts connection -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
+    <!-- Load Google Fonts asynchronously -->
+    <link
+        rel="preload"
+        as="style"
+        href="<?= $_helper->getGoogleFontUrl(); ?>"
+        onload="this.onload=null;this.rel='stylesheet'">
+
+    <noscript>
+        <link
+            rel="stylesheet"
+            href="<?= $_helper->getGoogleFontUrl(); ?>">
+    </noscript>
+
+<?php endif; ?>
+
+
+<?php if (!$this->getConfig('athlete2_design/appearance_custom/inline_css')): ?>
+
+<link
+    rel="stylesheet"
+    media="all"
+    type="text/css"
+    href="<?= $_helper->getDynamicCss('settings') . ($this->getConfig('athlete2_design/appearance_custom/dynamic_file_arg_enable') ? '?v=' . $this->getConfig('athlete2_design/appearance_custom/dynamic_file_arg') . '.0' : '') ?>"/>
+
+<?php endif; ?>

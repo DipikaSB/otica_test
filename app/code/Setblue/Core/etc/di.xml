@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Newsletter\Model\Subscriber" type="Setblue\Core\Model\Subscriber" />
+    <type name="Magento\Catalog\Controller\Product\View">
+        <plugin name="update_meta_title_plugin" type="Setblue\Core\Plugin\UpdateMetaTitle" />
+    </type>
+    <preference for="Magento\OfflineShipping\Model\Carrier\Freeshipping" type="Setblue\Core\Model\Carrier\Freeshipping" />
+    <!-- <preference for="Magento\Framework\File\Pdf\ImageResource\ImageFactory" type="Setblue\Core\Model\ImageFactory" /> -->
+</config>

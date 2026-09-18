@@ -1,0 +1,82 @@
+<?php
+/**
+ * Ecomteck
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Ecomteck.com license that is
+ * available through the world-wide-web at this URL:
+ * https://ecomteck.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Ecomteck
+ * @package     Ecomteck_GuestToCustomer
+ * @copyright   Copyright (c) 2019 Ecomteck (https://ecomteck.com/)
+ * @license     https://ecomteck.com/LICENSE.txt
+ */
+
+/**  @var $block Ecomteck\GuestToCustomer\Block\Customer\LookupForm */
+$_helper = $this->helper('Ecomteck\GuestToCustomer\Helper\Data');
+$is_assign_address_to_customer = $_helper->isAssignOrderAddressToCustomer();
+?>
+
+<form class="form form-edit-account" action="<?= $block->escapeUrl($block->getUrl('customer/ecguesttocustomer/lookupformPost')) ?>" method="post" id="form-validate" data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>" autocomplete="off">
+    <fieldset class="fieldset info">
+        <?= $block->getBlockHtml('formkey') ?>
+        <legend class="legend"><span><?= $block->escapeHtml(__('Guest Order Information')) ?></span></legend><br>
+        <div class="field field-order-increment required">
+            <label class="label" for="order-increment">
+                <span><?php echo __("Order Number");?></span>
+            </label>
+
+            <div class="control">
+                <input type="text" id="order-increment" name="order_increment" value="" title="<?php echo __("Order Number");?>" class="input-text required-entry" data-validate="{required:true}" aria-required="true">
+            </div>
+        </div>
+        <div class="field field-email required">
+            <label class="label" for="email">
+                <span><?php echo __("Email");?></span>
+            </label>
+
+            <div class="control">
+                <input type="text" id="email" name="email" value="<?= $block->escapeHtmlAttr($block->getCustomer()->getEmail()) ?>" title="First Name" class="input-text required-entry" data-validate="{required:true}" aria-required="true" disabled>
+            </div>
+        </div>
+        <?php if($is_assign_address_to_customer){ ?>
+        <div class="field field-convert-address">
+            <label class="label" for="convert-address">
+                <span><?php echo __("Convert Address");?></span>
+            </label>
+
+            <div class="control">
+                <input type="checkbox" id="convert-address" name="convert_address" value="1" title="<?php echo __("Allow Convert Address");?>" class="input-text">&nbsp; <?php echo __("Allow Convert Order Address To Customer Address?") ?>
+            </div>
+        </div>
+        <?php } ?>
+    </fieldset>
+
+    <?= $block->getChildHtml('form_additional_info') ?>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="submit" class="action save primary" title="<?= $block->escapeHtmlAttr(__('Save')) ?>"><span><?= $block->escapeHtml(__('Save')) ?></span></button>
+        </div>
+        <div class="secondary">
+            <a class="action back" href="<?= $block->escapeUrl($block->getBackUrl()) ?>"><span><?= $block->escapeHtml(__('Go back')) ?></span></a>
+        </div>
+    </div>
+</form>
+<script>
+    require([
+        "jquery",
+        "mage/mage"
+    ], function($){
+        var dataForm = $('#form-validate');
+
+        dataForm.mage('validation', {});
+
+    });
+</script>

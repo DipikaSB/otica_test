@@ -1,0 +1,134 @@
+<?php
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+
+/**
+ * @var \Magedelight\Ga4\Block\Adminhtml\Selector $block
+ */
+?>
+<div class="page-main-actions">
+    <div class="page-actions" data-ui-id="page-actions-toolbar-content-header">
+        <div class="page-actions-inner" data-title="Realtime Tracking Logs">
+            <div class="page-actions-buttons">
+                <button id="delete"
+                        title="Clear Logs"
+                        type="button"
+                        class="action- scalable primary"
+                        data-ui-id="delete-button">
+                    <span><?= /* @noEscape */ __("Clear Logs"); ?></span>
+                </button>
+            </div>
+            <div class="page-actions-buttons">
+                <button id="refresh"
+                        title="Refresh Logs"
+                        type="button"
+                        class="action- scalable primary"
+                        data-ui-id="delete-button">
+                    <span><?= /* @noEscape */ __("Refresh Logs"); ?></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+   require([
+       "jquery",
+       'Magento_Ui/js/modal/confirm',
+       'mage/url',
+       "prototype"
+   ], function($, confirmation, url) {
+        $('.page-actions-buttons #delete').on('click',function(e){
+            var linkUrl = "<?= /* @noEscape */ $block->getUrl('ga4/grid/clearlog'); ?>";
+            e.preventDefault();
+            confirmation({
+                title: 'Clear Logs',
+                content: 'Do you want to clear all the logs?',
+                actions: {
+                    confirm: function () {
+                        $.ajax({
+                             showLoader: true,
+                             url: linkUrl,
+                             data: {form_key: window.FORM_KEY},
+                             type: "POST",
+                             success: function (response) {
+                                 location.reload();
+                             },
+                             error: function (error) {
+
+                             }
+                        });
+                    },
+                    cancel: function () {
+                        return false;
+                    }
+                }
+            });
+        });
+
+        $('.page-actions-buttons #refresh').on('click',function(e){
+            location.reload();
+        });
+
+       Window.keepMultiModalWindow = true;
+       var ga4View = {
+           overlayShowEffectOptions : null,
+           overlayHideEffectOptions : null,
+           modal: null,
+           open : function(viewUrl, elementId) {
+               if (viewUrl && elementId) {
+                   jQuery.ajax({
+                       url: viewUrl,
+                       data: {
+                           id: elementId
+                       },
+                       showLoader: true,
+                       dataType: 'html',
+                       success: function(data, textStatus, transport) {
+                           this.openDialogWindow(data, elementId);
+                           var badJSON = $('#detail-view-'+elementId).val();
+                           var parseJSON = $.parseJSON(badJSON);
+                           var JSONInPrettyFormat = JSON.stringify(parseJSON, undefined, 4);
+                           $('#detail-view-'+elementId).val(JSONInPrettyFormat);
+                       }.bind(this)
+                   });
+               }
+           },
+           openDialogWindow : function(data, elementId) {
+               var self = this;
+               if (this.modal) {
+                   this.modal.html(jQuery(data).html());
+               } else {
+                   this.modal = jQuery(data).modal({
+                       title: '<?= /* @noEscape */ __('Detailed View'); ?>',
+                       modalClass: 'magento',
+                       type: 'slide',
+                       firedElementId: elementId,
+                       buttons: [{
+                           text: jQuery.mage.__('Close'),
+                           class: 'action- scalable back',
+                           click: function () {
+                               self.closeDialogWindow(this);
+                           }
+                       }],
+                       close: function () {
+                           self.closeDialogWindow(this);
+                       }
+                   });
+               }
+               this.modal.modal('openModal');
+           },
+           closeDialogWindow : function(dialogWindow) {
+
+               jQuery('body').trigger('processStop');
+               dialogWindow.closeModal();
+               Windows.overlayShowEffectOptions = this.overlayShowEffectOptions;
+               Windows.overlayHideEffectOptions = this.overlayHideEffectOptions;
+           }
+       };
+
+       window.ga4View = ga4View;
+   });
+</script>

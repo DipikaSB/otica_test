@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+-->
+
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="magedelight_ga4">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity Id"/>
+        <column xsi:type="varchar" name="event_name" nullable="false" length="250" comment="Event Name"/>
+        <column xsi:type="varchar" name="event_label" nullable="false" length="250" comment="Event Label"/>
+        <column xsi:type="varchar" name="user_email" nullable="false" length="254" comment="User Email"/>
+        <column xsi:type="mediumtext" name="event_data" nullable="false" comment="Event Data"/>
+        <column xsi:type="timestamp" name="created_at" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+           <column name="entity_id"/>
+        </constraint>
+
+        <index referenceId="MAGEDELIGHT_GA4_S_ID _API_SERVICE" indexType="fulltext">
+            <column name="event_name"/>
+            <column name="event_label"/>
+            <column name="user_email"/>
+            <column name="event_data"/>
+        </index>
+    </table>
+</schema>

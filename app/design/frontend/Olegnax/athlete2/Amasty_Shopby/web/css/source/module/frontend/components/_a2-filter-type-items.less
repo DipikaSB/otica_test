@@ -1,0 +1,72 @@
+
+/*
+Original amasty css with replaced selector.
+.filter-options-item .filter-options-content >>> .filter-options .filter-options-content.
+".filter-options-item" is absent in default magento layered navigation templates.
+*/
+//
+//  Common
+//  --------------------------------------------------
+
+& when (@media-common = true) {
+    .filter-options .filter-options-content {
+        & {
+            padding-bottom: 5px;
+        }
+
+        .am-swatch-wrapper .swatch-option.image,
+        .swatch-attribute.size .swatch-option.selected,
+        .swatch-attribute.manufacturer .swatch-option.selected {
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .range {
+            align-items: center;
+            display: flex;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .items:not(.items-children):not(.am-category-view),
+        .am-category-wrapper,
+        .amshopby-fromto-wrap {
+            margin: 0 10px;
+        }
+
+        .am-shopby-form {
+            margin: 0 7px;
+        }
+
+        .items [class*='am-filter-item'] {
+            margin-left: 0;
+            padding: 0;
+        }
+
+        .count {
+            display: inline-flex;
+            padding-left: 0;
+        }
+
+        .am-shopby-swatch-label .count {
+            margin: 0;
+            padding: 0;
+        }
+
+        .am-shopby-swatch-label .label {
+            margin-right: 5px;
+        }
+
+        .am-shopby-form {
+            margin-bottom: -15px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            padding: 3px;
+        }
+
+        .am-shopby-form .swatch-attribute .swatch-option-link-layered:hover {
+            background-color: unset;
+        }
+    }
+}

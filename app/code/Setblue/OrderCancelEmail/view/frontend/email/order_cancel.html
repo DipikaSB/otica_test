@@ -1,0 +1,55 @@
+<!--@subject {{var customer_name}}, Continue Your Canceled Order in Just One Click @-->
+
+{{template config_path="design/email/header_template"}}
+
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr>
+        <td>
+            <p style="font-size:16px; margin:0 0 15px;">
+                Dear {{var customer_name}},
+            </p>
+
+        <p style="margin:0 0 15px;">
+            We wanted to let you know that your order
+            <strong>#{{var order_number}}</strong>
+            was canceled and could not be completed.
+        </p>
+
+        <p style="margin:0 0 20px;">
+            If you'd still like to place your order, you can continue from where you left off by clicking the button below:
+        </p>
+
+        <table cellpadding="0" cellspacing="0" border="0" style="margin:25px 0;">
+            <tr>
+                <td align="center" bgcolor="#1979c3" style="border-radius:4px;">
+                    <a href="{{var recovery_link}}"
+                       target="_blank"
+                       style="display:inline-block;padding:14px 28px;font-size:16px;color:#ffffff;text-decoration:none;font-weight:bold;">
+                        Continue Your Order
+                    </a>
+                </td>
+            </tr>
+        </table>
+
+        <p style="margin:0 0 15px;">
+            Your selected products may still be available, and we'd be happy to help you complete your purchase.
+        </p>
+
+        <p style="margin:0 0 15px;">
+            If you have any questions or need assistance, our support team is here to help.
+        </p>
+
+        <p style="margin:0 0 15px;">
+            Thank you for choosing <strong>Otica Mart</strong>.
+        </p>
+
+        <p style="margin:25px 0 0;">
+            Take care,<br>
+            <strong>Team Otica Mart</strong>
+        </p>
+    </td>
+</tr>
+
+</table>
+
+{{template config_path="design/email/footer_template"}}

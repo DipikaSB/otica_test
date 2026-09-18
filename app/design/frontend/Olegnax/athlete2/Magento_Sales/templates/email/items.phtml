@@ -1,0 +1,85 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// phpcs:disable Magento2.Templates.ThisInTemplate
+
+/** @var $block \Magento\Sales\Block\Order\Email\Items */
+?>
+<?php $helper = $this->helper(\Setblue\Core\Helper\Data::class);?>
+<?php $_order = $block->getOrder() ?>
+<?php if ($_order) : ?>
+    <?php $_items = $_order->getAllItems(); ?>
+    <b style="font-size:16px; font-family:Arial, sans-serif;">Order summary</b>
+    <table style="width:100%; font-family:Arial, sans-serif; font-size:13px; border-collapse:collapse; margin-top:10px;">
+        <?php foreach ($_order->getAllVisibleItems() as $_item) : ?>
+        <?php
+            $sku = $_item->getSku();
+            $product = $helper->getProductBySku($sku);
+            $product_image = $helper->getProductImageUrl($product, 'category_page_grid');
+            $options = $_item->getProductOptions();
+        ?>
+        <tr style="border-bottom:1px solid #ddd; padding:10px 0;">
+            <!-- Image -->
+            <td style="width:80px; padding:10px; padding-left: 0px;">
+                 <img class="product-image-photo lazyloaded"
+                    src="<?= $product_image ?>"
+                    width="100" style="border:1px solid #eee; display:block;" 
+                    alt="" />
+            </td>
+
+            <!-- Product Info -->
+            <td style="padding:10px; vertical-align:top;">
+                <div style="font-weight:bold;"><?= $block->escapeHtml($_item->getName()) ?></div>
+                <div><strong>SKU:</strong> <?= $block->escapeHtml($_item->getSku()) ?></div>
+                <!-- Configurable Options in Label: Value format -->
+                <?php if (!empty($options['attributes_info'])): ?>
+                    <div>
+                        <?php foreach ($options['attributes_info'] as $attribute): ?>
+                            <div><strong><?= $block->escapeHtml($attribute['label']) ?>:</strong> <?= $block->escapeHtml($attribute['value']) ?></div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+                <div><strong>Qty:</strong> <?= (int) $_item->getQtyOrdered() ?></div>
+            </td>
+
+            <!-- Price -->
+            <td style="padding:10px; text-align:right; vertical-align:top; white-space:nowrap;">
+                <?= $block->getOrder()->getOrderCurrency()->formatPrecision($_item->getPrice(), 2, [], false) ?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+        <tr>
+            <td colspan="4" style="height: 20px;"></td>
+        </tr>
+        <tfoot class="order-totals" style="padding-top:10px;">
+            <?= $block->getChildHtml('order_totals') ?>
+        </tfoot>
+        <tr>
+            <td colspan="4" style="height: 20px;"></td>
+        </tr>
+    </table>
+    <?php if ($this->helper(\Magento\GiftMessage\Helper\Message::class)
+            ->isMessagesAllowed('order', $_order, $_order->getStore())
+        && $_order->getGiftMessageId()
+    ) : ?>
+        <?php $_giftMessage = $this->helper(\Magento\GiftMessage\Helper\Message::class)
+            ->getGiftMessage($_order->getGiftMessageId()); ?>
+        <?php if ($_giftMessage) : ?>
+            <br />
+            <table class="message-gift">
+                <tr>
+                    <td>
+                        <h3><?= $block->escapeHtml(__('Gift Message for this Order')) ?></h3>
+                        <strong><?= $block->escapeHtml(__('From:')) ?></strong> <?= $block->escapeHtml($_giftMessage->getSender()) ?>
+                        <br /><strong><?= $block->escapeHtml(__('To:')) ?></strong> <?= $block->escapeHtml($_giftMessage->getRecipient()) ?>
+                        <br /><strong><?= $block->escapeHtml(__('Message:')) ?></strong>
+                        <br /><?= $block->escapeHtml($_giftMessage->getMessage()) ?>
+                    </td>
+                </tr>
+            </table>
+        <?php endif; ?>
+    <?php endif; ?>
+<?php endif; ?>

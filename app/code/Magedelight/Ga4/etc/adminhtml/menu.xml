@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magedelight_Ga4::ga4_root"
+             title="GA4 with GTM"
+             module="Magedelight_Ga4"
+             sortOrder="10"
+             resource="Magedelight_Ga4::ga4"
+             toolTip="magedelight_base" />
+
+        <add id="Magedelight_Ga4::ga4_root_commonlyvisible"
+             title="GA4 with GTM"
+             module="Magedelight_Ga4"
+             sortOrder="20"
+             parent="Magedelight_Base::md_modules"
+             resource="Magedelight_Ga4::root" />
+
+        <add id="Magedelight_Ga4::ga4"
+            title="Configuration"
+            module="Magedelight_Ga4"
+            action="adminhtml/system_config/edit/section/magedelight_ga4/"
+            sortOrder="30"
+            parent="Magedelight_Ga4::ga4_root"
+            resource="Magedelight_Ga4::ga4"
+        />
+
+        <add id="Magedelight_Ga4::gtm_report"
+            title="Report"
+            module="Magedelight_Ga4"
+            sortOrder="40"
+            parent="Magedelight_Ga4::ga4_root"
+            resource="Magedelight_Ga4::gtm"
+        />
+
+        <add id="Magedelight_Ga4::gtm"
+            title="Realtime Tracking Logs"
+            module="Magedelight_Ga4"
+            sortOrder="50"
+            parent="Magedelight_Ga4::gtm_report"
+            action="ga4/grid/index"
+            resource="Magedelight_Ga4::gtm"
+        />
+    </menu>
+</config>

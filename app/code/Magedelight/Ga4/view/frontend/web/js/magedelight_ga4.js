@@ -1,0 +1,77 @@
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+
+define(['jquery'], function ($) {
+    return function (config, element) {
+        $('.magedelight-promo-tracking').show('slow', function () {
+
+            var promoId = $(this).attr('data-promo-id');
+            var promoName = $(this).attr('data-promo-name');
+            var promoCreativeName = $(this).attr('data-creative-name');
+            var promoCreativeSlot = $(this).attr('data-creative-slot');
+            if (config.view_promotion) {
+                $.ajax({
+                    url: config.customurl,
+                    type: 'POST',
+                    data: {
+                        pid: $(this).attr('data-product-id'),
+                        cid: $(this).attr('data-category-id'),
+                        promoId:promoId,
+                        promoName:promoName,
+                        promoCreativeName:promoCreativeName,
+                        promoCreativeSlot:promoCreativeSlot,
+                        event:'view_promotion'
+
+                    },
+                    success: function (response) {
+                        if (response.status) {
+                            window.dataLayer.push({ecommerce: null});
+                            window.dataLayer.push(response.eventData);
+                        }
+                    },
+                    error: function (xhr, status, errorThrown) {
+                        console.log('Error happens. Try again.');
+                    }
+                });
+            }
+        });
+
+        $('.magedelight-promo-tracking').click(function () {
+
+            var promoId = $(this).attr('data-promo-id');
+            var promoName = $(this).attr('data-promo-name');
+            var promoCreativeName = $(this).attr('data-creative-name');
+            var promoCreativeSlot = $(this).attr('data-creative-slot');
+
+            if (config.select_promotion) {
+                $.ajax({
+                    url: config.customurl,
+                    type: 'POST',
+                    data: {
+                        pid: $(this).attr('data-product-id'),
+                        cid: $(this).attr('data-category-id'),
+                        promoId:promoId,
+                        promoName:promoName,
+                        promoCreativeName:promoCreativeName,
+                        promoCreativeSlot:promoCreativeSlot,
+                        event:'select_promotion'
+
+                    },
+                    success: function (response) {
+                        if (response.status) {
+                            window.dataLayer.push({ecommerce: null});
+                            window.dataLayer.push(response.eventData);
+                        }
+                    },
+                    error: function (xhr, status, errorThrown) {
+                        console.log('Error happens. Try again.');
+                    }
+                });
+            }
+        });
+    }
+
+});

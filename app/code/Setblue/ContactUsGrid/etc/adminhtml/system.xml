@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+    <system>
+        <tab id="setblue" translate="label" sortOrder="201">
+            <label>Setblue</label>
+        </tab>
+        <section id="contactform" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Contact Us Grid</label>
+            <tab>setblue</tab>
+            <resource>Setblue_ContactUsGrid::config_contactform</resource>
+            <group id="settings" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enable" translate="label comment" sortOrder="1" type="select" showInDefault="1" canRestore="1" >
+                    <label>Save Detail to Grid</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

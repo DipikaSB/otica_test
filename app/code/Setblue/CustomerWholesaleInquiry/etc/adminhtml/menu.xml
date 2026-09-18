@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Setblue
+ * Copyright(C) 04/2023 Setblue <ideveloper1990@gmail.com>
+ * @package Setblue_CustomerWholesaleInquiry
+ * @copyright Copyright(C) 2015 Setblue (ideveloper1990@gmail.com)
+ * @author Setblue <ideveloper1990@gmail.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<add id="Setblue::top_CustomerWholesaleInquiry"
+	     module="Setblue_CustomerWholesaleInquiry"
+	     resource="Setblue_CustomerWholesaleInquiry::main"
+	     sortOrder="11"
+	     title="Customer Wholesale Enquiry"/>
+
+		<add action="wholesaleinquiry/index/index" id="Setblue::CustomerWholesaleInquiry" module="Setblue_CustomerWholesaleInquiry" parent="Setblue::top_CustomerWholesaleInquiry" resource="Setblue_CustomerWholesaleInquiry::CustomerWholesaleInquiry" sortOrder="10" title="List Of Customer Wholesale Enquiry"/>
+
+	 	<add action="adminhtml/system_config/edit/section/CustomerWholesaleInquiry" id="Setblue::Config_CustomerWholesaleInquiry" module="Setblue_CustomerWholesaleInquiry" parent="Setblue::top_CustomerWholesaleInquiry" resource="Setblue_CustomerWholesaleInquiry::Config_CustomerWholesaleInquiry" sortOrder="30" title="Configation"/>
+	</menu>
+</config>

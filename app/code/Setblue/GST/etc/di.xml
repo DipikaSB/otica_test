@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Checkout\Model\ShippingInformationManagement">
+        <plugin name="Setblue_save_gst_number_in_quote" type="Setblue\GST\Plugin\Checkout\Model\ShippingInformationManagement" sortOrder="1"/>
+    </type>
+    <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
+        <plugin name="Setblue_checkout_layout_processor_add_gst_number_block"
+                type="Setblue\GST\Plugin\Checkout\Block\LayoutProcessor" sortOrder="1"/>
+    </type>
+     <preference for="Magento\Sales\Model\Order\Pdf\Invoice"
+                type="Setblue\GST\Model\Order\Pdf\Invoice"/>
+</config>

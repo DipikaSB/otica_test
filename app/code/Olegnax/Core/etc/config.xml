@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+		<olegnax_core_settings>
+			<general>
+				<lazyload>1</lazyload>
+				<owlcarousel>1</owlcarousel>
+				<owlcarousel_tiny>0</owlcarousel_tiny>
+				<owlcarousel_inline>0</owlcarousel_inline>
+				<defer_assets>1</defer_assets>
+			</general>
+		</olegnax_core_settings>
+	</default>
+</config>

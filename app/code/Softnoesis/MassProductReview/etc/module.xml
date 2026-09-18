@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Softnoesis
+ * Copyright(C) 05/2023 Softnoesis <ideveloper1990@gmail.com>
+ * @package Softnoesis_MassProductReview
+ * @copyright Copyright(C) 2015 Softnoesis (ideveloper1990@gmail.com)
+ * @author Softnoesis <ideveloper1990@gmail.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+	<module name="Softnoesis_MassProductReview" setup_version="1.0.1"/>
+</config>

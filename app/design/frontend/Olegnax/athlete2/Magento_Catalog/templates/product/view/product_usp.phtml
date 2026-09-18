@@ -1,0 +1,46 @@
+<?php
+/** @var \Magento\Catalog\Model\Product $_product */
+$_product = $block->getProduct();
+
+$returnable = $_product->getData('returnable');
+$non_retunable = $_product->getData('non_retunable');
+$attr_7_days_returnable = $_product->getData('attr_7_days_returnable');
+$year_of_warranty = $_product->getData('year_of_warranty');
+$secure_transaction = $_product->getData('secure_transaction');
+$abc_usp = $_product->getData('abc_usp');
+?>
+
+<div class="main-product-usp">
+    <?php if ($returnable): ?>
+        <div class="product-returnable-usp">
+            <img src="<?= $block->getViewFileUrl('images/returnable.png');?>">
+            <p>Returnable</p>
+        </div>
+    <?php endif; ?>
+    <?php if ($non_retunable): ?>
+        <div class="product-non_retunable-usp">
+            <img src="<?= $block->getViewFileUrl('images/non_retunable.png');?>">
+            <p>Non Retunable</p>
+        </div>
+    <?php endif; ?>
+    <?php if ($attr_7_days_returnable): ?>
+        <div class="product-attr_7_days_returnable-usp">
+            <img src="<?= $block->getViewFileUrl('images/days_returnable.png');?>">
+            <p>7 days returnable</p>
+        </div>
+    <?php endif; ?>
+    <?php if ($year_of_warranty): ?>
+        <div class="product-year_of_warranty-usp">
+            <img src="<?= $block->getViewFileUrl('images/warranty.png');?>">
+            <p><?= $year_of_warranty.' year warranty'?></p>
+        </div>
+    <?php endif; ?>
+    <?php if ($abc_usp): ?>
+        <div class="product-abc_usp-usp">
+            <img src="<?= $block->getViewFileUrl('images/lowest-price.png');?>">
+            <p>Lowest Price Guarantee</p>
+        </div>
+    <?php endif; ?>
+</div>
+
+

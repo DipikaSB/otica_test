@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Setblue
+ * Copyright(C) 04/2023 Setblue <ideveloper1990@gmail.com>
+ * @package Setblue_CustomerWholesaleInquiry
+ * @copyright Copyright(C) 2015 Setblue (ideveloper1990@gmail.com)
+ * @author Setblue <ideveloper1990@gmail.com>
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout='1column' xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<head>
+	<css src="Setblue_CustomerWholesaleInquiry::css/customwholesale.css" />	   
+</head>
+    <referenceContainer name="content">
+        <block class="Setblue\CustomerWholesaleInquiry\Block\Inquiryform" name="wholesale_inquiry_index_index" template="form.phtml" cacheable="false"/>
+    </referenceContainer>
+</page>

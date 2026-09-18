@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <type name="Magento\Payment\Model\MethodList">
+        <arguments>
+            <argument name="methods" xsi:type="array">
+                <item name="phonepe_pg" xsi:type="string">Phonepe\PG\Model\Payment</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Phonepe\PG\Model\Payment">
+        <arguments>
+            <argument name="paymentInitiator" xsi:type="object">Phonepe\PG\Service\PaymentInitiator</argument>
+        </arguments>
+    </type>
+    <type name="Phonepe\PG\Service\PaymentResponseHandler">
+        <arguments>
+            <argument name="orderRepository" xsi:type="object">Magento\Sales\Api\OrderRepositoryInterface</argument>
+            <argument name="logger" xsi:type="object">Psr\Log\LoggerInterface</argument>
+            <argument name="sdkClientFactory" xsi:type="object">Phonepe\PG\Service\SdkClientFactory</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="phonepe_pg_config_provider" xsi:type="object">Phonepe\PG\Model\UI\ConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

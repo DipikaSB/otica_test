@@ -1,0 +1,66 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="payment-option _collapsible opc-payment-additional discount-code _active">
+    <div class="payment-option-title field choice" data-role="title">
+        <span class="action action-toggle" id="block-discount-heading" role="heading" aria-level="2">
+            <!-- ko i18n: 'Apply Coupon'--><!-- /ko -->
+        </span>
+    </div>
+    <div class="payment-option-content" data-role="content">
+        <!-- ko foreach: getRegion('messages') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+        <form class="form form-discount" id="discount-form">
+            <div class="payment-option-inner">
+                <div class="field">
+                    <!-- <label class="label" for="discount-code">
+                        <span data-bind="i18n: 'Enter discount code'"></span>
+                    </label> -->
+                    <div class="control">
+                        <input class="input-text"
+                               type="text"
+                               id="discount-code"
+                               name="discount_code"
+                               data-validate="{'required-entry':true}"
+                               data-bind="value: couponCode, attr:{disabled:isApplied() , placeholder: $t('Coupon Code')} " />
+                    </div>
+                </div>
+            </div>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <!-- ko ifnot: isApplied() -->
+                        <button class="action action-apply" type="submit" data-bind="'value': $t('Apply Discount'), click: apply">
+                            <span><!-- ko i18n: 'Apply'--><!-- /ko --></span>
+                        </button>
+                    <!-- /ko -->
+                    <!-- ko if: isApplied() -->
+                        <button class="action action-cancel" type="submit" data-bind="'value': $t('Cancel'), click: cancel">
+                            <span><!-- ko i18n: 'Cancel'--><!-- /ko --></span>
+                        </button>
+                    <!-- /ko -->
+                </div>
+                <!-- ko foreach: getRegion('captcha') -->
+                <!-- ko template: getTemplate() --><!-- /ko -->
+                <!-- /ko -->
+            </div>
+        </form>
+        <!-- ko ifnot: isApplied() -->
+        <div class="otica_checkout_shipping_banner" data-bind="html: getCmsBlockSummary()"></div>
+        <!-- /ko -->
+        <!-- ko if: isApplied() -->
+        <div class="sb-coupon-applied">
+            <div class="coupon-applied-msg">
+                <div class="applied-icon"><svg width="26" height="25" viewBox="0 0 26 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12.6992" cy="12.4985" r="12.5" fill="#869C43"/>
+                <path d="M10.8067 15.9827L5.80286 10.374L4.46484 11.8738L10.8162 18.9929L20.9336 7.4933L19.5861 6.00415L10.8067 15.9827Z" fill="white"/>
+                </svg>
+                </div>
+                <p>Coupon Applied — Enjoy free shipping!</p></div>
+        </div>
+        <!-- /ko -->
+    </div>
+</div>

@@ -1,0 +1,30 @@
+<?php
+?>
+<div>
+    <table summary="<?= $escaper->escapeHtmlAttr(__('Items Ordered')) ?>" style="width: 100%">
+        <thead>
+        <tr>
+            <th><?php __('Product Image') ?></th>
+            <th><?= $escaper->escapeHtml(__('Name')) ?></th>
+            <th><?= $escaper->escapeHtml(__('Review')) ?></th>
+        </tr>
+        </thead>
+        <?php $products = $block->getReminderData($block->getReminder()); ?>
+        <?php foreach ($products as $product):?>
+            <?php $productUrlBind = $block->getReviewUrl(
+                $product->getId(),
+                $block->getReminder()['increment_id'],
+                $block->getReminder()['customer_name'] ?? ''
+            ); ?>
+            <tbody>
+            <tr>
+                <td>
+                    <img src='<?= $escaper->escapeUrl($block->getProductImage($product)) ?>' alt='<?= $escaper->escapeHtmlAttr($product->getName()) ?>'>
+                </td>
+                <td><?= $escaper->escapeHtml($product->getName()) ?></td>
+                <td><a href="<?= $escaper->escapeUrl($productUrlBind) ?>" target="_blank"><?= $escaper->escapeHtml(__('Add Review Now')) ?></a></td>
+            </tr>
+            </tbody>
+        <?php endforeach; ?>
+    </table>
+</div>

@@ -1,0 +1,18 @@
+define([
+    'Magento_Checkout/js/model/quote',
+    'Magento_Checkout/js/action/select-shipping-address',
+    'Magento_Checkout/js/model/shipping-rate-registry'
+], function (quote, selectShippingAddress, rateRegistry) {
+    'use strict';
+
+    return function () {
+        if (!quote.isVirtual()) {
+            var shippingAddress = quote.shippingAddress();
+
+            if (shippingAddress) {
+                rateRegistry.set(shippingAddress.getCacheKey(), null);
+                selectShippingAddress(shippingAddress);
+            }
+        }
+    };
+});

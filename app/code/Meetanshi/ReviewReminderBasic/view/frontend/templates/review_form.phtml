@@ -1,0 +1,231 @@
+<?php
+/**
+ * Dedicated review form template for ReviewReminderBasic.
+ *
+ * @var \Meetanshi\ReviewReminderBasic\Block\ReviewForm $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+$product = $block->getProduct();
+$orderId = $block->getOrderIncrementId();
+$ratings = $block->getRatings();
+$customerName = $block->getCustomerName();
+?>
+
+<?php if ($product): ?>
+<div class="reviewreminder-review-container">
+    <!-- Product Information -->
+    <div class="review-product-info">
+        <div class="product-image">
+            <?php $imageUrl = $block->getProductImageUrl($product); ?>
+            <?php if ($imageUrl): ?>
+                <img src="<?= $escaper->escapeUrl($imageUrl) ?>"
+                     alt="<?= $escaper->escapeHtmlAttr($product->getName()) ?>" />
+            <?php endif; ?>
+        </div>
+        <div class="product-details">
+            <h2><?= $escaper->escapeHtml($product->getName()) ?></h2>
+            <p class="product-sku"><?= $escaper->escapeHtml(__('SKU: %1', $product->getSku())) ?></p>
+            <?php if ($orderId): ?>
+                <p class="order-reference"><?= $escaper->escapeHtml(__('Order #%1', $orderId)) ?></p>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <!-- Review Form -->
+    <div class="review-form-wrapper">
+        <h3><?= $escaper->escapeHtml(__('Write Your Review')) ?></h3>
+
+        <form action="<?= $escaper->escapeUrl($block->getFormActionUrl()) ?>"
+              method="post"
+              id="reviewreminder-review-form">
+            <?= $block->getBlockHtml('formkey') ?>
+            <input type="hidden" name="product_id"
+                   value="<?= $escaper->escapeHtmlAttr($product->getId()) ?>" />
+            <input type="hidden" name="order_increment_id"
+                   value="<?= $escaper->escapeHtmlAttr($orderId) ?>" />
+            <?php $encodedCustomerName = $block->getRequest()->getParam('customer_name', ''); ?>
+            <?php if (!empty($encodedCustomerName)): ?>
+                <input type="hidden" name="customer_name"
+                       value="<?= $escaper->escapeHtmlAttr($encodedCustomerName) ?>" />
+            <?php endif; ?>
+
+            <!-- Star Ratings -->
+            <?php if (count($ratings)): ?>
+            <div class="review-ratings">
+                <label class="rating-label">
+                    <?= $escaper->escapeHtml(__('Your Rating')) ?>
+                    <span class="required">*</span>
+                </label>
+                <?php foreach ($ratings as $rating): ?>
+                    <div class="rating-row">
+                        <span class="rating-name">
+                            <?= $escaper->escapeHtml($rating->getRatingCode()) ?>
+                        </span>
+                        <div class="rating-stars" data-rating-id="<?= $escaper->escapeHtmlAttr($rating->getId()) ?>">
+                            <?php foreach ($rating->getOptions() as $option): ?>
+                                <input type="radio"
+                                       name="ratings[<?= $escaper->escapeHtmlAttr($rating->getId()) ?>]"
+                                       id="rating-<?= $escaper->escapeHtmlAttr($rating->getId()) ?>-<?= $escaper->escapeHtmlAttr($option->getId()) ?>"
+                                       value="<?= $escaper->escapeHtmlAttr($option->getId()) ?>"
+                                       class="star-input" />
+                                <label for="rating-<?= $escaper->escapeHtmlAttr($rating->getId()) ?>-<?= $escaper->escapeHtmlAttr($option->getId()) ?>"
+                                       class="star-label"
+                                       data-value="<?= $escaper->escapeHtmlAttr($option->getValue()) ?>"
+                                       title="<?= $escaper->escapeHtmlAttr(__('%1 star(s)', $option->getValue())) ?>">
+                                    &#9733;
+                                </label>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+                <div class="rating-error" id="rating-error-msg" style="display:none; color:#e02b27; font-size:12px; margin-top:5px;">
+                    <?= $escaper->escapeHtml(__('Please select a star rating.')) ?>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <!-- Nickname -->
+            <div class="form-group">
+                <label for="nickname">
+                    <?= $escaper->escapeHtml(__('Nickname')) ?>
+                    <span class="required">*</span>
+                </label>
+                <?php if (!empty($customerName)): ?>
+                    <input type="text" name="nickname" id="nickname" required
+                           value="<?= $escaper->escapeHtmlAttr($customerName) ?>"
+                           readonly="readonly"
+                           maxlength="255"
+                           style="background-color: #f5f5f5; cursor: not-allowed;" />
+                <?php else: ?>
+                    <input type="text" name="nickname" id="nickname" required
+                           placeholder="<?= $escaper->escapeHtmlAttr(__('Your nickname')) ?>"
+                           maxlength="255" />
+                <?php endif; ?>
+            </div>
+
+            <!-- Summary / Title -->
+            <div class="form-group">
+                <label for="title">
+                    <?= $escaper->escapeHtml(__('Summary')) ?>
+                    <span class="required">*</span>
+                </label>
+                <input type="text" name="title" id="title" required
+                       placeholder="<?= $escaper->escapeHtmlAttr(__('Brief summary of your review')) ?>"
+                       maxlength="255" />
+            </div>
+
+            <!-- Review Detail -->
+            <div class="form-group">
+                <label for="detail">
+                    <?= $escaper->escapeHtml(__('Review')) ?>
+                    <span class="required">*</span>
+                </label>
+                <textarea name="detail" id="detail" rows="6" required
+                          placeholder="<?= $escaper->escapeHtmlAttr(__('Share your experience with this product...')) ?>"></textarea>
+            </div>
+
+            <div class="form-group">
+                 <div class="field review-field-text required">
+                    <label for="review_field" class="label"><span><?= $block->escapeHtml(__('Attach Image or Video')) ?></span></label>
+                    <div class="control">
+                       <input name="review_image" id="image" title="Image" value="" class="input-text" type="file" accept=".jpg,.jpeg,.png,.gif,.webp,.bmp,.tiff,.svg,.mp4,.mov,.avi,.flv,.wmv,.mkv,.webm,.m4v,.3gp">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit -->
+            <div class="form-actions">
+                <button type="submit" class="action submit primary">
+                    <?= $escaper->escapeHtml(__('Submit Review')) ?>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Star Rating Interaction & Validation Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.rating-stars').forEach(function (container) {
+            var labels = container.querySelectorAll('.star-label');
+            var inputs = container.querySelectorAll('.star-input');
+
+            labels.forEach(function (label, index) {
+                // Hover: highlight this star and all preceding stars
+                label.addEventListener('mouseenter', function () {
+                    labels.forEach(function (l, i) {
+                        l.classList.toggle('hovered', i <= index);
+                    });
+                });
+
+                // Click: select the corresponding radio and mark stars
+                label.addEventListener('click', function () {
+                    inputs[index].checked = true;
+                    labels.forEach(function (l, i) {
+                        l.classList.toggle('selected', i <= index);
+                    });
+                    // Hide error when a rating is selected
+                    var errorMsg = document.getElementById('rating-error-msg');
+                    if (errorMsg) {
+                        errorMsg.style.display = 'none';
+                    }
+                });
+            });
+
+            // Mouse leave: remove hover state, keep selected state
+            container.addEventListener('mouseleave', function () {
+                labels.forEach(function (l) {
+                    l.classList.remove('hovered');
+                });
+            });
+        });
+
+        // Form submit validation: check star ratings are selected
+        var form = document.getElementById('reviewreminder-review-form');
+        if (form) {
+            form.addEventListener('submit', function (e) {
+                var ratingContainers = form.querySelectorAll('.rating-stars');
+                var allRated = true;
+
+                ratingContainers.forEach(function (container) {
+                    var inputs = container.querySelectorAll('.star-input');
+                    var anyChecked = false;
+                    inputs.forEach(function (input) {
+                        if (input.checked) {
+                            anyChecked = true;
+                        }
+                    });
+                    if (!anyChecked) {
+                        allRated = false;
+                    }
+                });
+
+                if (!allRated) {
+                    e.preventDefault();
+                    var errorMsg = document.getElementById('rating-error-msg');
+                    if (errorMsg) {
+                        errorMsg.style.display = 'block';
+                    }
+                    // Scroll to the rating section
+                    var ratingsSection = form.querySelector('.review-ratings');
+                    if (ratingsSection) {
+                        ratingsSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    return false;
+                }
+            });
+        }
+    });
+</script>
+
+<?php else: ?>
+<!-- Product Not Found -->
+<div class="reviewreminder-review-container">
+    <div class="review-not-found">
+        <p><?= $escaper->escapeHtml(__('Sorry, the product was not found.')) ?></p>
+        <a href="<?= $escaper->escapeUrl($block->getBaseUrl()) ?>" class="action primary">
+            <?= $escaper->escapeHtml(__('Continue Shopping')) ?>
+        </a>
+    </div>
+</div>
+<?php endif; ?>

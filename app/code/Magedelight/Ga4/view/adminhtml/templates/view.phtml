@@ -1,0 +1,45 @@
+<?php
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+
+/**
+ * @var \Magedelight\Ga4\Block\Adminhtml\View $block
+ */
+$rowData = $block->rowData();
+?>
+<table class="data-grid data-grid-draggable">
+    <thead>
+        <tr class="data-row">
+            <th class="data-grid-th">
+                <?= /* @noEscape */ __('Key'); ?>
+            </th>
+            <th class="data-grid-th">
+                <?= /* @noEscape */ __('Value'); ?>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="data-row">
+            <td>
+                <?= /* @noEscape */ __('Page URL'); ?>
+            </td>
+            <td>
+                <?= /* @noEscape */ $rowData['pageUrl']; ?>
+            </td>
+        </tr>
+        <tr class="data-row _odd-row">
+            <td>
+                <?= /* @noEscape */ __('Data'); ?>
+            </td>
+            <td>
+                <textarea class="prettyJSONFormat"
+                          id="detail-view-<?= /* @noEscape */ $rowData['entityId']; ?>"
+                          cols=100
+                          rows=15 readonly><?= /* @noEscape */ $rowData['eventData']; ?></textarea>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,96 @@
+<?php
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+
+/**
+ * @var Magedelight\Ga4\Block\TagManager\Summary $block
+ */
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+// phpcs:disable Magento2.Files.LineLength.MaxExceeded
+// phpcs:disable Magento2.Security.LanguageConstruct.DirectOutput
+?>
+
+<?php
+$cookieConcent = $block->getDataHelper()->getCookie();
+$accessible = 1;
+if ($block->getDataHelper()->getGDPRStatus()) {
+    if (isset($cookieConcent)) {
+        $accessible = 1;
+    } else {
+        $accessible = 0;
+    }
+}
+$currentUrl = $block->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
+if ($block->isGTMStatus() && $accessible == 1 && $block->getDataHelper()->GTMEventConfigured('purchase')) {
+    $order = $block->getOrder();
+    $helperMethod = $block->dataHelper();
+    $code = $helperMethod->getCurrencyCode();
+    $containerId = $helperMethod->getGAContainerId();
+    $labelId = $helperMethod->getGALabelId();
+    $amount = $block->getPurchaseAmount();
+    $orderTotal = $block->getOrderTotalCount();
+    $allTotal = $block->getAllTotalCount();
+    /*$affilate = $helperMethod->getNameOfAffilation();*/
+    $shipAmount = $block->getOrderShipping($order);/*number_format($order->getShippingAmount(), 2, '.', '');*/
+    $orderTaxAMT = $block->getOrderTax($order);/*number_format($order->getTaxAmount(), 2, '.', '');*/
+    $coupon = ($order->getCouponCode()) ? (string)$order->getCouponCode() : null;
+    $items = $helperMethod->getOrderItems($order);
+    $id = $order->getIncrementId();
+    $customerEmail = $order->getCustomerEmail();
+
+    $itemsDetails =
+    [
+        'customer_email' => $customerEmail,
+        'transaction_id' => $id,
+        /*'affiliation' => $affilate,*/
+        'value' => $amount,
+        'tax' => (float)$orderTaxAMT,
+        'shipping' => (float)$shipAmount,
+        'currency' => $code,
+        'coupon' =>  $coupon
+        /*'order_count' => $orderTotal,*/
+        /*'total_item' => $order->getTotalItemCount(),*/
+        /*'total_lifetime_value' => number_format($allTotal, 2, '.', '')*/
+    ];
+    $itemsDetails['items'] = $items;
+    $block->setOrderPurchaseData($itemsDetails);
+    $block->setEventValues('event', 'purchase');
+
+    $dataevent =['event' => 'purchase','ecommerce' => $itemsDetails];
+    $helperMethod->setTagManagerReportData($dataevent);
+
+    if (!$helperMethod->getGaStatus()) { ?>
+        <!-- Start of MageDelight GA4 Extension -->
+        <script>
+          gtag('event', 'conversion', {
+              'send_to': <?= /* @noEscape */ $containerId; ?>+'/'+<?= /* @noEscape */ $labelId; ?>,
+              'value': <?= /* @noEscape */ $amount; ?>,
+              'currency': <?= /* @noEscape */ $code; ?>,
+              'transaction_id': <?= /* @noEscape */ $id; ?>
+          });
+        </script>
+        <!-- End of MageDelight GA4 Extension -->
+    <?php } else { ?>
+        <!-- Start of MageDelight GA4 Extension -->
+        <script>
+          gtag_report_conversion('<?= /* @noEscape */ $currentUrl;?>');
+          function gtag_report_conversion(url) {
+            var callback = function () {
+              if (typeof(url) != 'undefined') {
+                window.location = url;
+              }
+            };
+            gtag('event', 'conversion', {
+                'send_to': <?= /* @noEscape */ $containerId; ?>+'/'+<?= /* @noEscape */ $labelId; ?>,
+                'transaction_id': <?= /* @noEscape */ $id; ?>,
+                'event_callback': callback
+            });
+            return false;
+          }
+        </script>
+        <!-- End of MageDelight GA4 Extension -->
+    <?php } ?>
+<?php } ?>

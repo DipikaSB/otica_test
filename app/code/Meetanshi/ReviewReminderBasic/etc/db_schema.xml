@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="meetanshi_reviewreminder_tracking" resource="default" engine="innodb"
+           comment="Review Reminder - Tracks submitted reviews to prevent duplicates">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true"
+                comment="Entity ID"/>
+        <column xsi:type="varchar" name="order_increment_id" nullable="false" length="50"
+                comment="Order Increment ID"/>
+        <column xsi:type="int" name="product_id" unsigned="true" nullable="false"
+                comment="Product ID"/>
+        <column xsi:type="varchar" name="customer_email" nullable="true" length="255"
+                comment="Customer Email"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false"
+                default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="MEETANSHI_REVIEWREMINDER_TRACKING_ORDER_PRODUCT">
+            <column name="order_increment_id"/>
+            <column name="product_id"/>
+        </constraint>
+        <index referenceId="MEETANSHI_REVIEWREMINDER_TRACKING_PRODUCT_ID" indexType="btree">
+            <column name="product_id"/>
+        </index>
+    </table>
+</schema>

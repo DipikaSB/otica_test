@@ -1,0 +1,90 @@
+<div id="container" class="main-col">
+<div class="container">
+    <div id="main">
+       <form id="upload-form" method="post" action="<?= /** @noEscape */ $block->getUrl('import/index/validate')?>" enctype="multipart/form-data">
+            <fieldset class="fieldset admin__fieldset " id="base_fieldset">
+                <div><input name="form_key" type="hidden" value="<?php echo $block->getFormKey(); ?>"></div>
+                <legend class="admin__legend legend">
+                    <span>Product Reviews Import</span>
+                </legend>
+                <div class="admin__field field field-basic_behavior  required _required with-note" data-ui-id="import-form-container-form-fieldset-element-form-field-basic-behavior">
+                    <label class="label admin__field-label" for="file"><span>Upload Review File</span></label>
+                    <div class="admin__field-control control">
+                        <div class="control">
+                            <input type="file" name="import_file" id="import_file" class="input-file required-entry" required="required">
+                    </div>
+                    <div class="admin__field-control control">
+                        <span>Only CSV file type allowed.</span>
+                        <div class="control" style="margin-top: 10px;">
+                            <input type="submit" class="action-default scalable save primary" name="submit" id="review_import" value="Check Data">
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <form action="<?= /** @noEscape */ $block->getUrl('import/index/exportpage')?>" enctype="multipart/form-data">
+            <fieldset class="fieldset admin__fieldset " id="base_fieldset">
+                <div><input name="form_key" type="hidden" value="<?php echo $block->getFormKey(); ?>"></div>
+                <legend class="admin__legend legend">
+                    <span>Product Reviews Export</span>
+                </legend>
+                <div class="admin__field field field-basic_behavior with-note" data-ui-id="import-form-container-form-fieldset-element-form-field-basic-behavior">
+                    <label class="label admin__field-label" for="review_export_from"><span>Select from Date</span></label>
+                    <div class="admin__field-control control">
+                        <div class="control">
+                            <input class="admin__control-text _has-datepicker" name="review_export_from" id="review_export_from" type="date">
+                        </div>
+                    </div>
+                </div>
+                <div class="admin__field field field-basic_behavior  with-note" data-ui-id="import-form-container-form-fieldset-element-form-field-basic-behavior">
+                    <label class="label admin__field-label" for="review_export_to"><span>Select to Date</span></label>
+                    <div class="admin__field-control control">
+                        <div class="control">
+                            <input class="admin__control-text _has-datepicker" name="review_export_to" id="review_export_to" type="date">
+                        </div>
+                    </div>
+                </div>
+                  <div class="admin__field field field-basic_behavior  with-note" data-ui-id="import-form-container-form-fieldset-element-form-field-basic-behavior">
+                    <label class="label admin__field-label" for="review_export_to"><span>Select Review Status</span></label>
+                    <div class="admin__field-control control">
+                        <div class="control"> 
+                           <select name="reviewstatus" id="reviewstatus" class="admin__control-text _has-datepicker">
+                              <option value="1">Approved</option>
+                              <option value="2">Pending</option>
+                              <option value="3">Not Approved</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="admin__field field field-basic_behavior  required _required with-note" data-ui-id="import-form-container-form-fieldset-element-form-field-basic-behavior">
+                    <label class="label admin__field-label" for="review_export_to"></label>
+                    <div class="admin__field-control control">
+                        <div class="control">
+                            <input type="submit" class="action-default scalable save primary" name="cls-export-submit" id="cls-export-btn" value="Export Reviews">
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+</div>
+<style>
+   .import-index-index .message.message-success.success div {
+    display: flex;
+}
+.import-index-index .cmsimport a {
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: -3px;
+    margin-left: 13px;
+    border: 1px solid;
+    border-radius: 0;
+    text-decoration: none;
+    background: #e3e3e3;
+    border-color: #adadad;
+    color: #514943;
+}
+</style>

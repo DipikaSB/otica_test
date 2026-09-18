@@ -1,0 +1,45 @@
+<?php
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+// phpcs:disable Magento2.Files.LineLength.MaxExceeded
+// phpcs:disable Magento2.Security.LanguageConstruct.DirectOutput
+?>
+
+<div>
+    <button id="generate_gtm_api_json"
+    title="<?= /* @noEscape */ __("Generate Triggers and Tags Json Format") ?>"
+    type="button"
+    class="action-default scalable save primary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+    role="button"
+    aria-disabled="false">
+        <span class="ui-button-text">
+            <span><?= /* @noEscape */  __("Generate") ?></span>
+        </span>
+    </button>
+    <button id="download_gtm_json"
+    onclick="location.href='<?= /* @noEscape */ $block->getPathJsonSentData() ?>'"
+    type="button"
+    class="action-default scalable ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+    role="button"
+    aria-disabled="false">
+        <span class="ui-button-text">
+            <span><?= /* @noEscape */ __("Download File") ?></span>
+        </span>
+    </button>
+    <input type="hidden" value="<?= /* @noEscape */ $block->getFormKey(); ?>" name="api_form_key" id="api_form_key" />
+</div>
+<!-- Start of MageDelight GA4 Extension -->
+<script>
+    requirejs(['jquery', 'Magedelight_Ga4/js/ga4Api' ],
+        function   ($, ga4Api) {
+            $(document).ready(function() {
+                ga4Api.initializeJsonGeneration('<?= /* @noEscape */ $block->getPathForJsonData() ?>');
+            });
+        });
+</script>
+<!-- End of MageDelight GA4 Extension -->

@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Softnoesis
+ * Copyright(C) 05/2023 Softnoesis <ideveloper1990@gmail.com>
+ * @package Softnoesis_MassProductReview
+ * @copyright Copyright(C) 2015 Softnoesis (ideveloper1990@gmail.com)
+ * @author Softnoesis <ideveloper1990@gmail.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<add id="Softnoesis::top_level" title="SetBlue" module="Softnoesis_MassProductReview" sortOrder="10" resource="Magento_Backend::content"/>
+
+		<add id="Softnoesis_MassProductReview::index_index" title="Product Reviews Import Export" module="Softnoesis_MassProductReview" sortOrder="20" resource="Softnoesis_MassProductReview::index_index" parent="Magento_Backend::marketing_user_content" action="import/index/index"/>
+	</menu>
+</config>

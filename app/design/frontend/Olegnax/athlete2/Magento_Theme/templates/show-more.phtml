@@ -1,0 +1,61 @@
+<!-- Load jQuery first -->
+
+<style>
+.sams-show-more-wrapper {
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+</style>
+
+<script>
+require(['jquery'], function ($) {
+  jQuery(document).ready(function ($) {
+
+    function showMoreLess(selector, collapsedHeight) {
+
+      $(selector).each(function () {
+
+        var $el = $(this);
+
+        // wrap content
+        $el.wrapInner('<div class="sams-show-more-wrapper"></div>');
+        var $wrapper = $el.find('.sams-show-more-wrapper');
+
+        // real full height
+        var fullHeight = $wrapper.outerHeight();
+
+        // ONLY add toggle if height > collapsedHeight
+        if (fullHeight <= collapsedHeight) {
+          return;
+        }
+
+        // collapse initially
+        $wrapper.css('max-height', collapsedHeight + 'px');
+
+        // add toggle
+        $el.append('<a class="sams-show-toggle">Show More</a>');
+
+        $el.find('.sams-show-toggle').on('click', function () {
+          if ($wrapper.hasClass('expanded')) {
+            $wrapper
+              .removeClass('expanded')
+              .css('max-height', collapsedHeight + 'px');
+            $(this).text('Show More');
+          } else {
+            $wrapper
+              .addClass('expanded')
+              .css('max-height', fullHeight + 'px');
+            $(this).text('Show Less');
+          }
+        });
+
+      });
+
+    }
+
+    /* DESCRIPTION */
+    showMoreLess('.sams-show-more-less-desc', 455);
+
+  });
+});
+</script>

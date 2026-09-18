@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="columns.top">
+             <block class="Magento\Catalog\Block\Category\View" name="category.description.seo" template="Setblue_SeoDescription::category/seo_description.phtml"/>
+        </referenceContainer>
+        <move element="category.description.seo" destination="page.bottom.container" after="-"/>
+    </body>
+</page>

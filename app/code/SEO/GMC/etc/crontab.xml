@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="default">
+        <job instance="SEO\GMC\Cron\DailyExport" method="execute" name="seo_gmc_export_cron">
+            <config_path>seo/cron/cron_expr</config_path>
+        </job>
+    </group>
+</config>

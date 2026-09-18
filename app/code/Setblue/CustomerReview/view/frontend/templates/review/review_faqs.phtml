@@ -1,0 +1,93 @@
+<?php
+/** @var \Setblue\CustomerReview\Block\Review\Images $block */
+$product = $block->getCurrentProductId();
+
+$productId = $product->getId();
+
+
+
+$reviewSliderBlock = $block->getChildBlock('product.review.slider');
+$reviewCount = $reviewSliderBlock ? $reviewSliderBlock->getApprovedReviewCount($productId) : 0;
+
+$productfaqs = 'products_faq_s';
+
+$productfaqsData =  $this->helper(Magento\Catalog\Helper\Output::class)->productAttribute($product, $product->getProductsFaqS(), $productfaqs);
+
+if (empty($productfaqsData) || empty(trim((string)$productfaqsData))) {
+    $col1 = 'col-md-12 col-12';
+    $col2 = 'col-md-12 col-12';
+    $border = '';
+    
+} else {
+    $col1 = 'col-lg-6 col-12';
+    $col2 = 'col-lg-6 col-12';
+    $border = 'sb-review-block-border';
+    
+}
+?>
+
+
+<div class="row mt-5">
+	<div class="<?= $col1 ?>">
+		<div class="sb-review-block <?= $border ?>">
+			<div class="reviews-list-toggle">
+				
+				<!--?php
+			    echo $block->getLayout()
+			        ->createBlock(\Setblue\CustomerReview\Block\Review\Images::class)
+			        ->setTemplate('Setblue_CustomerReview::review/reviewslider.phtml')
+			        ->toHtml();
+			    ?-->
+				<?= $block->getChildHtml('product.review.slider') ?>
+
+				<?php if ($reviewCount > 0): ?>
+					
+					<?= $block->getChildHtml('netcarat.reviews') ?>
+					
+				<?php endif; ?>
+
+				<!--?php
+			    /** Render review list */
+			    echo $block->getLayout()
+			        ->createBlock(\Magento\Review\Block\Product\Review::class)
+			        ->setTemplate('Magento_Review::review.phtml')
+			        ->toHtml();
+			    ?-->
+			</div>
+			<div class="submit-button-link">
+				<div>
+					<p>Like this product?</p>
+				</div>
+				<div>
+					<button type="button" id="toggle-review-form">Submit Review</button>
+				</div>
+			</div>
+
+			<div class="submit-section" id="reviews" style="display: none;">
+				<?= $block->getChildHtml('netcarat.reviews.form') ?>
+
+			    <!--?php
+			    /** Render review form */
+			    echo $block->getLayout()
+			        ->createBlock(\Magento\Review\Block\Form::class)
+			        ->setTemplate('Magento_Review::form.phtml')
+			        ->toHtml();
+			    ?-->
+			</div>
+		</div>
+	</div>
+	<div class="<?= $col2 ?>">
+		<div class="sb-faq">
+			<?= $productfaqsData ?>
+		</div>
+	</div>    
+</div>
+
+<script>
+    require(['jquery'], function ($) {
+        $('#toggle-review-form').on('click', function () {
+            $('.submit-button-link').hide();
+            $('.submit-section').show();
+        });
+    });
+</script>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/config.xsd">
+    <default>
+        <payment>
+            <phonepe_pg>
+                <active>1</active>
+                <model>Phonepe\PG\Model\Payment</model>
+                <title>PhonePe Payment Gateway</title>
+                <client_id></client_id>
+                <client_secret></client_secret>
+                <client_version>1</client_version>
+                <environment>sandbox</environment>
+                <payment_action>authorize_capture</payment_action>
+                <sort_order>100</sort_order>
+                <order_status>pending</order_status>
+            </phonepe_pg>
+        </payment>
+    </default>
+</config>

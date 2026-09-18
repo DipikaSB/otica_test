@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="setblue" translate="label" sortOrder="10">
+            <label><![CDATA[Setblue.com]]></label>
+        </tab>
+        <section id="google_review" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Google Review</label>
+            <tab>setblue</tab>
+            <resource>Setblue_GoogleReview::config</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="place_id" translate="label" type="text" sortOrder="2" showInDefault="1">
+                    <label>Google Place ID</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="api_key" translate="label" type="text" sortOrder="2" showInDefault="1">
+                    <label>Google API Key</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                 <field id="fatch_google_review" translate="label" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Setblue\GoogleReview\Block\System\Config\Form\GoogleReview</frontend_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

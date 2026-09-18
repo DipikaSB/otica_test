@@ -1,0 +1,79 @@
+<?php
+$_productCollection = $block->getMostRecentlyViewed();
+if ($_productCollection && $_productCollection->getSize()) :
+    $items = $_productCollection->getItems();
+    $sliderId = 'slider_' . uniqid(); // unique block ID
+?>
+<div class="products wrapper sb_product_by_collection sb_pdp_collection" id="<?= $sliderId ?>">
+    <div class="scroll-wrapper">
+        <button type="button" role="presentation" class="owl-prev scroll-arrow left-arrow" aria-label="Scroll left"><span aria-label="Previous">‹</span></button>
+        <div class="products-scroll-container">
+            <div class="product-items">
+                <?php foreach ($items as $item) : ?>
+                    <div class="product product-item">
+                        <div class="product-item-info image_hover_effects--zoom" id="product-item-info_<?= $escaper->escapeHtmlAttr($item->getId()) ?>">
+                            <div class="product_item_images">
+                                <a href="<?= $escaper->escapeUrl($item->getProductUrl()) ?>" class="product photo product-item-photo" tabindex="-1">
+                                    <span class="product-image-container" style="width: 100%;" data-hover="image_hover_effects--zoom">
+                                        <span class="product-image-wrapper" style="padding-bottom: 100%;">
+                                            <?php $product_image = $block->getProductImageUrl($item, 'category_page_grid'); ?>
+                                            <img class="product-image-photo lazyloaded"
+                                                 src="<?= $product_image ?>"
+                                                 loading="lazy"
+                                                 width="600"
+                                                 height="600"
+                                                 alt="<?= $escaper->escapeHtmlAttr($item->getName()); ?>" />
+                                        </span>
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="product-item-details">
+                                <?php
+                                $priceRender = $block->getLayout()->getBlock('product.price.render.default');
+                                if ($priceRender) {
+                                    echo $priceRender->render(
+                                        \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE,
+                                        $item,
+                                        [
+                                            'display_minimal_price' => true,
+                                            'use_link_for_as_low_as' => true
+                                        ]
+                                    );
+                                }
+                                ?>
+                                <h3 class="product name product-item-name">
+                                    <a class="product-item-link" href="<?= $escaper->escapeUrl($item->getProductUrl()) ?>">
+                                        <?= $escaper->escapeHtml($item->getName()); ?>
+                                    </a>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <!-- <button class="scroll-arrow right-arrow" aria-label="Scroll right"></button> -->
+        <button type="button" role="presentation" class="owl-next scroll-arrow right-arrow" aria-label="Scroll right"><span aria-label="Next">›</span></button>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const sliderWrapper = document.getElementById("<?= $sliderId ?>");
+    if (!sliderWrapper) return;
+
+    const scrollContainer = sliderWrapper.querySelector('.products-scroll-container');
+    const leftArrow = sliderWrapper.querySelector('.left-arrow');
+    const rightArrow = sliderWrapper.querySelector('.right-arrow');
+    const scrollAmount = 320;
+
+    leftArrow.addEventListener('click', () => {
+        scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    });
+
+    rightArrow.addEventListener('click', () => {
+        scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    });
+});
+</script>
+<?php endif; ?>

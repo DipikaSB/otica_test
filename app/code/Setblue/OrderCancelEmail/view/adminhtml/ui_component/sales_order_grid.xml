@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <columns name="sales_order_columns">
+        <!-- Country ID Column -->
+        <column name="cancel_email_sent"
+            class="Setblue\OrderCancelEmail\Ui\Component\Listing\Column\CancelEmailSent">
+            <settings>
+                <filter>select</filter>
+                <label translate="true">Cancel Email Sent</label>
+                <sortable>true</sortable>
+            </settings>
+        </column>
+    </columns>
+</listing>

@@ -1,0 +1,58 @@
+<?php /** @var $block \Setblue\GoogleReview\Block\ReviewList */ ?>
+
+<div class="google-review-grid google-review-rendom">
+
+    <?php foreach ($block->getRandomReviews() as $review): ?>
+
+        <?php
+            $rating = floatval($review->getRating());
+            $reviewText = trim($review->getReviewText() ?? '');
+        ?>
+
+        <div class="google-review-card">
+
+            <!-- HEADER -->
+            <div class="review-header">
+                <img src="<?= $review->getAuthorThumbnail(); ?>"
+                     alt="<?= $review->getAuthorName(); ?>"
+                     class="review-avatar" />
+
+                <div class="review-author">
+                    <strong><?= $review->getAuthorName(); ?></strong>
+
+                    <!-- RATING -->
+                    <div class="review-rating">
+                        <?php 
+                            $full   = floor($rating);
+                            $half   = ($rating - $full) >= 0.5 ? 1 : 0;
+                            $empty  = 5 - ($full + $half);
+
+                            echo str_repeat('⭐', $full);
+                            echo $half ? '⯨' : '';
+                            echo str_repeat('☆', $empty);
+                        ?>
+                    </div>
+
+                    <small>
+                    <?php 
+                        $date = $review->getReviewDate();
+                        if ($date) {
+                            echo date('d M Y', strtotime($date));
+                        }
+                    ?>
+                    </small>
+                </div>
+            </div>
+
+            <!-- REVIEW TEXT -->
+            <div class="review-text short-text">
+                <?= nl2br($reviewText); ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+<style>
+.google-review-card .short-text {
+    display: -webkit-box;
+}
+</style>

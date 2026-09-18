@@ -1,0 +1,98 @@
+<?php
+$_productCollection = $block->getProductBySkuCollection($block->getData('sku'));
+if ($_productCollection && $_productCollection->getSize()) :
+    $items = $_productCollection->getItems();
+    $_helper = $this->helper('Blueskytechco\Themeoption\Helper\Product');
+    $sliderId = 'slider_' . uniqid(); // unique block ID
+?>
+<div class="products wrapper sb_product_by_collection sb_pdp_collection" id="<?= $sliderId ?>">
+    <div class="scroll-wrapper">
+        <button class="scroll-arrow left-arrow" aria-label="Scroll left"></button>
+        <div class="products-scroll-container">
+            <div class="product-items">
+                <?php foreach ($items as $item) : ?>
+                    <div class="product product-item">
+                        <div class="product-item-info image_hover_effects--zoom" id="product-item-info_<?= $escaper->escapeHtmlAttr($item->getId()) ?>">
+                            <div class="product_item_images">
+                                <a href="<?= $escaper->escapeUrl($item->getProductUrl()) ?>" class="product photo product-item-photo" tabindex="-1">
+                                    <span class="product-image-container" style="width: 100%;" data-hover="image_hover_effects--zoom">
+                                         <span class="product-image-wrapper" style="padding-bottom: 100%;">
+                                            <?php
+                                            $videoLink = $item->getProductDescriptionVideo();
+                                            if ($videoLink) {
+                                                // Extract Vimeo video ID from URL (assuming it follows the format: https://vimeo.com/{video_id})
+                                                preg_match('/vimeo\.com\/(\d+)/', $videoLink, $matches);
+                                                $vimeoVideoId = $matches[1] ?? null;
+                                                
+                                                if ($vimeoVideoId) :
+                                            ?>
+                                                    <iframe 
+                                                        src="https://player.vimeo.com/video/<?= $vimeoVideoId ?>?autoplay=1&muted=1&loop=1&background=1" 
+                                                        class="sb_home_video_product"
+                                                        frameborder="0" 
+                                                        allow="autoplay; fullscreen" 
+                                                        allowfullscreen
+                                                        width="100%" 
+                                                        height="150"
+                                                        loading="lazy">
+                                                    </iframe>
+                                            <?php
+                                                endif;
+                                            }
+                                            ?>
+                                        </span>
+                                    </span>
+                                    <div class="product-label sale">
+                                        <?= $_helper->getProductSaleLabel($item) ?>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="product-item-details">
+                                <?php
+                                $priceRender = $block->getLayout()->getBlock('product.price.render.default');
+                                if ($priceRender) {
+                                    echo $priceRender->render(
+                                        \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE,
+                                        $item,
+                                        [
+                                            'display_minimal_price' => true,
+                                            'use_link_for_as_low_as' => true
+                                        ]
+                                    );
+                                }
+                                ?>
+                                <h3 class="product name product-item-name">
+                                    <a class="product-item-link" href="<?= $escaper->escapeUrl($item->getProductUrl()) ?>">
+                                        <?= $escaper->escapeHtml($item->getName()); ?>
+                                    </a>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <button class="scroll-arrow right-arrow" aria-label="Scroll right"></button>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const sliderWrapper = document.getElementById("<?= $sliderId ?>");
+    if (!sliderWrapper) return;
+
+    const scrollContainer = sliderWrapper.querySelector('.products-scroll-container');
+    const leftArrow = sliderWrapper.querySelector('.left-arrow');
+    const rightArrow = sliderWrapper.querySelector('.right-arrow');
+    const scrollAmount = 320;
+
+    leftArrow.addEventListener('click', () => {
+        scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    });
+
+    rightArrow.addEventListener('click', () => {
+        scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    });
+});
+</script>
+<?php endif; ?>

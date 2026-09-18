@@ -1,0 +1,7 @@
+<?php if ($block->getGstNumber()): ?>
+<div class="order-details-items invoice">
+    <h3>GST Information</h3>
+    <strong>GST Number:</strong>
+    <?= $block->escapeHtml($block->getGstNumber()) ?>
+</div>
+<?php endif; ?>

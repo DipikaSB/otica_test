@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <magedelight_ga4>
+            <general>
+                <gdpr_enable>0</gdpr_enable>
+                <strict_tracking>0</strict_tracking>
+            </general>
+            <gtm_event>
+                <promotion_tracking>0</promotion_tracking>
+                <event_list>add_payment_info,add_shipping_info,add_to_cart,add_to_wishlist,add_to_compare,begin_checkout,purchase,remove_from_cart,select_item,view_cart,view_item,view_item_list,refund,view_promotion,select_promotion</event_list>
+            </gtm_event>
+            <!-- <general>
+                <gdpr_enable>checkout/onepage/success</gdpr_enable>
+            </general> -->
+            <product_configuration>
+                <identifier>sku</identifier>
+                <currency>base_currency</currency>
+                <brand_status>0</brand_status>
+                <product_variant>0</product_variant>
+                <configurableitems>child</configurableitems>
+                <checkout_path_hint>checkout/onepage/success</checkout_path_hint>
+                <allowordersummary>grandtotal</allowordersummary>
+                <summary_tax_exclude>0</summary_tax_exclude>
+                <summary_shipping_exclude>0</summary_shipping_exclude>
+                <ga4_datalayer_persistent_expiry>1</ga4_datalayer_persistent_expiry>
+            </product_configuration>
+            <realtime_tracking>
+                <enable_realtime_tracking>1</enable_realtime_tracking>
+                <show_user_email>1</show_user_email>
+            </realtime_tracking>
+            <cron_setting>
+                <enable_cron>1</enable_cron>
+                <cron_time>7</cron_time>
+            </cron_setting>
+        </magedelight_ga4>
+    </default>
+</config>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/config.xsd">
+    <default>
+        <setblue_allemailccbcc>
+            <general>
+                <enabled>1</enabled>
+                <cc_email>rajesh.setblue.com</cc_email>
+                <bcc_email>rajesh.setblue.com</bcc_email>
+            </general>
+        </setblue_allemailccbcc>
+    </default>
+</config>

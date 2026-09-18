@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package Magedelight_Ga4 for Magento 2
+ * @author MageDelight Team
+ * @copyright Copyright (c) MageDelight (https://www.magedelight.com) owned by Krish TechnoLabs. All Rights reserved.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="head.additional">
+            <block class="Magedelight\Ga4\Block\Adminhtml\TagManager\Manager" name="magedelight_ga4_top" template="Magedelight_Ga4::top.phtml"/>
+        </referenceBlock>
+        <referenceContainer name="content">
+        	<block class="Magedelight\Ga4\Block\Adminhtml\TagManager\Manager" name="magedelight_ga4_refund_session" template="Magedelight_Ga4::refund.phtml" after="-"/>
+        </referenceContainer>
+    </body>
+</page>

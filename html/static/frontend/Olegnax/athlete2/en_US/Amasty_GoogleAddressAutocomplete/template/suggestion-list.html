@@ -1,0 +1,24 @@
+<div class="amautocomplete-suggestions-container"
+     afterRender="registerElement"
+     data-bind="
+         visible: isActive() && isActual(),
+         attr: {id: $data.uid},
+         blockLoader: isLoading,
+         style: { width: elementWidth, top: elementTop, left: elementLeft }"
+>
+    <!-- ko if: suggestions().length && isActive() && isActual()  -->
+    <ul class="amautocomplete-suggestions-list" role="listbox">
+        <!-- ko foreach: suggestions -->
+        <li class="admin__page-nav-item item"
+            role="option"
+            data-bind="
+                event: {mousedown: element.handleClick},
+                attr: {id: $data.uid, 'aria-selected': element.activeIndex() === $index()},
+                css: {'-active': element.activeIndex() === $index()}"
+        >
+            <span class="suggestions-text" data-bind="html: element.getDisplayText($data)"></span>
+        </li>
+        <!-- /ko -->
+    </ul>
+    <!-- /ko -->
+</div>

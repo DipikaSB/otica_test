@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Setblue_ContactUsGrid::menu"
+            title="Setblue - Contact Us"
+            translate="title"
+            module="Setblue_ContactUsGrid"
+            sortOrder="100"
+            parent="Magento_Backend::marketing"
+            resource="Setblue_ContactUsGrid::menu" />
+        <add id="Setblue_ContactUsGrid::submenu_contcactform"
+           title="History"
+           module="Setblue_ContactUsGrid"
+           sortOrder="100"
+           parent="Setblue_ContactUsGrid::menu"
+           action="contact/index/index"
+           resource="Setblue_ContactUsGrid::submenu_contcactform" />
+    </menu>
+</config>

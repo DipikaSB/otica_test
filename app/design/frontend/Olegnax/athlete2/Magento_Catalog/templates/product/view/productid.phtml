@@ -1,0 +1,10 @@
+<?php
+/** @var $block \Magento\Catalog\Block\Product\View */
+$product = $block->getProduct();
+
+if ($product && $product->getId()):
+?>
+    <div class="product-id">
+        <strong>List ID:</strong> <?= (int) $product->getId() ?>
+    </div>
+<?php endif; ?>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Setblue
+ * Copyright(C) 04/2023 Setblue <ideveloper1990@gmail.com>
+ * @package Setblue_WholesaleInquiry
+ * @copyright Copyright(C) 2015 Setblue (ideveloper1990@gmail.com)
+ * @author Setblue <ideveloper1990@gmail.com>
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <update handle="editor"/>
+    <body>
+        <referenceContainer name="left">
+            <block class="Setblue\CustomerWholesaleInquiry\Block\Adminhtml\Items\Edit\Tabs" name="Setblue_CustomerWholesaleInquiry_items_edit_tabs">
+                <block class="Setblue\CustomerWholesaleInquiry\Block\Adminhtml\Items\Edit\Tab\Main" name="Setblue_CustomerWholesaleInquiry_items_edit_tab_main"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">main_section</argument>
+                    <argument name="block" xsi:type="string">Setblue_CustomerWholesaleInquiry_items_edit_tab_main</argument>
+                </action>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="Setblue\CustomerWholesaleInquiry\Block\Adminhtml\Items\Edit" name="test_items_edit"/>
+        </referenceContainer>
+    </body>
+</page>

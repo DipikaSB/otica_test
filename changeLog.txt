@@ -1,0 +1,12 @@
+******************************************************************************************************************************
+Install paid Amasty extension : 
+composer config repositories.amasty composer https://composer.amasty.com/community/ 
+
+composer config --auth http-basic.composer.amasty.com 4b08a6689c0122ed35e36ee8bd10c423 9f4213ba8bd62c6c57e60efa116a6ecd
+
+
+composer require amasty/module-shopby-subscription-package-pro
+composer require amasty/module-geoip-redirect-subscription-package
+composer require amasty/module-abandoned-cart-email-subscription-package
+composer require amasty/module-one-step-checkout-pro-subscription-package
+******************************************************************************************************************************
